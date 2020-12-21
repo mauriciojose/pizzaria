@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.tabela {
+    width: 100%;
+    height: 24rem;
+    border: solid 1px;
+    border-radius: 8px;
+    background: gray;
+}
+
+.caixa {
+    margin-top: 12px;
+    display: flex;
+    width: 100%;
+}
+
+.logo {
+    width: 12%;
+}
+div.row{
+    display: flex;
+}
+
+#cliente {
+    margin-top: 100px;
+}
+
+.form {
+    display: inline-flex;
+}
+
+.form2 {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.input {
+    display: block;
+    background-color: beige !important;
+}
+
+input#unidade {
+    width: 4rem;
+    margin-top: 2.3rem;
+}
+
+.subtotal {
+    margin-left: 3rem;
+    margin-top: -5rem;
+}
+
+button#inserir {
+    width: 6rem;
+    height: 3rem;
+    position: relative;
+    /* margin: 10px; */
+    margin-left: 5px;
+}
+
+.info {
+    height: 25px;
+    font-size: 13px;
+    background: cadetblue;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: black;
+}
+
+th,td{
+    text-align: center;
+    color: black;
+    font-size: 1.6vw;
+}
+
+@media screen and (max-width: 945px) {
+    th,td {
+        font-size: 2.7vw;
+    }
+}
+
+input{
+    color: black!important;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+/* label{
+    color: black;
+} */

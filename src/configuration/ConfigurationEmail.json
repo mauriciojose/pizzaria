@@ -1,0 +1,9 @@
+{
+    "user": "mauricio.si.servico@gmail.com",
+    "pass": "Mau@000012332595!",
+    "service": "gmail",
+    "typeCreateUser": {
+        "subject": "Confirmação de endereço de e-mail",
+        "text": "Olá, para confirmar seu e-mail click no link abaixo: <br>"
+    }
+}

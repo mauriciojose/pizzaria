@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caixa</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/caixa.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="caixa">
+        <div class="logo">
+            <img id="cliente" src="images/img/mesa.png" alt="">
+        </div>
+        <div style="overflow-y: scroll;" class="tabela">
+            <table id="listItens">
+                <thead>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unitário</th>
+                    <th>Valor Total</th>
+
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <form action="" method="post"> -->
+            
+            <!-- <div class="form">
+                <label>Valor Unitario: <input type="text" name="" class="input" id="valorUnidade"></label>
+            </div>
+            <div class="form">
+                <label>Valor Total: <input type="text" name="" class="input" id="valorTotal"></label>
+            </div> -->
+            <div class="formdivide">
+                <div class="form2">
+                    <label style="margin-right: 5px;">Quantidade: <input type="text" value="1" class="input" name="" id="quantidade"></label>
+                    <label style="width: 70%;">Produto: <input style="width: 100%;" type="text" name="" class="input codigo" id="descricao"></label>
+                    <div style="padding-top: 34px;"><button type="submit" id="inserir">Inserir</button></div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
+                <!-- <label> Total<input type="text" readonly name="" class="input"  disabled value=""></label> -->
+            </div>
+        <!-- </form> -->
+    </div>
+    <div class="info">
+        <center>
+            <p>Usuario: Nome Usuario inserir-f10 cancelar- f9 finalizar-f5</p>
+        </center>
+    </div>
+</body>
+
+<script>
+
+    var total = 0.00;
+    $("#subtotal").val(total);
+
+    /*window.onload = function () {
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function (e) {
+            //document.onkeydown = function(e) {
+            // "I" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                disabledEvent(e);
+            }
+            // "J" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                disabledEvent(e);
+            }
+            // "S" key + macOS
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                disabledEvent(e);
+            }
+            // "U" key
+            if (e.ctrlKey && e.keyCode == 85) {
+                disabledEvent(e);
+            }
+            // "F12" key
+            if (event.keyCode == 123) {
+                disabledEvent(e);
+            }
+        }, false);
+        function disabledEvent(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            } else if (window.event) {
+                window.event.cancelBubble = true;
+            }
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    function click() {
+        if (event.button == 2 || event.button == 3) {
+        oncontextmenu='return false';
+        // alert ('Todos os direitos reservados');
+        }
+    }
+
+document.onmousedown = click
+document.oncontextmenu = new Function('return false;');*/
+
+$('.codigo').on('keypress',function(event){
+    if(event.which == 13) {
+        event.preventDefault();
+        getProdutoByCod(this.value);
+    }
+});
+
+function getProdutoByCod(codigo){
+    let quantidade = document.querySelector('#quantidade');
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/list/produto",
+        data: { 
+            ativo: true,
+            codigo: codigo,
+            refInterna: codigo
+        }
+    })
+    .done(function(dados){
+        console.log(dados);
+        let tBody = document.querySelector('table#listItens tbody'); 
+        for (let index = 0; index < dados.length; index++) {
+            const element = dados[index];
+            let tr = document.createElement('tr');
+            populaTR(tr,element,quantidade.value);
+            tBody.appendChild(tr);
+        }
+    })
+    .fail(function(jqXHR, textStatus, msg){
+        alert(msg);
+    });
+}
+
+function populaTR(tr,item,quantidade) {
+    tr.appendChild(createTD(item.codigo));
+    tr.appendChild(createTD(item.name));
+    tr.appendChild(createTD(quantidade));
+    tr.appendChild(createTD(item.precoVenda.$numberDecimal));
+    tr.appendChild(createTD( (quantidade * item.precoVenda.$numberDecimal).toFixed(2) ));
+    total = Number.parseFloat(total) + Number.parseFloat( (quantidade * item.precoVenda.$numberDecimal).toFixed(2) );
+    $("#subtotal").val(total.toFixed(2));
+}
+function createTD(value){
+    let td = document.createElement('td');
+    let text = document.createTextNode(value);
+    td.appendChild(text);
+    return td;
+}
+
+</script>
+
+</html>

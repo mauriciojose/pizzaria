@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <base href="/">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</head>
+<body>
+    <div class="container1">
+        <div class="container-form">
+            <div id="#responsive" class="itens">
+                <table id="#responsive">
+                    <thead>
+                        <th>Código</th>
+                        <th>Produto</th>
+                        <th class="text-center">Qtde</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Status</th>
+                        <th style="width: 20%;">ações</th>
+            
+                    </thead>
+                    <tbody>
+                        <% produtos.forEach(function(produto){ %>
+                            <tr>
+                                <td><%=produto.codigo%></td>
+                                <td><%=produto.name%></td>
+                                <td class="text-center"><%=produto.quantidade%></td>
+                                <td class="text-center"><%=produto.precoVenda%></td>
+                                <td class="text-center"><%=produto.medida.sigla%></td>
+                                <td class="text-center"><%=(produto.ativo) ? "ativo":"inativo"%></td>
+                                <td>
+                                    <button id="" class="select" data-translate="start">Editar</button>
+                                    <button id="" class="select" data-translate="start">Desativar</button>
+                                </td>
+                            </tr>
+                          <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
