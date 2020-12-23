@@ -58,9 +58,10 @@ module.exports = {
     async getAllView(req,res){
         // await Produto.remove();
         await Produto.find({}, (err, produtos) => {
-            console.log(produtos);
+            // console.log(produtos);
             res.render(path.resolve('src/templates/html/estoque/produtos'),{
                 produtos: produtos,
+                tipo: (typeof req.params.idMesa == 'undefined') ? 0 : 1
             });
         }).populate('medida');
     },

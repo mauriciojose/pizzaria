@@ -14,6 +14,8 @@
 
 <body>
 
+    <input type="hidden" name="idMesa" id="idMesa" value="<%=idMesa%>">
+
     <div class="caixa">
         <div class="logo">
             <img id="cliente" src="images/img/mesa.png" alt="">
@@ -42,7 +44,9 @@
             <div class="form">
                 <label>Valor Total: <input type="text" name="" class="input" id="valorTotal"></label>
             </div> -->
-            <div class="formdivide">
+
+            
+            <!-- <div class="formdivide">
                 <div class="form2">
                     <label style="margin-right: 5px;">Quantidade: <input type="text" value="1" class="input" name="" id="quantidade"></label>
                     <label style="width: 70%;">Produto: <input style="width: 100%;" type="text" name="" class="input codigo" id="descricao"></label>
@@ -51,15 +55,24 @@
             </div>
             <div style="display: flex;">
                 <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
-                <!-- <label> Total<input type="text" readonly name="" class="input"  disabled value=""></label> -->
-            </div>
+            </div> -->
+
+
         <!-- </form> -->
+        <a href="/list/produtos/<%=idMesa%>">
+            <div class="float-button">
+                <span>+</span>
+            </div>
+        </a>
     </div>
     <div class="info">
         <center>
             <p>Usuario: Nome Usuario inserir-f10 cancelar- f9 finalizar-f5</p>
         </center>
     </div>
+
+    
+
 </body>
 
 <script>

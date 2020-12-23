@@ -52,6 +52,9 @@ routes.get('/templates/css/caixa.css',function (req, res) {
 routes.get('/templates/css/liststyle.css',function (req, res) {
     res.sendFile(path.resolve('src/templates/css/liststyle.css'));
 });
+routes.get('/templates/img/add.svg',function (req, res) {
+    res.sendFile(path.resolve('src/templates/img/add.svg'));
+});
 
 routes.get('/auth/register',AuthController.getViewRegister);
 routes.post('/auth/register',AuthController.register);
@@ -77,6 +80,7 @@ routes.get('/cadastros/produto',ProdutoController.view);
 routes.post('/cadastros/produto',uploadImages,ProdutoController.create);
 routes.get('/list/produto',ProdutoController.getBy);
 routes.get('/estoque/produtos',ProdutoController.getAllView);
+routes.get('/list/produtos/:idMesa',ProdutoController.getAllView);
 
 routes.get('/list/medidas',MedidaController.getAll);
 routes.get('/list/medida/:id',MedidaController.getById);
@@ -90,12 +94,13 @@ routes.get('/cadastros/categoria',CategoriaController.view);
 routes.post('/cadastros/categoria',CategoriaController.create);
 routes.get('/remove/categoria/:id',CategoriaController.removeById);
 
-routes.get('/list/mesas',MesaController.getAll);
+routes.get('/list/mesas',MesaController.getAllView);
 routes.get('/list/mesa/:id',MesaController.getById);
 routes.get('/cadastros/mesa',MesaController.view);
 routes.post('/cadastros/mesa',MesaController.create);
+routes.put('/use/mesa/:id',MesaController.update);
 routes.get('/remove/mesa/:id',MesaController.removeById);
 
-routes.get('/financeiro/caixa',CaixaController.view);
+routes.get('/financeiro/caixa/:id',CaixaController.view);
 
 module.exports = routes;

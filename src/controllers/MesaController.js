@@ -27,11 +27,29 @@ module.exports = {
             return res.status(400).json({ error: error });
         }
     },
+    async update(req, res){
+        try {
+            console.log(req.body);
+            console.log(req.params);
+            return res.json({});
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    },
     async getAll(req,res){
         // await Mesa.remove();
         await Mesa.find({}, (err, mesas) => {
             return res.json(mesas);
         });
+    },
+    async getAllView(req,res){
+        // await Produto.remove();
+        await Mesa.find({}, (err, mesas) => {
+            console.log(mesas);
+            res.render(path.resolve('src/templates/html/list/mesas'),{
+                mesas: mesas,
+            });
+        }).populate('medida');
     },
     async getById(req,res){
         await Mesa.findById(req.params.id, (err, mesas) => {

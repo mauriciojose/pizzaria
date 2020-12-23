@@ -35,8 +35,12 @@
                                 <td class="text-center"><%=produto.medida.sigla%></td>
                                 <td class="text-center"><%=(produto.ativo) ? "ativo":"inativo"%></td>
                                 <td>
-                                    <button id="" class="select" data-translate="start">Editar</button>
-                                    <button id="" class="select" data-translate="start">Desativar</button>
+                                    <%if(tipo==0){%>
+                                        <button id="" class="select" data-translate="start">Editar</button>
+                                        <button id="" class="select" data-translate="start">Desativar</button>
+                                    <%}else{%>
+                                        <button id="" class="select" data-translate="start">Adicionar</button>
+                                    <%}%>
                                 </td>
                             </tr>
                           <% }); %>
