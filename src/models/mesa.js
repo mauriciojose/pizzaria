@@ -1,4 +1,5 @@
 const mongoose = require('../database');
+const Schema = require('mongoose').Schema;
 
 const MesaSchema = new mongoose.Schema({
     name: {
@@ -25,6 +26,11 @@ const MesaSchema = new mongoose.Schema({
     tipo: {
         type: Number,
         default: 0
+    },
+    caixa: {
+        type: Schema.Types.ObjectId,
+        ref: "Caixa",
+        required: false
     }
 });
 

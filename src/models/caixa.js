@@ -1,4 +1,5 @@
 const mongoose = require('../database');
+const Schema = require('mongoose').Schema;
 
 const CaixaSchema = new mongoose.Schema({
     cliente: {
@@ -29,7 +30,7 @@ const CaixaSchema = new mongoose.Schema({
     },
     produtos: [{
         type: Schema.Types.ObjectId,
-        ref: "Produto"
+        ref: "ProdutoCaixa"
     }]
 });
 

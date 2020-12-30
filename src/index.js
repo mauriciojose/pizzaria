@@ -16,6 +16,7 @@ app.use(
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
+app.set('view cache',true);
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

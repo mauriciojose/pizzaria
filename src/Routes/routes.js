@@ -80,7 +80,7 @@ routes.get('/cadastros/produto',ProdutoController.view);
 routes.post('/cadastros/produto',uploadImages,ProdutoController.create);
 routes.get('/list/produto',ProdutoController.getBy);
 routes.get('/estoque/produtos',ProdutoController.getAllView);
-routes.get('/list/produtos/:idMesa',ProdutoController.getAllView);
+routes.get('/list/produtos/:idCaixa',ProdutoController.getAllView);
 
 routes.get('/list/medidas',MedidaController.getAll);
 routes.get('/list/medida/:id',MedidaController.getById);
@@ -98,9 +98,13 @@ routes.get('/list/mesas',MesaController.getAllView);
 routes.get('/list/mesa/:id',MesaController.getById);
 routes.get('/cadastros/mesa',MesaController.view);
 routes.post('/cadastros/mesa',MesaController.create);
-routes.put('/use/mesa/:id',MesaController.update);
+routes.put('/use/mesa/:id',MesaController.useMesa);
+routes.put('/close/mesa/:id',MesaController.closeMesa);
 routes.get('/remove/mesa/:id',MesaController.removeById);
 
+routes.get('/financeiro/caixas',CaixaController.getAllView);
+routes.get('/financeiro/caixas/:id',CaixaController.getItensView);
 routes.get('/financeiro/caixa/:id',CaixaController.view);
+routes.put('/financeiro/addproduto/:id',CaixaController.addProduto);
 
 module.exports = routes;

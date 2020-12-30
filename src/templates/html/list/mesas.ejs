@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
+    <title>Mesas</title>
     <base href="/">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
@@ -16,6 +16,7 @@
         }
         input{
             background-color: white !important;
+            color: black !important;
         }
     </style>
 </head>
@@ -34,16 +35,16 @@
                     </thead>
                     <tbody>
                         <% mesas.forEach(function(mesa){ %>
-                            <tr style="cursor: pointer;">
-                                <td class='clickable-row<%=(mesa.tipo==0)? "_none":""%>' data-href='/financeiro/caixa/<%=mesa._id%>'><%=mesa.codigo%></td>
-                                <td class='clickable-row<%=(mesa.tipo==0)?"_none":""%>' data-href='/financeiro/caixa/<%=mesa._id%>'><%=mesa.name%></td>
-                                <td class="text-center clickable-row<%=(mesa.tipo==0)?'_none':''%>" data-href='/financeiro/caixa/<%=mesa._id%>'><%=(mesa.ativo) ? "ativo":"inativo"%></td>
-                                <td class="text-center clickable-row<%=(mesa.tipo==0)?'_none':''%>" data-href='/financeiro/caixa/<%=mesa._id%>'><%=(mesa.tipo==0) ? "Não":"Sim"%></td>
-                                <td>
+                            <tr style="cursor: pointer;" id="<%=mesa._id%>">
+                                <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.codigo%></td>
+                                <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.name%></td>
+                                <td class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.ativo) ? "ativo":"inativo"%></td>
+                                <td id="usando" class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.tipo==0) ? "Não":"Sim"%></td>
+                                <td id="acoes">
                                     <%if(mesa.tipo==0){%>
-                                        <button id="" onclick="showClickHandler('<%=mesa._id%>');" class="select" data-translate="start">Usar</button>
+                                        <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="select" data-translate="start">Usar</button></span>
                                     <%}else{%>
-                                        <button id="" class="select" data-translate="start">Fechar</button>
+                                    <span><button id="" class="select" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
                                     <%}%>
                                     <button id="" class="select" data-translate="start">Editar</button>
                                     <button id="" class="select" data-translate="start">Desativar</button>
@@ -80,7 +81,9 @@
 
         $(document).ready(function($) {
             $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
+                if ($(this).data("tipo") == 1) {
+                    window.location = $(this).data("href");
+                }
             });
         });
 
@@ -96,11 +99,36 @@
             dialog.showModal();
         };
 
+        function fecharMesa(idMesa){
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/close/mesa/'+idMesa,
+                contentType: 'application/json',
+                data: JSON.stringify({}), // access in body
+            }).done(function (data) {
+                $('#'+idMesa+' td#usando').text('Não');
+                $('#'+idMesa+' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
+                let tr = document.getElementById(''+idMesa);
+                let clickables = tr.querySelectorAll('.clickable-row');
+                for (let index = 0; index < clickables.length; index++) {
+                    const element = clickables[index];
+                    element.setAttribute("data-href",``);
+                    element.setAttribute("data-tipo",0);
+                }
+                dialog.close();
+            }).fail(function (msg) {
+                console.log('FAIL');
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+        }
+
         function usarMesa(){
             let idMesa = document.querySelector('#idMesa');
             let name = document.querySelector('#name');
             let data = {
-                cliente: name.value
+                cliente: name.value,
+                mesa:idMesa.value
             };
 
             $.ajax({
@@ -108,8 +136,17 @@
                 url: 'http://localhost:3000/use/mesa/'+idMesa.value,
                 contentType: 'application/json',
                 data: JSON.stringify(data), // access in body
-            }).done(function () {
-                console.log('SUCCESS');
+            }).done(function (data) {
+                $('#'+idMesa.value+' td#usando').text('Sim');
+                $('#'+idMesa.value+' td#acoes span').html(`<button id="" class="select" onclick="fecharMesa('${idMesa.value}');" data-translate="start">Fechar</button>`);
+                let tr = document.getElementById(''+idMesa.value);
+                let clickables = tr.querySelectorAll('.clickable-row');
+                for (let index = 0; index < clickables.length; index++) {
+                    const element = clickables[index];
+                    element.setAttribute("data-href",`/financeiro/caixa/${data._id}`);
+                    element.setAttribute("data-tipo",1);
+                }
+                dialog.close();
             }).fail(function (msg) {
                 console.log('FAIL');
             }).always(function (msg) {

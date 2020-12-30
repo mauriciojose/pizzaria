@@ -61,7 +61,8 @@ module.exports = {
             // console.log(produtos);
             res.render(path.resolve('src/templates/html/estoque/produtos'),{
                 produtos: produtos,
-                tipo: (typeof req.params.idMesa == 'undefined') ? 0 : 1
+                tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
+                idCaixa: req.params.idCaixa
             });
         }).populate('medida');
     },

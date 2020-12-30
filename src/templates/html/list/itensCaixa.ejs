@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itens do Caixa</title>
+    <base href="/">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/produto.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        label{
+            color: black !important;
+        }
+        input{
+            background-color: white !important;
+            color: black !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div class="container-form">
+            <div id="#responsive" class="itens">
+                <table id="#responsive">
+                    <thead>
+                        <th>Código</th>
+                        <th>Produto</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Valor Unitário</th>
+                        <th class="text-center">Valor Total</th>
+            
+                    </thead>
+                    <tbody>
+                        <% produtos.forEach(function(produto){ %>
+                            <%totais.quantidade += produto.quantidade;%>
+                            <%totais.valorUnitario += parseFloat(produto.valorUnitario);%>
+                            <%totais.valorTotal += produto.valorUnitario*produto.quantidade;%>
+                            <tr style="cursor: pointer;" id="<%=produto._id%>">
+                                <td><%=produto.produto.codigo%></td>
+                                <td><%=produto.produto.name%></td>
+                                <td class="text-center"><%=produto.quantidade%></td>
+                                <td class="text-center"><%=parseFloat(produto.valorUnitario).toFixed(2)%></td>
+                                <td class="text-center"><%=parseFloat(produto.valorUnitario*produto.quantidade).toFixed(2)%></td>
+                            </tr>
+                          <% }); %>
+                          <tr>
+                              <td>Total</td>
+                              <td></td>
+                              <td class="text-center"><%=totais.quantidade%></td>
+                              <td class="text-center"><%=totais.valorUnitario.toFixed(2)%></td>
+                              <td class="text-center"><%=totais.valorTotal.toFixed(2)%></td>
+                          </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
