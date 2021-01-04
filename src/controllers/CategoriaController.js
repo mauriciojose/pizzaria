@@ -21,7 +21,7 @@ module.exports = {
             codigo.categoria = codigo.categoria+1;
             await Codigo.update(codigo);
             
-            return res.json({categoria});
+            res.redirect('/list/categorias');
         } catch (error) {
             return res.status(400).json({ error: error });
         }
@@ -31,6 +31,17 @@ module.exports = {
         await Categoria.find({}, (err, categorias) => {
             return res.json(categorias);
         });
+    },
+    async getAllView(req,res){
+        // await Produto.remove();
+        await Categoria.find({}, (err, categorias) => {
+            console.log(categorias);
+            res.render(path.resolve('src/templates/html/list/categorias'),{
+                categorias: categorias,
+                tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
+                idCaixa: req.params.idCaixa
+            });
+        }).populate('medida');
     },
     async getById(req,res){
         await Categoria.findById(req.params.id, (err, categorias) => {

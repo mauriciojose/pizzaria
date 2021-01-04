@@ -34,6 +34,7 @@
                 <tbody>
                     <% produtos.forEach(function(produto){ %>
                         <tr>
+<<<<<<< HEAD
                             <td>
                                 <%=produto.produto.codigo%>
                             </td>
@@ -51,6 +52,15 @@
                             </td>
                         </tr>
                         <% }); %>
+=======
+                            <td><%=produto.produto.codigo%></td>
+                            <td><%=produto.produto.name%></td>
+                            <td><%=produto.quantidade%></td>
+                            <td><%=produto.valorUnitario%></td>
+                            <td><%=(produto.quantidade*produto.valorUnitario)%></td>
+                        </tr>
+                    <% }); %>
+>>>>>>> 86bcfed660470007bbeebe7ce84533e217ea2eab
                 </tbody>
             </table>
         </div>
@@ -65,14 +75,20 @@
                 <label>Valor Total: <input type="text" name="" class="input" id="valorTotal"></label>
             </div> -->
 
+<<<<<<< HEAD
 
         <!-- <div class="formdivide">
+=======
+            
+            <!-- <div class="formdivide">
+>>>>>>> 86bcfed660470007bbeebe7ce84533e217ea2eab
                 <div class="form2">
                     <label style="margin-right: 5px;">Quantidade: <input type="text" value="1" class="input" name="" id="quantidade"></label>
                     <label style="width: 70%;">Produto: <input style="width: 100%;" type="text" name="" class="input codigo" id="descricao"></label>
                     <div style="padding-top: 34px;"><button type="submit" id="inserir">Inserir</button></div>
                 </div>
             </div>-->
+<<<<<<< HEAD
         <div style="display: flex;margin-left: 8%;margin-top: 2%;">
             <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
         </div>
@@ -80,6 +96,15 @@
 
         <!-- </form> -->
         <a href="/list/produtos/<%=idCaixa%>">
+=======
+            <div style="display: flex;margin-left: 8%;margin-top: 2%;">
+                <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
+            </div> 
+
+
+        <!-- </form> -->
+        <a href="/list/categorias/<%=idCaixa%>">
+>>>>>>> 86bcfed660470007bbeebe7ce84533e217ea2eab
             <div class="float-button">
                 <span>+</span>
             </div>
@@ -91,7 +116,11 @@
         </center>
     </div>
 
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 86bcfed660470007bbeebe7ce84533e217ea2eab
 
 </body>
 

@@ -19,11 +19,21 @@
                             <label for="codigo">Código</label>
                             <input id="codigo" value="<%=codigo%>" class='campo-texto' required name="codigo" type='text'>
                         </fieldset>
-                        <fieldset class='float-label-field trinta'>
+                        <fieldset class='float-label-field' style="width:5% !important">
                             <label style="margin-bottom: 3%;" for="ativo">Ativo</label>
                             <div class="onoffswitch">
                                 <input type="checkbox" name="ativo" class="onoffswitch-checkbox" id="myonoffswitch" value="true" tabindex="0" checked>
                                 <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </fieldset> 
+                        <fieldset class='float-label-field' style="width:5% !important">
+                            <label style="" for="pizza">É Pizza?</label>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="pizza" class="onoffswitch-checkbox" id="myonoffswitch1" value="false" tabindex="0">
+                                <label class="onoffswitch-label" for="myonoffswitch1">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
@@ -45,29 +55,31 @@
     </form>
     <script>
 
-        let fields = document.querySelectorAll('form fieldset.float-label-field');
-        for (let index = 0; index < fields.length; index++) {
-            const field = fields[index];
-            const input = field.querySelector('input');
-            input.onfocus = ()=>{
-                field.classList.add('float');
-                field.classList.add('focus');
-            };
-            input.onblur = ()=>{
-                field.classList.remove('focus');
-                if (!input.value) {
-                    field.classList.remove('float');
-                }
-            };
-        }
+        // let fields = document.querySelectorAll('form fieldset.float-label-field');
+        // for (let index = 0; index < fields.length; index++) {
+        //     const field = fields[index];
+        //     const input = field.querySelector('input');
+        //     input.onfocus = ()=>{
+        //         field.classList.add('float');
+        //         field.classList.add('focus');
+        //     };
+        //     input.onblur = ()=>{
+        //         field.classList.remove('focus');
+        //         if (!input.value) {
+        //             field.classList.remove('float');
+        //         }
+        //     };
+        // }
 
         let checkeds = document.querySelectorAll('input[type=checkbox]');
 
         for (let index = 0; index < checkeds.length; index++) {
             const element = checkeds[index];
+            console.log(element);
             element.onclick = function() {
-                this.value = this.checked;
-            }
+                console.log(element);
+                element.value = element.checked;
+            };
         }
 
         function getModel(){

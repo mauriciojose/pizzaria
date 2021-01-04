@@ -21,6 +21,10 @@ const CategoriaSchema = new mongoose.Schema({
     ativo: {
         type: Boolean,
         default: false
+    },
+    pizza: {
+        type: Boolean,
+        default: false
     }
 });
 
