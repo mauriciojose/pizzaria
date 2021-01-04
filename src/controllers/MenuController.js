@@ -7,28 +7,8 @@ var path = require('path');
 const { Console } = require('console');
 
 module.exports = {
-    async view(req, res) {
-        // await Mesa.remove();
-        // await Caixa.remove();
-        let codigo = await Codigo.find({});
-        console.log(codigo);
-        codigo = (codigo.length > 0) ? codigo[0].mesa + 1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/mesa'), { codigo: Functions.completeZeroLeft(codigo) });
-    },
-    async create(req, res) {
-        try {
-            // console.log(req.body);
-            let mesa = await Mesa.create(req.body);
-            let codigo = await Codigo.find({});
-            codigo = codigo[0];
-            codigo.mesa = codigo.mesa + 1;
-            await Codigo.update(codigo);
 
-            return res.json({ mesa });
-        } catch (error) {
-            return res.status(400).json({ error: error });
-        }
-    },
+
     async useMesa(req, res) {
         try {
             let caixa = await Caixa.create(req.body);
@@ -69,14 +49,12 @@ module.exports = {
         await Mesa.find({}, (err, mesas) => {
             console.log(mesas);
             res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-            res.render(path.resolve('src/templates/html/list/mesas'), {
+            res.render(path.resolve('src/templates/html/index'), {
                 "cache": false,
                 mesas: mesas
             });
         }).populate('medida').populate('caixa');
     },
-
-
     async getById(req, res) {
         await Mesa.findById(req.params.id, (err, mesas) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
