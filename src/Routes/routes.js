@@ -88,7 +88,8 @@ routes.get('/cadastros/medida',MedidaController.view);
 routes.post('/cadastros/medida',MedidaController.create);
 routes.get('/remove/medida/:id',MedidaController.removeById);
 
-routes.get('/list/categorias',CategoriaController.getAll);
+routes.get('/list/categorias',CategoriaController.getAllView);
+routes.get('/list/categorias/:idCaixa',CategoriaController.getAllView);
 routes.get('/list/categoria/:id',CategoriaController.getById);
 routes.get('/cadastros/categoria',CategoriaController.view);
 routes.post('/cadastros/categoria',CategoriaController.create);
