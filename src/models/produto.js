@@ -24,6 +24,10 @@ const ProdutoSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    pizza: {
+        type: Boolean,
+        default: false
+    },
     descricao: {
         type: String
     },

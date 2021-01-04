@@ -49,7 +49,7 @@
                                 <td><%=produto.name%></td>
                                 <td class="text-center"><%=produto.quantidade%></td>
                                 <td class="text-center"><%=produto.precoVenda%></td>
-                                <td class="text-center"><%=produto.medida.sigla%></td>
+                                <td class="text-center"><%=(typeof produto.medida != 'undefined') ? produto.medida.sigla : ''%></td>
                                 <td class="text-center"><%=(produto.ativo) ? "ativo":"inativo"%></td>
                                 <td>
                                     <%if(tipo==0){%>

@@ -57,14 +57,32 @@ module.exports = {
     },
     async getAllView(req,res){
         // await Produto.remove();
-        await Produto.find({}, (err, produtos) => {
-            // console.log(produtos);
-            res.render(path.resolve('src/templates/html/estoque/produtos'),{
-                produtos: produtos,
-                tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
-                idCaixa: req.params.idCaixa
-            });
-        }).populate('medida');
+        let filter = (typeof req.params.idCategoria == 'undefined') ? {} : await Categoria.findById(req.params.idCategoria);
+        filter = (Object.keys(filter).length === 0) ? {} : {categorias: filter};
+        console.log(req.params.idCategoria ,filter);
+        await Produto.find(filter, (err, produtos) => {
+            if ((typeof req.params.idCategoria == 'undefined')) {
+                res.render(path.resolve('src/templates/html/estoque/produtos'),{
+                    produtos: produtos,
+                    tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
+                    idCaixa: req.params.idCaixa
+                });
+            } else {
+                if (filter.pizza) {
+                    res.render(path.resolve('src/templates/html/estoque/produtos'),{
+                        produtos: produtos,
+                        tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
+                        idCaixa: req.params.idCaixa
+                    });
+                } else {
+                    res.render(path.resolve('src/templates/html/estoque/produtos'),{
+                        produtos: produtos,
+                        tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
+                        idCaixa: req.params.idCaixa
+                    });
+                }
+            }
+        }).populate('medida').populate('categorias');
     },
     async getById(req,res){
         await Produto.findById(req.params.id, (err, produtos) => {

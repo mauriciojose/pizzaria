@@ -7,6 +7,7 @@ const CategoriaController = require('../controllers/CategoriaController');
 const ProdutoController = require('../controllers/ProdutoController');
 const CaixaController = require('../controllers/CaixaController');
 const MesaController = require('../controllers/MesaController');
+const PizzaController = require('../controllers/PizzaController');
 
 const routes = express.Router();
 
@@ -87,10 +88,14 @@ routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
 
+routes.get('/cadastros/pizza', PizzaController.view);
+routes.post('/cadastros/pizza', uploadImages, PizzaController.create);
+
 routes.get('/cadastros/produto', ProdutoController.view);
 routes.post('/cadastros/produto', uploadImages, ProdutoController.create);
 routes.get('/list/produto', ProdutoController.getBy);
 routes.get('/estoque/produtos', ProdutoController.getAllView);
+routes.get('/list/produtos/:idCategoria/:idCaixa', ProdutoController.getAllView);
 routes.get('/list/produtos/:idCaixa', ProdutoController.getAllView);
 
 routes.get('/list/medidas', MedidaController.getAll);
@@ -113,6 +118,8 @@ routes.post('/cadastros/mesa', MesaController.create);
 routes.put('/use/mesa/:id', MesaController.useMesa);
 routes.put('/close/mesa/:id', MesaController.closeMesa);
 routes.get('/remove/mesa/:id', MesaController.removeById);
+
+routes.get('/financeiro/addproduto/:id', PizzaController.AddView);
 
 routes.get('/financeiro/caixas', CaixaController.getAllView);
 routes.get('/financeiro/caixas/:id', CaixaController.getItensView);
