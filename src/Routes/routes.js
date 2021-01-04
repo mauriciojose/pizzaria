@@ -119,7 +119,7 @@ routes.put('/use/mesa/:id', MesaController.useMesa);
 routes.put('/close/mesa/:id', MesaController.closeMesa);
 routes.get('/remove/mesa/:id', MesaController.removeById);
 
-routes.get('/financeiro/addproduto/:id', PizzaController.AddView);
+routes.get('/financeiro/addpizza/:id', PizzaController.AddView);
 
 routes.get('/financeiro/caixas', CaixaController.getAllView);
 routes.get('/financeiro/caixas/:id', CaixaController.getItensView);

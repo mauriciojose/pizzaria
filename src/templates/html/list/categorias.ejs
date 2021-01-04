@@ -38,7 +38,7 @@
                     </thead>
                     <tbody>
                         <% categorias.forEach(function(categoria){ %>
-                            <tr style="cursor: pointer;" id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addproduto/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
+                            <tr style="cursor: pointer;" id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
                                 <td><%=categoria.codigo%></td>
                                 <td><%=categoria.name%></td>
                                 <td style="text-align: center;"><%=categoria.ativo ? 'Sim':'Não'%></td>
