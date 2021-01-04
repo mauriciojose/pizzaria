@@ -20,92 +20,103 @@ var path = require('path');
 
 const multerConfig = require('../libraries/multer');
 const multer = require('multer');
-const uploadProduto = multer(multerConfig).array('images',10);
+const MenuController = require('../controllers/MenuController');
+const uploadProduto = multer(multerConfig).array('images', 10);
 
 const uploadImages = (req, res, next) => {
     uploadProduto(req, res, err => {
         // console.log(req.files);
-      if (err instanceof multer.MulterError) {
-        if (err.code === "LIMIT_UNEXPECTED_FILE") {}
-      } else if (err) {}
-      next();
+        if (err instanceof multer.MulterError) {
+            if (err.code === "LIMIT_UNEXPECTED_FILE") {}
+        } else if (err) {}
+        next();
     });
 };
 
-routes.get('/', async (req, res) => {
-    res.json({msg: "Bem vindo a API"});
+
+routes.get('/', MenuController.getAllView);
+
+
+
+
+routes.get('/templates/css/estilo.css', function(req, res) {
+    res.sendFile(path.resolve('src/templates/css/estilo.css'));
+});
+routes.get('/img/:name', function(req, res) {
+    res.sendFile(path.resolve('src/templates/img/' + req.params.name));
 });
 
+
 //-------------------------------------------------------------------------\\
-routes.get('/templates/css/global.css',function (req, res) {
+routes.get('/templates/css/global.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/global.css'));
 });
-routes.get('/templates/css/register.css',function (req, res) {
+routes.get('/templates/css/register.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/register.css'));
 });
-routes.get('/templates/css/style.css',function (req, res) {
+routes.get('/templates/css/style.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/style.css'));
 });
-routes.get('/templates/css/caixa.css',function (req, res) {
+routes.get('/templates/css/caixa.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/caixa.css'));
 });
-routes.get('/templates/css/liststyle.css',function (req, res) {
+routes.get('/templates/css/liststyle.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/liststyle.css'));
 });
-routes.get('/templates/img/add.svg',function (req, res) {
+routes.get('/templates/img/add.svg', function(req, res) {
     res.sendFile(path.resolve('src/templates/img/add.svg'));
 });
 
-routes.get('/auth/register',AuthController.getViewRegister);
-routes.post('/auth/register',AuthController.register);
+routes.get('/auth/register', AuthController.getViewRegister);
+routes.post('/auth/register', AuthController.register);
 //-------------------------------------------------------------------------\\
 
-routes.post('/auth/authenticate',AuthController.authenticate);
+routes.post('/auth/authenticate', AuthController.authenticate);
 
-routes.get('/auth/confirmlogin/:email/:codigoVerificador',AuthController.confirmLogin);
+routes.get('/auth/confirmlogin/:email/:codigoVerificador', AuthController.confirmLogin);
 
-routes.get('/auth/getUsers',AuthController.getUsers);
+routes.get('/auth/getUsers', AuthController.getUsers);
 
-routes.get('/email/send',EmailController.sendEmailRequest);
+routes.get('/email/send', EmailController.sendEmailRequest);
 
-routes.get('/templates/css/produto.css',function (req, res) {
+routes.get('/templates/css/produto.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/produto.css'));
 });
 
-routes.get('/teste',function(req,res) {
+routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
 
-routes.get('/cadastros/produto',ProdutoController.view);
-routes.post('/cadastros/produto',uploadImages,ProdutoController.create);
-routes.get('/list/produto',ProdutoController.getBy);
-routes.get('/estoque/produtos',ProdutoController.getAllView);
-routes.get('/list/produtos/:idCaixa',ProdutoController.getAllView);
+routes.get('/cadastros/produto', ProdutoController.view);
+routes.post('/cadastros/produto', uploadImages, ProdutoController.create);
+routes.get('/list/produto', ProdutoController.getBy);
+routes.get('/estoque/produtos', ProdutoController.getAllView);
+routes.get('/list/produtos/:idCaixa', ProdutoController.getAllView);
 
-routes.get('/list/medidas',MedidaController.getAll);
-routes.get('/list/medida/:id',MedidaController.getById);
-routes.get('/cadastros/medida',MedidaController.view);
-routes.post('/cadastros/medida',MedidaController.create);
-routes.get('/remove/medida/:id',MedidaController.removeById);
+routes.get('/list/medidas', MedidaController.getAll);
+routes.get('/list/medida/:id', MedidaController.getById);
+routes.get('/cadastros/medida', MedidaController.view);
+routes.post('/cadastros/medida', MedidaController.create);
+routes.get('/remove/medida/:id', MedidaController.removeById);
 
-routes.get('/list/categorias',CategoriaController.getAllView);
-routes.get('/list/categorias/:idCaixa',CategoriaController.getAllView);
-routes.get('/list/categoria/:id',CategoriaController.getById);
-routes.get('/cadastros/categoria',CategoriaController.view);
-routes.post('/cadastros/categoria',CategoriaController.create);
-routes.get('/remove/categoria/:id',CategoriaController.removeById);
+routes.get('/list/categorias', CategoriaController.getAllView);
+routes.get('/list/categorias/:idCaixa', CategoriaController.getAllView);
+routes.get('/list/categoria/:id', CategoriaController.getById);
+routes.get('/cadastros/categoria', CategoriaController.view);
+routes.post('/cadastros/categoria', CategoriaController.create);
+routes.get('/remove/categoria/:id', CategoriaController.removeById);
 
-routes.get('/list/mesas',MesaController.getAllView);
-routes.get('/list/mesa/:id',MesaController.getById);
-routes.get('/cadastros/mesa',MesaController.view);
-routes.post('/cadastros/mesa',MesaController.create);
-routes.put('/use/mesa/:id',MesaController.useMesa);
-routes.put('/close/mesa/:id',MesaController.closeMesa);
-routes.get('/remove/mesa/:id',MesaController.removeById);
+routes.get('/list/mesas', MesaController.getAllView);
+routes.get('/list/mesa/:id', MesaController.getById);
+routes.get('/cadastros/mesa', MesaController.view);
+routes.post('/cadastros/mesa', MesaController.create);
+routes.put('/use/mesa/:id', MesaController.useMesa);
+routes.put('/close/mesa/:id', MesaController.closeMesa);
+routes.get('/remove/mesa/:id', MesaController.removeById);
 
-routes.get('/financeiro/caixas',CaixaController.getAllView);
-routes.get('/financeiro/caixas/:id',CaixaController.getItensView);
-routes.get('/financeiro/caixa/:id',CaixaController.view);
-routes.put('/financeiro/addproduto/:id',CaixaController.addProduto);
+routes.get('/financeiro/caixas', CaixaController.getAllView);
+routes.get('/financeiro/caixas/:id', CaixaController.getItensView);
+routes.get('/financeiro/caixa/:id', CaixaController.view);
+routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
 
 module.exports = routes;
