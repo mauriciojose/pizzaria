@@ -47,7 +47,10 @@ routes.get('/img/:name', function(req, res) {
     res.sendFile(path.resolve('src/templates/img/' + req.params.name));
 });
 
-
+// ____________________________________________________________----
+routes.get('/cadastros/cliente', ClienteController.view);
+routes.post('/cadastros/cliente', ClienteController.create);
+// 
 //-------------------------------------------------------------------------\\
 routes.get('/templates/css/global.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/global.css'));

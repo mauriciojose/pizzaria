@@ -63,8 +63,7 @@
                                                 <img class="img-fluid" src="/img/bebida.png" width="150" alt="Card image cap">
                                                 <div class="card-body">
 
-                                                    <button class="btn view-btn"><%=categoria.name%></button>
-
+                                                    <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
                                                 </div>
                                             </center>
                                         </div>
