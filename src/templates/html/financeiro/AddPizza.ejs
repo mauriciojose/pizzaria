@@ -8,16 +8,65 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/produto.css">
+    <link rel="stylesheet" href="/templates/css/estilo.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         label{
-            color: black !important;
+            color: white !important;
+            margin-bottom: 0% !important;
         }
         input{
             background-color: white !important;
             color: black !important;
         }
+        .trinta{
+            width: 30% !important;
+        }
+        
+        .search {
+        position: relative;
+        color: #aaa;
+        font-size: 16px;
+        width: 100%;
+        }
+
+        .search {display: inline-block;}
+
+        /* .search input {
+        width: 250px;
+        height: 32px;
+
+        background: #fcfcfc;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+        } */
+
+        .search input {width: 100% !important;}
+        .search .fa-search { 
+        position: absolute;
+        right: 3% !important;
+        top: 11%;
+        }
+
+        @media only screen and (max-width:1200px) {
+            .search .fa-search {
+                right: 4% !important;
+            }
+        }
+        @media only screen and (max-width:760px) {
+            .search .fa-search {
+                right: 5% !important;
+            }
+        }
+        @media only screen and (max-width:570px) {
+            .search .fa-search {
+                right: 7% !important;
+            }
+        }
+
+        .search .fa-search {left: auto; right: 10px;}
     </style>
 </head>
 <body>
@@ -25,8 +74,46 @@
         <div class="container-form">
             <div id="#responsive" class="itens">
                 <div class="informations">
-                    <header>Novo Produto</header>
+                    <header style="padding-bottom: 2%;font-size: 24pt;">Adicionar Pizza</header>
                     <main>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="quantidade">Quantidade de Fatias</label>
+                                <input id="quantidade" class='campo-texto trinta' required placeholder="Quantidade de Fatias" value="8" name="quantidade" type='number'>
+                            </fieldset> 
+                        </div>
+                        <div class="row" style="align-items: baseline !important; flex-direction: column !important;">
+                            <label for="">Pizzas</label>
+                            <div class="search" style="margin-left: 0px !important;">
+                                <span class="fa fa-search">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
+                                        <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
+                                          <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
+                                            <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
+                                            <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
+                                          </g>
+                                          <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
+                                        </g>
+                                      </svg>
+                                </span>
+                                <input type="search" placeholder="Pesquisar">
+                            </div>
+                            <!-- <h2 class="subtitulos" style="width: 80% !important;">Produto
+                                <input type="search" class="rigth" name="" placeholder="Pesquisar" id="">
+            
+                                <a href=""> <span id="lupa2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
+                                    <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
+                                      <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
+                                        <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
+                                        <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
+                                      </g>
+                                      <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
+                                    </g>
+                                  </svg>
+                                </span> </a>
+                            </h2> -->
+                        </div>    
                     </main>
                 </div>
             </div>
