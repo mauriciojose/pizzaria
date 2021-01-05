@@ -598,7 +598,7 @@ input[type="file"] {
 
 #inventory .view-btn {
     background-color: #e6de08;
-    border-radius: 0 0 0 0;
+    border-radius: 100px !important;
     font-size: 14px;
     border: #e6de08;
     color: #000;
@@ -669,7 +669,7 @@ label[for="bt_menu"] {
     }
 }
 
-div.float-button{
+div.float-button {
     width: 60px;
     height: 60px;
     background-color: blue;
@@ -684,7 +684,7 @@ div.float-button{
     cursor: pointer;
 }
 
-div.float-button span{
+div.float-button span {
     font-size: 60pt;
     margin-top: 10%;
     margin-left: 3%;
