@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,15 +12,17 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        label{
+        label {
             color: black !important;
         }
-        input{
+        
+        input {
             background-color: white !important;
             color: black !important;
         }
     </style>
 </head>
+
 <body>
     <div class="container1">
         <div class="container-form">
@@ -32,19 +35,31 @@
                         <th class="text-center">Inicio</th>
                         <th class="text-center">Fim</th>
                         <th class="text-center">Status</th>
-            
+
                     </thead>
                     <tbody>
                         <% caixas.forEach(function(caixa){ %>
                             <tr class='clickable-row' data-href='<%="/financeiro/caixas/"+caixa._id%>' style="cursor: pointer;" id="<%=caixa._id%>">
-                                <td><%=caixa._id%></td>
-                                <td><%=caixa.cliente%></td>
-                                <td><%=caixa.mesa.name%></td>
-                                <td class="text-center"><%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%></td>
-                                <td class="text-center"><%=(typeof caixa.dateClose=='undefined') ? '' : caixa.dateClose.getDate()+'/'+(caixa.dateClose.getMonth()+1)+'/'+caixa.dateClose.getFullYear()%></td>
-                                <td class="text-center"><%=(caixa.status==0) ? 'Aberto' : 'Fechado'%></td>
+                                <td>
+                                    <%=caixa._id%>
+                                </td>
+                                <td>
+                                    <%=caixa.cliente%>
+                                </td>
+                                <td>
+                                    <%=caixa.mesa.name%>
+                                </td>
+                                <td class="text-center">
+                                    <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>
+                                </td>
+                                <td class="text-center">
+                                    <%=(typeof caixa.dateClose=='undefined') ? '' : caixa.dateClose.getDate()+'/'+(caixa.dateClose.getMonth()+1)+'/'+caixa.dateClose.getFullYear()%>
+                                </td>
+                                <td class="text-center">
+                                    <%=(caixa.status==0) ? 'Aberto' : 'Fechado'%>
+                                </td>
                             </tr>
-                          <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>
@@ -60,4 +75,5 @@
     </script>
 
 </body>
+
 </html>

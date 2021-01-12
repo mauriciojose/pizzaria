@@ -6,8 +6,10 @@ const MedidaController = require('../controllers/MedidaController');
 const CategoriaController = require('../controllers/CategoriaController');
 const ProdutoController = require('../controllers/ProdutoController');
 const CaixaController = require('../controllers/CaixaController');
+const ClienteController = require('../controllers/ClienteController');
 const MesaController = require('../controllers/MesaController');
 const PizzaController = require('../controllers/PizzaController');
+
 
 const routes = express.Router();
 
@@ -22,6 +24,7 @@ var path = require('path');
 const multerConfig = require('../libraries/multer');
 const multer = require('multer');
 const MenuController = require('../controllers/MenuController');
+const DeliveryController = require('../controllers/DeliveryController');
 const uploadProduto = multer(multerConfig).array('images', 10);
 
 const uploadImages = (req, res, next) => {
@@ -34,14 +37,22 @@ const uploadImages = (req, res, next) => {
     });
 };
 
-
 routes.get('/', MenuController.getAllView);
 
 
 
+// ---------------------------------------------------
+routes.get('/delivery/delivery', DeliveryController.getAllView);
+routes.put('/delivery/novo/:id', DeliveryController.novoPedido);
+routes.put('/delivery/finalizar/:id', DeliveryController.closePedido);
+
+// +_________________________________________________________-
 
 routes.get('/templates/css/estilo.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/estilo.css'));
+});
+routes.get('/templates/css/delivery.css', function(req, res) {
+    res.sendFile(path.resolve('src/templates/css/delivery.css'));
 });
 routes.get('/img/:name', function(req, res) {
     res.sendFile(path.resolve('src/templates/img/' + req.params.name));
@@ -49,6 +60,7 @@ routes.get('/img/:name', function(req, res) {
 
 // ____________________________________________________________----
 routes.get('/cadastros/cliente', ClienteController.view);
+routes.get('/list/cliente', ClienteController.getBy);
 routes.post('/cadastros/cliente', ClienteController.create);
 // 
 //-------------------------------------------------------------------------\\

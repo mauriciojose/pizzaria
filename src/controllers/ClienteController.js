@@ -35,38 +35,36 @@ module.exports = {
     },
     async getAll(req, res) {
         // await Produto.remove();
-        await Produto.find({}, (err, produtos) => {
-            return res.json(produtos);
+        await Cliente.find({}, (err, Cliente) => {
+            return res.json(Cliente);
         });
     },
     async getAllView(req, res) {
         // await Produto.remove();
-        await Produto.find({}, (err, produtos) => {
+        await Cliente.find({}, (err, clientes) => {
             // console.log(produtos);
-            res.render(path.resolve('src/templates/html/estoque/produtos'), {
-                produtos: produtos,
-                tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
-                idCaixa: req.params.idCaixa
+            res.render(path.resolve('src/templates/html/delivery/delivery'), {
+                clientes: clientes,
             });
         }).populate('medida');
     },
     async getById(req, res) {
-        await Produto.findById(req.params.id, (err, produtos) => {
+        await Cliente.findById(req.params.id, (err, clientes) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            return res.json(produtos);
+            return res.json(clientes);
         });
     },
     async getBy(req, res) {
-        await Produto.find(req.query, (err, produtos) => {
+        await Cliente.find(req.query, (err, clientes) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            return res.json(produtos);
+            return res.json(clientes);
         });
     },
     async removeById(req, res) {
-        await Produto.findById(req.params.id, async(err, produto) => {
+        await Cliente.findById(req.params.id, async(err, clientes) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            if (produto) {
-                await Produto.remove(produto, (err) => {
+            if (clientes) {
+                await Cliente.remove(clientes, (err) => {
                     if (err) { return res.status(500).json({ error: "Error in process!" }); }
                     return res.json({ msg: "Removido com sucesso!" });
                 });

@@ -12,8 +12,6 @@
     <!------ Include the above in your HEAD tag ---------->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -64,7 +62,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown"><a href="delivery.html">Delivery</a></li>
+                                <li class="dropdown"><a href="/delivery/delivery">Delivery</a></li>
                                 <li class="dropdown"><a href="delivery.html">RelatÃ³rios</a>
                                     <ul class="dropdown-content">
                                         <li>
@@ -188,166 +186,26 @@
 
         <div class="container-fluid" id="inventory">
             <div class="card-container2">
+                <% for(let i=1;i<=10;i++){%>
+                    <div class="col-md-3">
 
-                <div class="col-md-3">
+                        <div class="card">
+                            <center>
+                                <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
+                                <div class="card-body">
 
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
+                                    <button class="btn view-btn">Produto <%=i%></button>
 
-                                <button class="btn view-btn">Produto</button>
+                                </div>
+                            </center>
+                        </div>
 
-                            </div>
-                        </center>
                     </div>
 
-                </div>
+                    <% }%>
 
-                <div class="col-md-3">
 
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
 
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <div class="card">
-                        <center>
-                            <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                            <div class="card-body">
-
-                                <button class="btn view-btn">Produto</button>
-
-                            </div>
-                        </center>
-                    </div>
-
-                </div>
             </div>
             <a href="" id="prev2" role="button" data-bs-slide="prev">
 
@@ -416,7 +274,6 @@
             mesa: idMesa.value
         };
         // console.log(data, id);
-
         $.ajax({
             type: 'PUT',
             url: 'http://localhost:3000/use/mesa/' + idMesa.value,

@@ -1,0 +1,77 @@
+table tbody tr td {
+    display: table-cell;
+    font-weight: 400;
+    padding: 10px;
+    text-align: left;
+    position: relative;
+}
+
+table tbody tr {
+    border: none;
+    display: table-row;
+}
+
+table tbody tr:nth-child(odd) {
+    background: #454141;
+}
+
+table tbody tr td button {
+    display: inline-block;
+    padding: 10px 15px;
+    position: initial;
+    transform: translate(0);
+    width: auto;
+}
+
+table tbody tr td button {
+    background: #4CAF50;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(34, 34, 34, 0.2);
+    color: #fff;
+    font-weight: 700;
+    padding: 0;
+    width: 100%;
+}
+
+table thead {
+    display: table-header-group;
+    font-weight: 400;
+}
+
+table tbody tr td:before {
+    display: none;
+}
+
+table tbody tr td button:hover,
+table tbody tr td button:focus {
+    background: #a795fe;
+    cursor: pointer;
+}
+
+@media all and (max-width:800px) {
+    table tbody tr td {
+        display: block;
+        text-align: right;
+    }
+    table tbody tr td:before {
+        content: attr(data-title);
+        position: absolute;
+        left: 15px;
+        display: block;
+    }
+    table thead {
+        display: none;
+    }
+    table {
+        border: none;
+    }
+    table tbody tr {
+        margin-bottom: 10px;
+        display: block;
+        border: 1px solid #dad6eb;
+    }
+    table tbody tr td button {
+        width: 100%;
+    }
+}
