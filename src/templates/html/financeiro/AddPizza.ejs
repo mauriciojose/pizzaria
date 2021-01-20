@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias</title>
+    <title>Adicionar Pizza</title>
     <base href="/">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
@@ -67,6 +67,38 @@
         }
 
         .search .fa-search {left: auto; right: 10px;}
+        input[list]
+        {
+            background: red;
+        }
+        input::-webkit-calendar-picker-indicator {
+          display: none;
+        }
+
+        .active {
+            padding: 0px 0px !important;
+        }
+
+        div.table{
+            width: 100% !important;
+            margin-left: 0 !important;
+            height: 40vh;
+            max-height: 40vh;
+            align-items: baseline !important;
+            overflow-y: scroll;
+        }
+        
+        input.fatias{
+            width: 100% !important;
+        }
+
+        button.fixed{
+            position: fixed;
+            right: 6%;
+            bottom: 7%;
+            background-color: green;
+        }
+        
     </style>
 </head>
 <body>
@@ -84,40 +116,186 @@
                         </div>
                         <div class="row" style="align-items: baseline !important; flex-direction: column !important;">
                             <label for="">Pizzas</label>
-                            <div class="search" style="margin-left: 0px !important;">
-                                <span class="fa fa-search">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
-                                        <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
-                                          <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
-                                            <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
-                                            <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
-                                          </g>
-                                          <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
-                                        </g>
-                                      </svg>
-                                </span>
-                                <input type="search" placeholder="Pesquisar">
+                            <div class="wrapper" style="margin-left: 0px !important;">
+                                <div class="search-input">
+                                    <input autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar Pizza">
+                                    <div class="autocom-box">
+                                        <li>Teste 1</li>
+                                        <li>Teste 2</li>
+                                    </div>
+                                    <span class="fa fa-search icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
+                                            <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
+                                              <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
+                                                <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
+                                                <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
+                                              </g>
+                                              <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
+                                            </g>
+                                          </svg>
+                                    </span>
+                                </div>
                             </div>
-                            <!-- <h2 class="subtitulos" style="width: 80% !important;">Produto
-                                <input type="search" class="rigth" name="" placeholder="Pesquisar" id="">
-            
-                                <a href=""> <span id="lupa2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
-                                    <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
-                                      <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
-                                        <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
-                                        <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
-                                      </g>
-                                      <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
-                                    </g>
-                                  </svg>
-                                </span> </a>
-                            </h2> -->
+                            <div class="row table">
+                                <table class="itens">
+                                    <thead>
+                                        <th>Código</th>
+                                        <th>Nome</th>
+                                        <th>Fatias</th>
+                                        <th>Valor</th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>    
                     </main>
                 </div>
             </div>
         </div>
+        <button class="fixed" onclick="validate();">Adicionar</button>
     </div>
+    <script>
+        var suggestions = [];
+        var adicionados = [];
+        <% produtos.forEach(function(produto){ %>
+            suggestions.push({
+                _id: '<%=produto._id%>',
+                codigo: '<%=produto.codigo%>',
+                name: '<%=produto.name%>',
+                quantidade: '<%=produto.quantidade%>',
+                precoVenda: '<%=produto.precoVenda%>'
+            });
+        <% }); %>
+        const searchWrapper = document.querySelector('.search-input');
+        const inputBox = searchWrapper.querySelector('input');
+        const suggBox = searchWrapper.querySelector('.autocom-box');
+
+        inputBox.onkeyup = (e) => {
+          let userData = e.target.value;
+          let emptyArray = [];
+          if (userData) {
+              emptyArray = suggestions.filter((data) => {
+                return data.name.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
+              });
+              emptyArray = emptyArray.map((data) => {
+                return data = `<li onclick="addItem('${data._id}');">${data.name}</li>`;
+              });
+              searchWrapper.classList.add('active');
+          }else{
+            searchWrapper.classList.remove('active');
+          }
+          showSuggestions(emptyArray);
+        };
+
+        function showSuggestions(list){
+            let listData;
+            if (!list.length) {
+                listData = '<li>Nenhum Item Encontrado</li>';
+            }else{
+                listData = list.join('');
+            }
+            suggBox.innerHTML = listData;
+        }
+
+        function addItem(id) {
+            let item = getItemById(id);
+
+            if (typeof getExistsById(item._id) == 'undefined') {
+             
+                let table = document.querySelector('table.itens tbody');
+                let tr = document.createElement('tr');
+                tr.setAttribute('id',`id_${item._id}`);
+                table.appendChild(tr);
+                for (var prop in item) {
+                    if (item.hasOwnProperty(prop)) {
+                        if (prop != '_id') {
+                            // console.log(item[prop],prop);
+                            let td = document.createElement('td');
+                            if (prop=='quantidade') {
+                                let input = document.createElement('input');
+                                input.setAttribute('class','campo-texto fatias');
+                                input.setAttribute('type','number');
+                                input.setAttribute('size','3');
+                                input.value = 0;
+                                td.appendChild(input);
+                                td.style.width = '20%';
+                                tr.appendChild(td);   
+                            } else {
+                                let text = document.createTextNode(item[prop]);
+                                td.appendChild(text);
+                                tr.appendChild(td);   
+                            }
+                        }
+                    }
+                }   
+                adicionados.push(item);
+            }
+            searchWrapper.classList.remove('active');
+        }
+        function getItemById(id){
+            return suggestions.find(x => x._id == id);
+        }
+        function getExistsById(id){
+            return adicionados.find(x => x._id == id);
+        }
+
+        function addPizza() {
+            let quantFatias = document.querySelector('input[name=quantidade]').value;
+            let maxCallback = ( acc, cur ) => Math.max( acc.precoVenda, cur.precoVenda );
+            let preco = (adicionados.length == 1) ? adicionados[0].precoVenda: adicionados.reduce(maxCallback);
+            let produtos = adicionados.map(a=>a._id);
+            let pizzas = [];
+            for (let index = 0; index < produtos.length; index++) {
+                const element = produtos[index];
+                console.log(element);
+                let fatias = document.querySelector(`table.itens tbody tr#id_${element} td input.fatias`).value;
+                let item  = {
+                    fatias: fatias,
+                    valor: getExistsById(element).precoVenda,
+                    produto: element
+                };
+                pizzas.push(item);
+            }
+            let data = {
+                quantidade: quantFatias,
+                valorUnitario: preco,
+                pizzas: pizzas
+            };
+            console.log(data);
+
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/financeiro/addpizza/'+'<%=idCaixa%>',
+                contentType: 'application/json',
+                data: JSON.stringify(data), // access in body
+            }).done(function (data) {
+                window.location = '/financeiro/caixa/'+'<%=idCaixa%>';
+            }).fail(function (msg) {
+                console.log('FAIL');
+                failure();
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+        }
+
+        function validate(){
+            if (adicionados.length == 0) {
+                alert("Adicione pelo menos um sabor");
+                return false;
+            }
+            let quantFatias = document.querySelector('input[name=quantidade]').value;
+            let sumFatias = 0;
+            for (let index = 0; index < adicionados.length; index++) {
+                const element = adicionados[index];
+                console.log(document.querySelector(`#id_${element._id} .fatias`),document.querySelector(`#id_${element._id} .fatias`).value);
+                sumFatias += Number(document.querySelector(`#id_${element._id} .fatias`).value);
+            }
+            if(quantFatias != sumFatias){
+                alert("Soma das fatias é diferente da quantidade de fatias!");
+                return false;
+            }
+            addPizza();
+        }
+    </script>
 </body>
 </html>

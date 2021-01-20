@@ -1,5 +1,6 @@
 const { create } = require('../models/produto');
 const Produto = require('../models/produto');
+const ProdutoCaixa = require('../models/ProdutoCaixa');
 const Codigo = require('../models/codigos');
 const Medida = require('../models/medida');
 const Categoria = require('../models/categoria');
@@ -48,8 +49,24 @@ module.exports = {
         }
     },
     async AddView(req, res){
+        let produtos = await Produto.find({pizza: true});
         res.render(path.resolve('src/templates/html/financeiro/AddPizza'),{
-            idCaixa: req.params.id
+            idCaixa: req.params.id,
+            produtos: produtos
+        });
+    },
+    async getPizzasByProdutoCaixa(req, res){
+        await ProdutoCaixa.findById(req.params.id, (err, caixa) => {
+            console.log(caixa);
+            if (err) { return res.status(500).json({error: "ID INVALID"}); }
+            res.json(caixa);
+        }).populate({
+            path: 'pizzas',
+            model: 'PizzaCaixa',
+            populate: {
+                path: 'produto',
+                model: 'Produto'
+            }
         });
     }
 };

@@ -134,11 +134,14 @@ routes.put('/use/mesa/:id', MesaController.useMesa);
 routes.put('/close/mesa/:id', MesaController.closeMesa);
 routes.get('/remove/mesa/:id', MesaController.removeById);
 
+routes.get('/caixa/getpizzas/:id', PizzaController.getPizzasByProdutoCaixa);
+
 routes.get('/financeiro/addpizza/:id', PizzaController.AddView);
 
 routes.get('/financeiro/caixas', CaixaController.getAllView);
 routes.get('/financeiro/caixas/:id', CaixaController.getItensView);
 routes.get('/financeiro/caixa/:id', CaixaController.view);
 routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
+routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
 
 module.exports = routes;

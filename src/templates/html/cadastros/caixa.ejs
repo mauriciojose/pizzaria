@@ -10,6 +10,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script>
+        var formatter = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+        });
+    </script>
 </head>
 
 <body>
@@ -25,21 +32,34 @@
             <table id="listItens">
                 <thead>
                     <th>Código</th>
-                    <th>Nome</th>
+                    <th style="text-align: left !important;">Nome</th>
                     <th>Quantidade</th>
                     <th>Valor Unitário</th>
                     <th>Valor Total</th>
 
                 </thead>
                 <tbody>
+                    <%var total = 0;%>
                     <% produtos.forEach(function(produto){ %>
-                        <tr>
-                            <td><%=produto.produto.codigo%></td>
-                            <td><%=produto.produto.name%></td>
-                            <td><%=produto.quantidade%></td>
-                            <td><%=produto.valorUnitario%></td>
-                            <td><%=(produto.quantidade*produto.valorUnitario)%></td>
-                        </tr>
+                        <%if(typeof produto.produto != 'undefined'){%>
+                            <%total+=(parseFloat(produto.quantidade)*parseFloat(produto.valorUnitario))%>
+                            <tr>
+                                <td><%=produto.produto.codigo%></td>
+                                <td style="text-align: left !important;"><%=produto.produto.name%></td>
+                                <td><%=produto.quantidade%></td>
+                                <td class="money"><%=produto.valorUnitario%></td>
+                                <td class="money"><%=(produto.quantidade*produto.valorUnitario)%></td>
+                            </tr>
+                        <%}else{%>
+                            <%total+=(parseFloat(produto.valorUnitario))%>
+                            <tr>
+                                <td><button onclick="showClickHandler('<%=produto._id%>');">Visualizar Sabores</button></td>
+                                <td style="text-align: left !important;">Pizza com <%=produto.quantidade%> fatias</td>
+                                <td>1</td>
+                                <td class="money"><%=produto.valorUnitario%></td>
+                                <td class="money"><%=produto.valorUnitario%></td>
+                            </tr>
+                        <%}%>
                     <% }); %>
                 </tbody>
             </table>
@@ -64,7 +84,7 @@
                 </div>
             </div>-->
             <div style="display: flex;margin-left: 8%;margin-top: 2%;">
-                <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
+                <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
             </div> 
 
 
@@ -81,14 +101,78 @@
         </center>
     </div>
 
-    
+    <dialog class="mdl-dialog" id="modal-example">
+        <input type="hidden" id="idMesa">
+        <div class="mdl-dialog__content">
+            <div>
+                <table id="sabores">
+                    <thead>
+                        <th>Código</th>
+                        <th>Sabor</th>
+                        <th>Fatias</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div> 
+        </div>
+        <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+            <div class="container-button left">
+                <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
+            </div>
+            <!-- <div class="container-button right">
+                <button type="button" onclick="usarMesa();" class="mdl-button">Usar</button>
+            </div> -->
+        </div>
+    </dialog>
 
 </body>
 
 <script>
 
-    var total = 0.00;
-    $("#subtotal").val(total);
+        var dialog = document.querySelector('#modal-example');
+        if (! dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        function closeClickHandler() {
+            dialog.close();
+        };
+        function showClickHandler(idProdutoCaixa) {
+            // dialog.querySelector('#idMesa').value = idMesa;
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:3000/caixa/getpizzas/'+idProdutoCaixa,
+                contentType: 'application/json'
+            }).done(function (data) {
+                // console.log(data);
+                let table = document.querySelector("table#sabores tbody");
+                let tr = '';
+                for (let index = 0; index < data.pizzas.length; index++) {
+                    const element = data.pizzas[index];
+                    tr += `
+                        <tr>
+                            <td>${element.produto.codigo}</td>
+                            <td>${element.produto.name}</td>
+                            <td>${element.fatias}</td>
+                        </tr>
+                    `;
+                }
+                table.innerHTML = tr;
+            }).fail(function (msg) {
+                console.log('FAIL');
+            }).always(function (msg) {
+                console.log('ALWAYS');
+            });
+            dialog.showModal();
+        };
+    // var total = 0.00;
+    $("#subtotal").val(formatter.format($("#subtotal").val()));
+
+    let moneys = document.querySelectorAll('td.money');
+    for (let index = 0; index < moneys.length; index++) {
+        const element = moneys[index];
+        // console.log(element, element.innerText);
+        element.innerText = formatter.format(element.innerText);
+    }
 
     /*window.onload = function () {
         document.addEventListener("contextmenu", function (e) {
@@ -157,7 +241,7 @@ function getProdutoByCod(codigo){
         }
     })
     .done(function(dados){
-        console.log(dados);
+        // console.log(dados);
         let tBody = document.querySelector('table#listItens tbody'); 
         for (let index = 0; index < dados.length; index++) {
             const element = dados[index];

@@ -17,10 +17,18 @@ const ProdutoCaixaSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    pizza: {
+        type: Boolean,
+        default: false
+    },
     produto: {
         type: Schema.Types.ObjectId,
         ref: "Produto"
-    }
+    },
+    pizzas: [{
+        type: Schema.Types.ObjectId,
+        ref: "PizzaCaixa"
+    }],
 });
 
 const ProdutoCaixa = mongoose.model('ProdutoCaixa',ProdutoCaixaSchema);

@@ -3,6 +3,7 @@ const { Console } = require('console');
 const Mesa = require('../models/mesa');
 const Caixa = require('../models/caixa');
 const ProdutoCaixa = require('../models/ProdutoCaixa');
+const PizzaCaixa = require('../models/PizzaCaixa');
 const Produto = require('../models/produto');
 
 module.exports = {
@@ -44,6 +45,29 @@ module.exports = {
             });
         }).populate('ProdutoCaixa');
     },
+    async addPizza(req, res){
+        await Caixa.findById(req.params.id, async (err, caixa) => {
+            if (err) { return res.status(500).json({error: "ID INVALID"}); }
+            console.log(caixa,req.body);
+            await Produto.findById(req.body.idProduto, async (err, produto) => {
+                let pizzas = [];
+                for (let index = 0; index < req.body.pizzas.length; index++) {
+                    const element = req.body.pizzas[index];
+                    let pizza = await PizzaCaixa.create(element);
+                    pizzas.push(pizza);
+                }
+                let produtoCaixa = await ProdutoCaixa.create({
+                    quantidade: req.body.quantidade,
+                    pizzas: pizzas,
+                    valorUnitario: req.body.valorUnitario
+                });
+                caixa.produtos.push(produtoCaixa._id);
+                await Caixa.update({_id: caixa._id},caixa);
+                console.log(caixa);
+                return res.json(caixa);
+            });
+        }).populate('ProdutoCaixa');
+    },
     async getAllView(req,res){
         // await Mesa.remove();
         await Caixa.find({}, (err, caixas) => {
@@ -70,6 +94,13 @@ module.exports = {
         }).populate('mesa').populate({
             path: 'produtos',
             model: 'ProdutoCaixa',
+            populate: {
+                path: 'produto',
+                model: 'Produto'
+            }
+        }).populate({
+            path: 'pizzas',
+            model: 'PizzaCaixa',
             populate: {
                 path: 'produto',
                 model: 'Produto'

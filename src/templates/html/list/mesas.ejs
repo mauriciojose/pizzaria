@@ -26,11 +26,11 @@
             <div id="#responsive" class="itens">
                 <table id="#responsive">
                     <thead>
-                        <th>Código</th>
-                        <th>Descrição</th>
+                        <th>CÃ³digo</th>
+                        <th>DescriÃ§Ã£o</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Usando</th>
-                        <th style="width: 35%;">Ações</th>
+                        <th style="width: 35%;">AÃ§Ãµes</th>
             
                     </thead>
                     <tbody>
@@ -39,7 +39,7 @@
                                 <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.codigo%></td>
                                 <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.name%></td>
                                 <td class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.ativo) ? "ativo":"inativo"%></td>
-                                <td id="usando" class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.tipo==0) ? "Não":"Sim"%></td>
+                                <td id="usando" class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.tipo==0) ? "NÃ£o":"Sim"%></td>
                                 <td id="acoes">
                                     <%if(mesa.tipo==0){%>
                                         <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="select" data-translate="start">Usar</button></span>
@@ -106,7 +106,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({}), // access in body
             }).done(function (data) {
-                $('#'+idMesa+' td#usando').text('Não');
+                $('#'+idMesa+' td#usando').text('NÃ£o');
                 $('#'+idMesa+' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
                 let tr = document.getElementById(''+idMesa);
                 let clickables = tr.querySelectorAll('.clickable-row');
