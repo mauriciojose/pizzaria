@@ -4,7 +4,7 @@ img {
 }
 
 body {
-    background: #36393e !important;
+    background: #fff4c6 !important;
     color: #bfbfbf !important;
     font-family: 'Century Gothic', Courier, monospace !important;
     margin: 0 !important;
@@ -13,22 +13,21 @@ body {
 h1 {
     font-size: 1.7rem;
     margin-top: 1rem;
-    background: #2f3136;
-    color: #bfbfbb;
+    /* background: #a68911; */
+    color: #000459;
     padding: 0.2em 1em;
     border-radius: 3px;
-    border-left: solid #4974a9 5px;
+    border-left: solid transparent 5px;
     font-weight: 100;
 }
 
 h2 {
     font-size: 1.1rem;
     margin-top: 1rem;
-    background: #2f3136;
-    color: #bfbfbb;
+    color: #000459;
     padding: 0.4em 1.8em;
     border-radius: 3px;
-    border-left: solid #4974a9 5px;
+    /* border-left: solid #4974a9 5px; */
     font-weight: 100;
 }
 
@@ -91,27 +90,8 @@ p {
     padding-left: 8px;
 }
 
-.labelFix {
-    line-height: 44px;
-}
-
 .clickable {
     cursor: pointer;
-}
-
-.settingName {
-    text-transform: uppercase;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-#error {
-    text-align: center;
-    color: #fff;
-    background: #af3535;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
 }
 
 #right {
@@ -222,7 +202,7 @@ p {
 }
 
 .show {
-    display: block !important;
+    display: block;
     animation-name: fadeIn;
     animation-duration: 1s;
 }
@@ -241,8 +221,12 @@ hr {
 }
 
 a {
-    color: #5281bb;
+    color: #000459;
     text-decoration: none;
+}
+
+#info {
+    color: #f2d561;
 }
 
 a:hover {
@@ -251,7 +235,7 @@ a:hover {
 
 ul {
     list-style: none;
-    background: aliceblue;
+    background: #a68911;
     border-radius: 10px;
 }
 
@@ -342,9 +326,9 @@ td {
 /* Navigation bar */
 
 nav {
-    display: block;
+    display: none;
     padding: 8px 10px;
-    background: #2f3136;
+    /* background: #2f3136; */
     width: 4%;
 }
 
@@ -356,7 +340,7 @@ nav a {
 }
 
 nav a:hover {
-    background: #36393f;
+    /* background: #36393f; */
     color: #cecece;
     border-radius: 4px;
 }
@@ -391,7 +375,7 @@ input[type="button"] {
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
-    background: #2f3136;
+    /* background: #2f3136; */
     border-radius: 4px;
     border: none;
     cursor: pointer;
@@ -402,7 +386,8 @@ button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover {
-    background: #42444a;
+    background: transparent;
+    border: none !important;
 }
 
 button:active,
@@ -410,6 +395,7 @@ input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active {
     transform: scale(.93);
+    border: none !important;
 }
 
 button:disabled:hover,
@@ -421,16 +407,19 @@ input[type="button"]:disabled:hover {
     opacity: 0.40;
     filter: alpha(opacity=40);
     transform: scale(1);
+    border: none !important;
 }
 
 button::-moz-focus-inner {
-    border: 0;
+    /* border: 0; */
+    border: none !important
 }
 
 
 /* Forms */
 
-input[type="email"],
+
+/* input[type="email"],
 input[type="number"],
 input[type="search"],
 input[type="text"],
@@ -442,16 +431,18 @@ select {
     height: 38px;
     padding: 6px 10px;
     /* The 6px vertically centers text on FF, ignored by Webkit */
-    background-color: #2f3136;
+
+
+/* background-color: #2f3136;
     border-radius: 4px;
     box-shadow: none;
     box-sizing: border-box;
     color: #d4d4d4;
     border: none;
     width: 5em;
-}
+} */
 
-input[type="text"] {
+*/ input[type="text"] {
     width: 10em;
 }
 
@@ -601,7 +592,8 @@ h2.subtitulos {
     border-left: none !important;
     text-align: left !important;
     font-size: 40px !important;
-    background: #2f3136 !important;
+    background: #b59f48 !important;
+    color: #000459 !important;
     border-radius: 10px !important;
     margin: 18px 0 27px 0 !important;
     padding: 21px 0 2px 59px !important;
@@ -652,40 +644,23 @@ h2.subtitulos {
 #prev {
     position: absolute;
     margin-top: -111px;
-    margin-left: -50px;
+    margin-left: 0px;
     border: solid 5px white;
     border-radius: 50%;
-    background-color: white;
+    background-color: white
 }
 
-#next {
+.next {
     position: absolute;
-    margin-top: -111px;
+    margin-top: -107px;
     float: right;
-    margin-left: 87%;
+    margin-left: 81%;
     border: solid 5px white;
     border-radius: 50%;
     background-color: white;
 }
 
-#prev2 {
-    position: absolute;
-    margin-top: -82px;
-    margin-left: -50px;
-    border: solid 5px white;
-    border-radius: 50%;
-    background-color: white;
-}
-
-#next2 {
-    position: absolute;
-    margin-top: -82px;
-    float: right;
-    margin-left: 87%;
-    border: solid 5px white;
-    border-radius: 50%;
-    background-color: white;
-}
+#prev2 {}
 
 h2.subtitulos {
     width: 60%;
@@ -746,10 +721,11 @@ input.rigth {
     color: black;
 }
 
-svg {
+
+/* svg {
     position: absolute;
     margin: 3% 0 0 25%;
-}
+} */
 
 
 /* .card-body {
@@ -838,7 +814,12 @@ svg {
 }
 
 .navbar-dark .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    /* background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); */
+}
+
+span.btnMenu {
+    position: relative;
+    display: none;
 }
 
 .navbar-dark .navbar-text {
@@ -855,13 +836,29 @@ svg {
 }
 
 #lupa {
-    position: absolute;
-    margin: 1% 0px 0 40%;
+    height: 55px;
+    width: 55px;
+    line-height: 55px;
+    position: relative;
+    top: 14%;
+    right: -77%;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
 }
 
 #lupa2 {
-    position: absolute;
-    margin: 1% 0px 0 36%;
+    height: 55px;
+    width: 55px;
+    line-height: 55px;
+    position: relative;
+    top: 14%;
+    right: -70%;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
 }
 
 @media only screen and (max-width:30em) {
@@ -913,16 +910,21 @@ svg {
         width: 100%;
         display: initial;
     }
+    .collapse {
+        display: none;
+    }
     h2.subtitulos {
-        width: 80% !important;
+        display: flex;
+        width: 82% !important;
         height: 70px !important;
         border-left: none !important;
-        text-align: left !important;
-        font-size: 32px !important;
-        background: #2f3136 !important;
+        font-size: 29px !important;
         border-radius: 10px !important;
-        margin: 8px 0 22px 0 !important;
-        padding: 20px 0 2px 32px !important;
+        margin: 6px 0 22px 0 !important;
+        padding: 20px 0 2px 12px !important;
+    }
+    span.btnMenu {
+        display: block;
     }
     input.rigth {
         background: white;
@@ -976,7 +978,6 @@ svg {
         border-left: none !important;
         text-align: left !important;
         font-size: 32px !important;
-        background: #2f3136 !important;
         border-radius: 10px !important;
         margin: 8px 0 22px 0 !important;
         padding: 20px 0 2px 32px !important;
@@ -1026,7 +1027,6 @@ svg {
         border-left: none !important;
         text-align: left !important;
         font-size: 32px !important;
-        background: #2f3136 !important;
         border-radius: 10px !important;
         margin: 8px 0 22px 0 !important;
         padding: 20px 0 2px 32px !important;
@@ -1052,29 +1052,13 @@ svg {
         margin: 1% 0px 0 63%;
     }
     #prev {
-        position: absolute;
         margin-top: -111px;
         margin-left: 0px;
-        border: solid 5px white;
-        border-radius: 50%;
-        background-color: white;
     }
-    #prev2 {
-        position: absolute;
-        margin-top: -82px;
-        margin-left: 0px;
-        border: solid 5px white;
-        border-radius: 50%;
-        background-color: white;
-    }
+    #prev2 {}
     #next {
-        position: absolute;
         margin-top: -111px;
-        float: right;
-        margin-left: 94%;
-        border: solid 5px white;
-        border-radius: 50%;
-        background-color: white;
+        margin-left: 90%;
     }
     #next2 {
         position: absolute;

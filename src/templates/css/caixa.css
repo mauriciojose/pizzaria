@@ -6,9 +6,10 @@ body {
 .tabela {
     width: 100%;
     height: 24rem;
+    margin: 1% 2%;
     border: solid 1px;
     border-radius: 8px;
-    background: gray;
+    background: #000459;
 }
 
 .caixa {
@@ -18,7 +19,7 @@ body {
 }
 
 .logo {
-    width: 12%;
+    width: 0%;
 }
 
 div.row {
@@ -75,7 +76,7 @@ button#inserir {
 th,
 td {
     text-align: center;
-    color: black;
+    color: #f2d561;
     font-size: 1.6vw;
 }
 

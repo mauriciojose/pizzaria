@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="/templates/css/estilo.css">
+<link rel="stylesheet" href="/templates/css/teste.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<!--
+<div class="pos-f-t">
+    <div class="collapse show" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+
+            <center>
+                <div class="box-menu">
+
+                    <div class="menu-box">
+                        <ul class="menu">
+                            <li class="dropdown"><a href="/">Inicio</a></li>
+                            <li class="dropdown"><a>Cadastros</a>
+                                <ul class="dropdown-content">
+                                    <li>
+                                        <a class="a" href="/cadastros/categoria">Categorias</a>
+                                    </li>
+                                    <li>
+                                        <a class="a" href="/cadastros/medida">Medidas</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="a" href="/cadastros/produto">Produtos</a>
+                                    </li>
+                                    <li> <a class="a" href="/auth/register">Funcionarios</a>
+                                    </li>
+                                    <li>
+                                        <a class="a" href="/cadastros/mesa">Mesas</a>
+                                    </li>
+                                    <li>
+                                        <a class="a" href="/cadastros/cliente">Clientes</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a>Mesas</a>
+                                <ul class="dropdown-content">
+                                    <li>
+                                        <a href="/list/mesas">Lista</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a href="/delivery/delivery">Delivery</a></li>
+                            <li class="dropdown"><a>Relatórios</a>
+                                <ul class="dropdown-content">
+                                    <li>
+                                        <a class="a" href="">Vendas</a>
+                                    </li>
+                                    <li>
+                                        <a class="a" href="">Pagamentos</a>
+                                    </li>
+                                    <li>
+                                        <a class="a" href="">Estoque</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a href="index.html">Estoque</a></li>
+
+                        </ul>
+
+                    </div>
+                    <div class="info">
+                        <ul class="menu ul">
+                            <li class="dropdown"><a id="info" href="index.html">Informações</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+        </div>
+
+        </center>
+    </div>
+</div>
+
+<nav class="navbar navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+     
+      <span class="btnMenu"><svg xmlns="http://www.w3.org/2000/svg" width="69.3" height="49.5" viewBox="0 0 69.3 59.5">
+        <g id="Grupo_16" data-name="Grupo 16" transform="translate(-73.5 -218.5)">
+          <line id="Linha_1" data-name="Linha 1" x2="69.3" transform="translate(73.5 223.5)" fill="none" stroke="#f2c718" stroke-width="10"/>
+          <line id="Linha_2" data-name="Linha 2" x2="69.3" transform="translate(73.5 273)" fill="none" stroke="#f2c718" stroke-width="10"/>
+          <line id="Linha_3" data-name="Linha 3" x2="69.3" transform="translate(73.5 248.25)" fill="none" stroke="#f2c718" stroke-width="10"/>
+        </g>
+      </svg></span >
+    </button>
+</nav>
+</div> -->
+
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="/" class="dropdown-btn inicio">Inicio 
+    </a>
+    <button class="dropdown-btn">Cadastros 
+      </button>
+    <div class="dropdown-container">
+        <a href="/cadastros/categoria">Categoria</a>
+        <a href="/cadastros/cliente">Cliente</a>
+        <a href="/auth/register">Funcionario</a>
+        <a href="/cadastros/medida">Medidas</a>
+        <a href="/cadastros/mesa">Mesa</a>
+        <a href="/cadastros/produto">Produto</a>
+        <a href="/cadastros/pizza">Pizza</a>
+    </div>
+    <button class="dropdown-btn">Mesas 
+    </button>
+    <div class="dropdown-container">
+        <a href="/list/mesas">Lista de Mesas</a>
+        <a href="#">Cliente</a>
+
+    </div>
+    <button class="dropdown-btn">Delivery 
+</button>
+    <div class="dropdown-container">
+
+        <a href="/delivery/delivery">Lista de Pedidos</a>
+    </div>
+    <button class="dropdown-btn">Relatório 
+    </button>
+    <div class="dropdown-container">
+
+        <a href="#">Pedidos</a>
+        <a href="#">Caixa</a>
+        <a href="#">Delivery</a>
+        <a href="#">Geral</a>
+        <a href="#">Estoque</a>
+    </div>
+
+
+
+</div>
+
+<div id="main">
+    <button class="openbtn" onclick="openNav()">☰</button>

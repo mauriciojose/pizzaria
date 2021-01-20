@@ -6,124 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sistema Pizza</title>
-    <link rel="stylesheet" href="/templates/css/estilo.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-    <!------ Include the above in your HEAD tag ---------->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <!--  -->
-
-
+    <style>
+        .topnav .search-container {
+            float: right;
+        }
+        
+        .topnav input[type=text] {
+            padding: 6px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+            width: 76%;
+        }
+        
+        .topnav .search-container button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .topnav .search-container button:hover {
+            background: #ccc;
+        }
+        
+        @media screen and (max-width: 30rem) {
+            .topnav .search-container button {
+                position: relative;
+                margin-top: -35px !important;
+                margin-right: 18px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="pos-f-t">
-        <h1>Pizza Facil</h1>
-        <div class="collapse" id="navbarToggleExternalContent">
-            <div class="bg-dark p-4">
 
-                <center>
-                    <div class="box-menu">
+    <%- include('componentes/menu.ejs'); -%>
 
-                        <div class="menu-box">
-                            <ul class="menu">
-                                <li class="dropdown"><a href="list/caixas">Venda</a></li>
-                                <li class="dropdown"><a href="/">Cadastros</a>
-                                    <ul class="dropdown-content">
-                                        <li>
-                                            <a class="a" href="cadastros/categoria">Categorias</a>
-                                        </li>
-                                        <li>
-                                            <a class="a" href="cadastros/medida">Medidas</a>
-                                        </li>
 
-                                        <li>
-                                            <a class="a" href="cadastros/produto">Produtos</a>
-                                        </li>
-                                        <li> <a class="a" href="cadastro.html">Funcionarios</a>
-                                        </li>
-                                        <li>
-                                            <a class="a" href="/cadastros/mesa">Mesas</a>
-                                        </li>
-                                        <li>
-                                            <a class="a" href="/cadastros/cliente">Clientes</a>
-                                        </li>
 
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="">Mesas</a>
-                                    <ul class="dropdown-content">
-                                        <li>
-                                            <a href="/list/mesas">Lista</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="/delivery/delivery">Delivery</a></li>
-                                <li class="dropdown"><a href="delivery.html">RelatÃ³rios</a>
-                                    <ul class="dropdown-content">
-                                        <li>
-                                            <a class="a" href="">Vendas</a>
-                                        </li>
-                                        <li>
-                                            <a class="a" href="">Pagamentos</a>
-                                        </li>
-                                        <li>
-                                            <a class="a" href="">Estoque</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="index.html">Estoque</a></li>
+        <div class="container">
 
-                            </ul>
+            <!-- Inventory - START -->
+            <center>
+                <div class="topnav">
+                    <h2 class="subtitulos">Mesas
 
+                        <div class="search-container">
+                            <form action="/action_page.php">
+                                <input type="text" placeholder="Search.." name="search">
+                                <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
+                                    <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
+                                      <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
+                                        <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
+                                        <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
+                                      </g>
+                                      <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
+                                    </g>
+                                  </svg>
+                                </button>
+                            </form>
                         </div>
-                        <div class="info">
-                            <ul class="menu ul">
-                                <li class="dropdown"><a id="right" href="index.html">InformaÃ§Ãµes</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
-            </div>
-
-            </center>
+                    </h2>
+                </div>
         </div>
-    </div>
-
-    <nav class="navbar navbar-dark bg-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-    <!-- </div> -->
-    </div>
-
-
-
-    <div class="container">
-
-        <!-- Inventory - START -->
-        <center>
-            <div class="row">
-                <h2 class="subtitulos">Mesas <input type="search" class="rigth" name="" placeholder="Pesquisar" id="">
-
-                    <a href=""> <span id="lupa">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
-                        <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
-                          <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
-                            <circle cx="12.5" cy="12.5" r="12.5" stroke="none"/>
-                            <circle cx="12.5" cy="12.5" r="10.5" fill="none"/>
-                          </g>
-                          <path id="Caminho_5" data-name="Caminho 5" d="M1268.96,337.5l9.744,7.951" fill="none" stroke="#000459" stroke-width="4"/>
-                        </g>
-                      </svg>
-                    </span> </a>
-                </h2>
-            </div>
         </center>
         <br>
         <div class="container-fluid" id="inventory">
@@ -156,19 +110,19 @@
 
                 <span class="previous"><img src="/img/prev.png" width="40" alt=""></span>
             </a>
-            <a href="" id="next" role="button" data-bs-slide="next">
+            <a href="" class="next" id="next" role="button" data-bs-slide="next">
                 <span class="previous"><img src="/img/next.png" width="40" alt=""></span>
             </a>
         </div>
 
         <br><br>
-        <!-- combo -->
-        <center>
-            <div class="row">
-                <h2 class="subtitulos">Produtos
-                    <input type="search" class="rigth" name="" placeholder="Pesquisar" id="">
+        <!-- combo
+            <center>
+                <div class="row">
+                    <h2 class="subtitulos">Produtos
+                        <input type="search" class="rigth" name="" placeholder="Pesquisar" id="">
 
-                    <a href=""> <span id="lupa2">
+                        <a href=""> <span id="lupa2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
                         <g id="Grupo_18" data-name="Grupo 18" transform="translate(-1247 -318)">
                           <g id="Elipse_2" data-name="Elipse 2" transform="translate(1247 318)" fill="none" stroke="#000459" stroke-width="4">
@@ -179,56 +133,45 @@
                         </g>
                       </svg>
                     </span> </a>
-                </h2>
-            </div>
-        </center>
-        <br>
+                    </h2>
+                </div>
+            </center>
+            <br>
 
-        <div class="container-fluid" id="inventory">
-            <div class="card-container2">
-                <% for(let i=1;i<=10;i++){%>
-                    <div class="col-md-3">
+            <div class="container-fluid" id="inventory">
+                <div class="card-container2">
+                    <% for(let i=1;i<=10;i++){%>
+                        <div class="col-md-3">
 
-                        <div class="card">
-                            <center>
-                                <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
-                                <div class="card-body">
+                            <div class="card">
+                                <center>
+                                    <img class="img-fluid" src="/img/combo1.png" width="150" alt="Card image cap">
+                                    <div class="card-body">
 
-                                    <button class="btn view-btn">Produto <%=i%></button>
+                                        <button class="btn view-btn">Produto <%=i%></button>
 
-                                </div>
-                            </center>
+                                    </div>
+                                </center>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <% }%>
+                        <% }%>
 
 
 
-            </div>
-            <a href="" id="prev2" role="button" data-bs-slide="prev">
+                </div>
+                <a href="" id="prev2" role="button" data-bs-slide="prev">
 
-                <span class="previous"><img src="/img/prev.png" width="40" alt=""></span>
-            </a>
-            <a href="" id="next2" role="button" data-bs-slide="next">
-                <span class="previous"><img src="/img/next.png" width="40" alt=""></span>
-            </a>
-            <hr>
-        </div>
-    </div>
-    <div class="row">
+                    <span class="previous"><img src="/img/prev.png" width="40" alt=""></span>
+                </a>
+                <a href="" class="next" id="next2" role="button" data-bs-slide="next">
+                    <span class="previous"><img src="/img/next.png" width="40" alt=""></span>
+                </a>
+                <hr>
+            </div> -->
 
-        <div id="copyright">
-            <a href="" target="_blank">Plano de sistema</a> | <a href="" target="_blank">Link</a><br>
-            <br> Version 2.0<br> Copyright (c) 2020 <br>
-            <a href="" target="_blank"></a>
-        </div>
-    </div>
-    </div>
-    </div>
-
-
+        <%- include('componentes/rodape.ejs'); -%>
 
 </body>
 
@@ -258,6 +201,7 @@
     </div>
 </div>
 
+</div>
 <script>
     function showClickHandler(idMesa) {
         document.querySelector('#idMesa').value = idMesa;
@@ -276,7 +220,7 @@
         // console.log(data, id);
         $.ajax({
             type: 'PUT',
-            url: 'http://localhost:3000/use/mesa/' + idMesa.value,
+            url: '/use/mesa/' + idMesa.value,
             contentType: 'application/json',
             data: JSON.stringify(data), // access in body
             success: function() {

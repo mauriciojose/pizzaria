@@ -57,6 +57,9 @@ routes.get('/templates/css/delivery.css', function(req, res) {
 routes.get('/img/:name', function(req, res) {
     res.sendFile(path.resolve('src/templates/img/' + req.params.name));
 });
+routes.get('/templates/css/teste.css', function(req, res) {
+    res.sendFile(path.resolve('src/templates/css/teste.css'));
+});
 
 // ____________________________________________________________----
 routes.get('/cadastros/cliente', ClienteController.view);
@@ -86,7 +89,7 @@ routes.get('/templates/img/add.svg', function(req, res) {
 routes.get('/auth/register', AuthController.getViewRegister);
 routes.post('/auth/register', AuthController.register);
 //-------------------------------------------------------------------------\\
-
+routes.get('/auth/authenticate', AuthController.getViewRegister);
 routes.post('/auth/authenticate', AuthController.authenticate);
 
 routes.get('/auth/confirmlogin/:email/:codigoVerificador', AuthController.confirmLogin);

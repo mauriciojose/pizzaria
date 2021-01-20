@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <base href="/">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/produto.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/produto.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
@@ -15,145 +16,151 @@
     <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
 </head>
+
 <body>
-    <form class="container long"  action="/cadastros/pizza" method="POST" enctype="multipart/form-data">
-        <div class="container-form">
-            <div class="informations">
-                <header>Nova Pizza</header>
-                <main>
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="name">Nome</label>
-                            <input id="name" class='campo-texto' required name="name" type='text'>
-                        </fieldset> 
-                        <fieldset class='float-label-field trinta'>
-                            <label style="margin-bottom: 3%;" for="ativo">Ativo</label>
-                            <div class="onoffswitch">
-                                <input type="checkbox" name="ativo" class="onoffswitch-checkbox" value="true" id="myonoffswitch" tabindex="0" checked>
-                                <label class="onoffswitch-label" for="myonoffswitch">
+    <%- include('../componentes/menu.ejs'); -%>
+        <form class="container long" action="/cadastros/pizza" method="POST" enctype="multipart/form-data">
+            <div class="container-form">
+                <div class="informations">
+                    <header>Nova Pizza</header>
+                    <main>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="name">Nome</label>
+                                <input id="name" class='campo-texto' required name="name" type='text'>
+                            </fieldset>
+                            <fieldset class='float-label-field trinta'>
+                                <label style="margin-bottom: 3%;" for="ativo">Ativo</label>
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="ativo" class="onoffswitch-checkbox" value="true" id="myonoffswitch" tabindex="0" checked>
+                                    <label class="onoffswitch-label" for="myonoffswitch">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
-                            </div>
-                        </fieldset> 
-                    </div>       
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="descricao">Descrição</label>
-                            <textarea rows="3" id="descricao" class='texto' required name="descricao" type='text'></textarea>
-                        </fieldset> 
-                        <!-- <div class="clean"></div> -->
-                    </div>   
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="codigo">Código</label>
-                            <input id="codigo" value="<%=codigo%>" class='texto' required name="codigo" type='text'>
-                        </fieldset>
-                        <fieldset class='float-label-field'>
-                            <label for="refInterna">Referência Interna</label>
-                            <input id="refInterna" value="<%=codigo%>" class='texto' required name="refInterna" type='text'>
-                        </fieldset>
-                    </div>  
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="categorias">Categoria</label>
-                            <select multiple class="select2" name="categorias" id="categorias">
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="descricao">Descrição</label>
+                                <textarea rows="3" id="descricao" class='texto' required name="descricao" type='text'></textarea>
+                            </fieldset>
+                            <!-- <div class="clean"></div> -->
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="codigo">Código</label>
+                                <input id="codigo" value="<%=codigo%>" class='texto' required name="codigo" type='text'>
+                            </fieldset>
+                            <fieldset class='float-label-field'>
+                                <label for="refInterna">Referência Interna</label>
+                                <input id="refInterna" value="<%=codigo%>" class='texto' required name="refInterna" type='text'>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="categorias">Categoria</label>
+                                <select multiple class="select2" name="categorias" id="categorias">
                                 <!-- <option value="">Selecione a Categoria</option> -->
                                 <% categorias.forEach(function(categoria){ %>
                                     <option value="<%=categoria._id%>"><%=categoria.name%></option>
                                   <% }); %>
                             </select>
-                        </fieldset>
-                    </div>            
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="precoVenda">Preço de Venda</label>
-                            <input id="precoVenda" class='texto money' value="0" name="precoVenda" type='text'>
-                        </fieldset>
-                    </div>   
-                    <div class="row">
-                        <fieldset class='float-label-field'>
-                            <label for="images">Imagens</label>
-                            <input id="images" multiple class='files' name="images" type='file'>
-                        </fieldset>
-                    </div>  
-                </main>
-                <footer>
-                    <button type="submit" onclick="getModel();" class="register">Registrar</button>
-                </footer>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="precoVenda">Preço de Venda</label>
+                                <input id="precoVenda" class='texto money' value="0" name="precoVenda" type='text'>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="images">Imagens</label>
+                                <input id="images" multiple class='files' name="images" type='file'>
+                            </fieldset>
+                        </div>
+                    </main>
+                    <footer>
+                        <button type="submit" onclick="getModel();" class="register">Registrar</button>
+                    </footer>
+                </div>
             </div>
-        </div>
-    </form>
-    <script>
-
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: "Selecione as Categorias",
+        </form>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2({
+                    placeholder: "Selecione as Categorias",
+                });
+                $(".money").maskMoney({
+                    prefix: '',
+                    // allowNegative: true,
+                    thousands: '.',
+                    decimal: ',',
+                    allowZero: true,
+                    defaultZero: false
+                });
+                $('.money').each(function() { // function to apply mask on load!
+                    $(this).maskMoney('mask', $(this).val());
+                });
             });
-            $(".money").maskMoney({
-                prefix: '',
-                // allowNegative: true,
-                thousands: '.',
-                decimal: ',',
-                allowZero: true, defaultZero: false
-            });
-            $('.money').each(function(){ // function to apply mask on load!
-                $(this).maskMoney('mask', $(this).val());
-            });
-        });
-        CKEDITOR.replace( 'descricao' );
+            CKEDITOR.replace('descricao');
 
-        let checkeds = document.querySelectorAll('input[type=checkbox]');
+            let checkeds = document.querySelectorAll('input[type=checkbox]');
 
-        for (let index = 0; index < checkeds.length; index++) {
-            const element = checkeds[index];
-            element.onclick = function() {
-                this.value = this.checked;
+            for (let index = 0; index < checkeds.length; index++) {
+                const element = checkeds[index];
+                element.onclick = function() {
+                    this.value = this.checked;
+                }
             }
-        }
 
-        // let fields = document.querySelectorAll('form fieldset.float-label-field');
-        // for (let index = 0; index < fields.length; index++) {
-        //     const field = fields[index];
-        //     const input = field.querySelector('input');
-        //     input.onfocus = ()=>{
-        //         field.classList.add('float');
-        //         field.classList.add('focus');
-        //     };
-        //     input.onblur = ()=>{
-        //         field.classList.remove('focus');
-        //         if (!input.value) {
-        //             field.classList.remove('float');
-        //         }
-        //     };
-        // }
+            // let fields = document.querySelectorAll('form fieldset.float-label-field');
+            // for (let index = 0; index < fields.length; index++) {
+            //     const field = fields[index];
+            //     const input = field.querySelector('input');
+            //     input.onfocus = ()=>{
+            //         field.classList.add('float');
+            //         field.classList.add('focus');
+            //     };
+            //     input.onblur = ()=>{
+            //         field.classList.remove('focus');
+            //         if (!input.value) {
+            //             field.classList.remove('float');
+            //         }
+            //     };
+            // }
 
-        function getModel(){
-            let model = {};
-            let inputs = document.querySelectorAll('input.campo-texto');
-            addProprietie(inputs,model);
-            let selects = document.querySelectorAll('select');
-            addProprietie(selects,model);
-            console.log(model);
-        }
-        function addProprietie(objetos,model) {
-            for (let index = 0; index < objetos.length; index++) {
-                const objeto = objetos[index];
-                validate(objeto);
-                model[objeto.getAttribute('name')] = objeto.value; 
+            function getModel() {
+                let model = {};
+                let inputs = document.querySelectorAll('input.campo-texto');
+                addProprietie(inputs, model);
+                let selects = document.querySelectorAll('select');
+                addProprietie(selects, model);
+                console.log(model);
             }
-        }
-        function validate(input){
-            if (input.hasAttribute('required') && input.value == "") {
-                input.style.borderColor='red';
-                console.log(`label[for=${input.getAttribute('name')}]`);
-                let label = document.querySelector(`label[for=${input.getAttribute('name')}]`);
-                label.style.color='red';
-                return true;
-            } else {
-                return false;
+
+            function addProprietie(objetos, model) {
+                for (let index = 0; index < objetos.length; index++) {
+                    const objeto = objetos[index];
+                    validate(objeto);
+                    model[objeto.getAttribute('name')] = objeto.value;
+                }
             }
-        }
-    </script>
+
+            function validate(input) {
+                if (input.hasAttribute('required') && input.value == "") {
+                    input.style.borderColor = 'red';
+                    console.log(`label[for=${input.getAttribute('name')}]`);
+                    let label = document.querySelector(`label[for=${input.getAttribute('name')}]`);
+                    label.style.color = 'red';
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+        <%- include('../componentes/rodape.ejs'); -%>
 </body>
+
 </html>

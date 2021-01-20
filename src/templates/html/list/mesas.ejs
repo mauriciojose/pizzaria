@@ -1,159 +1,174 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesas</title>
     <base href="/">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/produto.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/produto.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-        label{
+        label {
             color: black !important;
         }
-        input{
+        
+        input {
             background-color: white !important;
             color: black !important;
         }
     </style>
 </head>
+
 <body>
-    <div class="container1">
-        <div class="container-form">
-            <div id="#responsive" class="itens">
-                <table id="#responsive">
-                    <thead>
-                        <th>CÃ³digo</th>
-                        <th>DescriÃ§Ã£o</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Usando</th>
-                        <th style="width: 35%;">AÃ§Ãµes</th>
-            
-                    </thead>
-                    <tbody>
-                        <% mesas.forEach(function(mesa){ %>
-                            <tr style="cursor: pointer;" id="<%=mesa._id%>">
-                                <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.codigo%></td>
-                                <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=mesa.name%></td>
-                                <td class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.ativo) ? "ativo":"inativo"%></td>
-                                <td id="usando" class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'><%=(mesa.tipo==0) ? "NÃ£o":"Sim"%></td>
-                                <td id="acoes">
-                                    <%if(mesa.tipo==0){%>
-                                        <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="select" data-translate="start">Usar</button></span>
-                                    <%}else{%>
-                                    <span><button id="" class="select" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
-                                    <%}%>
-                                    <button id="" class="select" data-translate="start">Editar</button>
-                                    <button id="" class="select" data-translate="start">Desativar</button>
-                                </td>
-                            </tr>
-                          <% }); %>
-                    </tbody>
-                </table>
+    <%- include('../componentes/menu.ejs'); -%>
+        <div class="container1">
+            <div class="container-form">
+                <div id="#responsive" class="itens">
+                    <table id="#responsive">
+                        <thead>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Usando</th>
+                            <th style="width: 35%;">Ações</th>
+
+                        </thead>
+                        <tbody>
+                            <% mesas.forEach(function(mesa){ %>
+                                <tr style="cursor: pointer;" id="<%=mesa._id%>">
+                                    <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
+                                        <%=mesa.codigo%>
+                                    </td>
+                                    <td class='clickable-row' data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
+                                        <%=mesa.name%>
+                                    </td>
+                                    <td class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
+                                        <%=(mesa.ativo) ? "ativo":"inativo"%>
+                                    </td>
+                                    <td id="usando" class="text-center clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
+                                        <%=(mesa.tipo==0) ? "Não":"Sim"%>
+                                    </td>
+                                    <td id="acoes">
+                                        <%if(mesa.tipo==0){%>
+                                            <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="select" data-translate="start">Usar</button></span>
+                                            <%}else{%>
+                                                <span><button id="" class="select" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
+                                                <%}%>
+                                                    <button id="" class="select" data-translate="start">Editar</button>
+                                                    <button id="" class="select" data-translate="start">Desativar</button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <dialog class="mdl-dialog" id="modal-example">
-        <input type="hidden" id="idMesa">
-        <div class="mdl-dialog__content">
-            <div class="row">
-                <fieldset class='float-label-field'>
-                    <label for="name">Cliente</label>
-                    <input style="width: 100% !important;" id="name" class='texto' required name="name" type='text'>
-                </fieldset>
-            </div>  
-        </div>
-        <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-            <div class="container-button left">
-                <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
+        <dialog class="mdl-dialog" id="modal-example">
+            <input type="hidden" id="idMesa">
+            <div class="mdl-dialog__content">
+                <div class="row">
+                    <fieldset class='float-label-field'>
+                        <label for="name">Cliente</label>
+                        <input style="width: 100% !important;" id="name" class='texto' required name="name" type='text'>
+                    </fieldset>
+                </div>
             </div>
-            <div class="container-button right">
-                <button type="button" onclick="usarMesa();" class="mdl-button">Usar</button>
+            <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                <div class="container-button left">
+                    <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
+                </div>
+                <div class="container-button right">
+                    <button type="button" onclick="usarMesa();" class="mdl-button">Usar</button>
+                </div>
             </div>
-        </div>
-    </dialog>
+        </dialog>
 
-    <script>
-
-        $(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                if ($(this).data("tipo") == 1) {
-                    window.location = $(this).data("href");
-                }
+        <script>
+            $(document).ready(function($) {
+                $(".clickable-row").click(function() {
+                    if ($(this).data("tipo") == 1) {
+                        window.location = $(this).data("href");
+                    }
+                });
             });
-        });
 
-        var dialog = document.querySelector('#modal-example');
-        if (! dialog.showModal) {
-            dialogPolyfill.registerDialog(dialog);
-        }
-        function closeClickHandler() {
-            dialog.close();
-        };
-        function showClickHandler(idMesa) {
-            dialog.querySelector('#idMesa').value = idMesa;
-            dialog.showModal();
-        };
+            var dialog = document.querySelector('#modal-example');
+            if (!dialog.showModal) {
+                dialogPolyfill.registerDialog(dialog);
+            }
 
-        function fecharMesa(idMesa){
-            $.ajax({
-                type: 'PUT',
-                url: 'http://localhost:3000/close/mesa/'+idMesa,
-                contentType: 'application/json',
-                data: JSON.stringify({}), // access in body
-            }).done(function (data) {
-                $('#'+idMesa+' td#usando').text('NÃ£o');
-                $('#'+idMesa+' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
-                let tr = document.getElementById(''+idMesa);
-                let clickables = tr.querySelectorAll('.clickable-row');
-                for (let index = 0; index < clickables.length; index++) {
-                    const element = clickables[index];
-                    element.setAttribute("data-href",``);
-                    element.setAttribute("data-tipo",0);
-                }
+            function closeClickHandler() {
                 dialog.close();
-            }).fail(function (msg) {
-                console.log('FAIL');
-            }).always(function (msg) {
-                console.log('ALWAYS');
-            });
-        }
-
-        function usarMesa(){
-            let idMesa = document.querySelector('#idMesa');
-            let name = document.querySelector('#name');
-            let data = {
-                cliente: name.value,
-                mesa:idMesa.value
             };
 
-            $.ajax({
-                type: 'PUT',
-                url: 'http://localhost:3000/use/mesa/'+idMesa.value,
-                contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
-            }).done(function (data) {
-                $('#'+idMesa.value+' td#usando').text('Sim');
-                $('#'+idMesa.value+' td#acoes span').html(`<button id="" class="select" onclick="fecharMesa('${idMesa.value}');" data-translate="start">Fechar</button>`);
-                let tr = document.getElementById(''+idMesa.value);
-                let clickables = tr.querySelectorAll('.clickable-row');
-                for (let index = 0; index < clickables.length; index++) {
-                    const element = clickables[index];
-                    element.setAttribute("data-href",`/financeiro/caixa/${data._id}`);
-                    element.setAttribute("data-tipo",1);
-                }
-                dialog.close();
-            }).fail(function (msg) {
-                console.log('FAIL');
-            }).always(function (msg) {
-                console.log('ALWAYS');
-            });
-        }
-    </script>
+            function showClickHandler(idMesa) {
+                dialog.querySelector('#idMesa').value = idMesa;
+                dialog.showModal();
+            };
+
+            function fecharMesa(idMesa) {
+                $.ajax({
+                    type: 'PUT',
+                    url: '/close/mesa/' + idMesa,
+                    contentType: 'application/json',
+                    data: JSON.stringify({}), // access in body
+                }).done(function(data) {
+                    $('#' + idMesa + ' td#usando').text('NÃ£o');
+                    $('#' + idMesa + ' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
+                    let tr = document.getElementById('' + idMesa);
+                    let clickables = tr.querySelectorAll('.clickable-row');
+                    for (let index = 0; index < clickables.length; index++) {
+                        const element = clickables[index];
+                        element.setAttribute("data-href", ``);
+                        element.setAttribute("data-tipo", 0);
+                    }
+                    dialog.close();
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                }).always(function(msg) {
+                    console.log('ALWAYS');
+                });
+            }
+
+            function usarMesa() {
+                let idMesa = document.querySelector('#idMesa');
+                let name = document.querySelector('#name');
+                let data = {
+                    cliente: name.value,
+                    mesa: idMesa.value
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/use/mesa/' + idMesa.value,
+                    contentType: 'application/json',
+                    data: JSON.stringify(data), // access in body
+                }).done(function(data) {
+                    $('#' + idMesa.value + ' td#usando').text('Sim');
+                    $('#' + idMesa.value + ' td#acoes span').html(`<button id="" class="select" onclick="fecharMesa('${idMesa.value}');" data-translate="start">Fechar</button>`);
+                    let tr = document.getElementById('' + idMesa.value);
+                    let clickables = tr.querySelectorAll('.clickable-row');
+                    for (let index = 0; index < clickables.length; index++) {
+                        const element = clickables[index];
+                        element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
+                        element.setAttribute("data-tipo", 1);
+                    }
+                    dialog.close();
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                }).always(function(msg) {
+                    console.log('ALWAYS');
+                });
+            }
+        </script>
+        <%- include('../componentes/rodape.ejs'); -%>
 
 </body>
+
 </html>

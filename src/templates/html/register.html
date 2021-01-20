@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <base href="/">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/register.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/register.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
 </head>
+
 <body>
-    <form class="container"  action="/auth/register" method="POST">
+    <form class="container" action="/auth/register" method="POST">
         <div class="container-form">
             <div class="avatar">
 
@@ -20,19 +22,19 @@
                     <fieldset class='float-label-field'>
                         <label for="name">Nome</label>
                         <input id="name" class='campo-texto' required name="name" type='text'>
-                    </fieldset>   
+                    </fieldset>
                     <fieldset class='float-label-field'>
                         <label for="email">E-mail</label>
                         <input id="email" class='campo-texto' required name="email" type='email'>
-                    </fieldset>  
+                    </fieldset>
                     <fieldset class='float-label-field'>
                         <label for="celular">Celular</label>
                         <input id="celular" class='campo-texto' required name="celular" type='celular'>
-                    </fieldset>  
+                    </fieldset>
                     <fieldset class='float-label-field'>
                         <label for="password">Senha</label>
                         <input id="password" class='campo-texto' required name="password" type='password'>
-                    </fieldset>                      
+                    </fieldset>
                 </main>
                 <footer>
                     <button type="submit" onclick="getModel();" class="register">Registrar</button>
@@ -41,16 +43,15 @@
         </div>
     </form>
     <script>
-
         let fields = document.querySelectorAll('form fieldset.float-label-field');
         for (let index = 0; index < fields.length; index++) {
             const field = fields[index];
             const input = field.querySelector('input');
-            input.onfocus = ()=>{
+            input.onfocus = () => {
                 field.classList.add('float');
                 field.classList.add('focus');
             };
-            input.onblur = ()=>{
+            input.onblur = () => {
                 field.classList.remove('focus');
                 if (!input.value) {
                     field.classList.remove('float');
@@ -58,27 +59,29 @@
             };
         }
 
-        function getModel(){
+        function getModel() {
             let model = {};
             let inputs = document.querySelectorAll('input.campo-texto');
-            addProprietie(inputs,model);
+            addProprietie(inputs, model);
             let selects = document.querySelectorAll('select');
-            addProprietie(selects,model);
+            addProprietie(selects, model);
             console.log(model);
         }
-        function addProprietie(objetos,model) {
+
+        function addProprietie(objetos, model) {
             for (let index = 0; index < objetos.length; index++) {
                 const objeto = objetos[index];
                 validate(objeto);
-                model[objeto.getAttribute('name')] = objeto.value; 
+                model[objeto.getAttribute('name')] = objeto.value;
             }
         }
-        function validate(input){
+
+        function validate(input) {
             if (input.hasAttribute('required') && input.value == "") {
-                input.style.borderColor='red';
+                input.style.borderColor = 'red';
                 console.log(`label[for=${input.getAttribute('name')}]`);
                 let label = document.querySelector(`label[for=${input.getAttribute('name')}]`);
-                label.style.color='red';
+                label.style.color = 'red';
                 return true;
             } else {
                 return false;
@@ -86,4 +89,5 @@
         }
     </script>
 </body>
+
 </html>

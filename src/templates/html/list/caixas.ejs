@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caixas</title>
     <base href="/">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/liststyle.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/global.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/templates/css/produto.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/produto.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -24,56 +24,57 @@
 </head>
 
 <body>
-    <div class="container1">
-        <div class="container-form">
-            <div id="#responsive" class="itens">
-                <table id="#responsive">
-                    <thead>
-                        <th>Código</th>
-                        <th>Cliente</th>
-                        <th>Mesa</th>
-                        <th class="text-center">Inicio</th>
-                        <th class="text-center">Fim</th>
-                        <th class="text-center">Status</th>
+    <%- include('../componentes/menu.ejs'); -%>
+        <div class="container1">
+            <div class="container-form">
+                <div id="#responsive" class="itens">
+                    <table id="#responsive">
+                        <thead>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Mesa</th>
+                            <th class="text-center">Inicio</th>
+                            <th class="text-center">Fim</th>
+                            <th class="text-center">Status</th>
 
-                    </thead>
-                    <tbody>
-                        <% caixas.forEach(function(caixa){ %>
-                            <tr class='clickable-row' data-href='<%="/financeiro/caixas/"+caixa._id%>' style="cursor: pointer;" id="<%=caixa._id%>">
-                                <td>
-                                    <%=caixa._id%>
-                                </td>
-                                <td>
-                                    <%=caixa.cliente%>
-                                </td>
-                                <td>
-                                    <%=caixa.mesa.name%>
-                                </td>
-                                <td class="text-center">
-                                    <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>
-                                </td>
-                                <td class="text-center">
-                                    <%=(typeof caixa.dateClose=='undefined') ? '' : caixa.dateClose.getDate()+'/'+(caixa.dateClose.getMonth()+1)+'/'+caixa.dateClose.getFullYear()%>
-                                </td>
-                                <td class="text-center">
-                                    <%=(caixa.status==0) ? 'Aberto' : 'Fechado'%>
-                                </td>
-                            </tr>
-                            <% }); %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <% caixas.forEach(function(caixa){ %>
+                                <tr class='clickable-row' data-href='<%="/financeiro/caixas/"+caixa._id%>' style="cursor: pointer;" id="<%=caixa._id%>">
+                                    <td>
+                                        <%=caixa._id%>
+                                    </td>
+                                    <td>
+                                        <%=caixa.cliente%>
+                                    </td>
+                                    <td>
+                                        <%=caixa.mesa.name%>
+                                    </td>
+                                    <td class="text-center">
+                                        <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>
+                                    </td>
+                                    <td class="text-center">
+                                        <%=(typeof caixa.dateClose=='undefined') ? '' : caixa.dateClose.getDate()+'/'+(caixa.dateClose.getMonth()+1)+'/'+caixa.dateClose.getFullYear()%>
+                                    </td>
+                                    <td class="text-center">
+                                        <%=(caixa.status==0) ? 'Aberto' : 'Fechado'%>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
+        <script>
+            $(document).ready(function($) {
+                $(".clickable-row").click(function() {
+                    window.location = $(this).data("href");
+                });
             });
-        });
-    </script>
-
+        </script>
+        <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>

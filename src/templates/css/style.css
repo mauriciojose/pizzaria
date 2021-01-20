@@ -4,7 +4,7 @@ img {
 }
 
 body {
-    background: #36393e;
+    background: #fff4c6;
     color: #bfbfbf;
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
@@ -38,6 +38,9 @@ table {
 
 label {
     line-height: 38px;
+    font-size: 35px;
+    font-weight: bolder;
+    color: #000459;
 }
 
 p {

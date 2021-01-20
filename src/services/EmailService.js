@@ -4,10 +4,10 @@ const configuration = require('../configuration/ConfigurationEmail.json');
 const templatesEmails = require('../templates/EmailsTemplates');
 
 module.exports = {
-    async sendMail(email,codigo){
+    async sendMail(email, codigo) {
         try {
 
-            return new Promise((resolve,reject)=>{
+            return new Promise((resolve, reject) => {
                 var transporter = nodemailer.createTransport({
                     service: configuration.service,
                     auth: {
@@ -23,10 +23,10 @@ module.exports = {
                     to: destinatario,
                     subject: configuration.typeCreateUser.subject,
                     text: "",
-                    html: templatesEmails.templateUm(`http://localhost:3000/auth/confirmlogin/${email}/${codigo}`)
+                    html: templatesEmails.templateUm(`/auth/confirmlogin/${email}/${codigo}`)
                 }
 
-                transporter.sendMail(mailOptions, function(error, info){
+                transporter.sendMail(mailOptions, function(error, info) {
                     if (error) {
                         resolve({
                             status: 400,
