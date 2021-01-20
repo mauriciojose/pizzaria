@@ -12,7 +12,7 @@ module.exports = {
             console.log(caixa);
             if (err) { return res.status(500).json({error: "ID INVALID"}); }
             res.render(path.resolve('src/templates/html/cadastros/caixa'),{
-                idMesa: caixa.mesa._id,
+                idMesa: typeof caixa.mesa === 'undefined' ? '' : caixa.mesa._id,
                 idCaixa: caixa._id,
                 produtos: caixa.produtos
             });
