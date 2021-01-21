@@ -70,6 +70,10 @@ routes.post('/cadastros/cliente', ClienteController.create);
 routes.get('/templates/css/global.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/global.css'));
 });
+routes.get('/templates/css/card.css', function(req, res) {
+    res.sendFile(path.resolve('src/templates/css/card.css'));
+});
+
 routes.get('/templates/css/register.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/register.css'));
 });
