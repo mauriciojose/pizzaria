@@ -98,10 +98,28 @@
                     <div style="padding-top: 34px;"><button type="submit" id="inserir">Inserir</button></div>
                 </div>
             </div>-->
-            <div style="display: flex;margin-left: 8%;margin-top: 2%;">
-                <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
-            </div>
+            <div class="row" style="display: inline-flex;">
+                <div style="display: flex;margin-left: 8%;margin-top: 2%;">
+                    <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
 
+                </div>
+                <div style="display: block;margin-top: 2%;">
+                    <label>&nbsp;
+                        <button class="input green">Imprimir</button></label>
+                </div>
+                <div style="display: block;margin-top: 2%;">
+                    <label>&nbsp;
+                        <%if(status==0){%>
+                        <% if(idMesa==''){%>
+                        <button class="input green" onclick="FinalizarPedido('<%=idCaixa%>');">Finalizar</button></label>
+                    <% }else{%>
+                        <button class="input green" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
+                        <% } }%>
+
+                </div>
+
+
+            </div>
 
             <!-- </form> -->
             <a href="/list/categorias/<%=idCaixa%>">
@@ -110,11 +128,9 @@
                 </div>
             </a>
         </div>
-        <div class="info">
-            <center>
-                <p>Usuario: Nome Usuario inserir-f10 cancelar- f9 finalizar-f5</p>
-            </center>
-        </div>
+        <!-- <div class="info">
+
+        </div> -->
 
         <dialog class="mdl-dialog" id="modal-example">
             <input type="hidden" id="idMesa">
@@ -286,6 +302,35 @@ document.oncontextmenu = new Function('return false;');*/
         let text = document.createTextNode(value);
         td.appendChild(text);
         return td;
+    }
+
+    function FinalizarPedido(idCaixa) {
+
+        $.ajax({
+            method: 'PUT',
+            url: "/delivery/finalizar/" + idCaixa,
+            data: {
+                caixa: idCaixa,
+            },
+            success: function() {
+                window.location.href = "/delivery/delivery";
+            }
+        })
+    }
+
+    function fecharMesa(idMesa) {
+        $.ajax({
+            type: 'PUT',
+            url: '/close/mesa/' + idMesa,
+            contentType: 'application/json',
+            data: JSON.stringify({}), // access in body
+        }).done(function(data) {
+            window.location.href = "/list/mesas";
+        }).fail(function(msg) {
+            console.log('FAIL');
+        }).always(function(msg) {
+            console.log('ALWAYS');
+        });
     }
 </script>
 

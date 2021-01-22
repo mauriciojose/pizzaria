@@ -57,7 +57,7 @@ module.exports = {
                 caixa.dateClose = Date.now();
                 caixa.status = 1;
                 await Caixa.update({ _id: caixa._id }, caixa);
-
+                return res.json(caixa);
             });
 
         } catch (error) {
