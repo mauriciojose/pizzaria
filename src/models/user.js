@@ -15,10 +15,20 @@ const UserSchema = new mongoose.Schema({
         require: true,
         lowercase: true,
     },
+    celular: {
+        type: String,
+        unique: true,
+        require: true,
+        lowercase: true,
+    },
     password: {
         type: String,
         required: true,
         select: false,
+    },
+    tipo: {
+        type: Number,
+        default: 2
     },
     createdAt: {
         type: Date,

@@ -6,12 +6,16 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const cookieParser = require('cookie-parser');
+
 app.use(
     queryParser({
       parseNull: true,
       parseBoolean: true
     })
 );
+
+app.use(cookieParser());
 
 const port = process.env.PORT || 3000;
 

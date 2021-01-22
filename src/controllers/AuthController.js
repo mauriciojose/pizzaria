@@ -17,31 +17,38 @@ var path = require('path');
 
 module.exports = {
     async getViewRegister(req, res) {
-        res.setHeader('Content-Type', 'text/html');
-        res.sendFile(path.resolve('src/templates/html/register.html'));
+        // res.setHeader('Content-Type', 'text/html');
+        // res.sendFile(path.resolve('src/templates/html/register'));
+        res.render(path.resolve('src/templates/html/register'), { tipo: req.params.id });
+    },
+    async getViewAuthenticate(req, res){
+        // await User.remove();
+        res.render(path.resolve('src/templates/html/register/login'));
     },
     async register(req, res) {
 
         console.log(req.body);
 
-        const { email } = req.body;
+        const { celular } = req.body;
         try {
 
-            if (await User.findOne({ email })) {
+            if (await User.findOne({ celular })) {
                 return res.status(400).json({ error: 'User already exists' });
             }
 
+            req.body.isChecked = true;
             let user = await User.create(req.body);
 
             user.password = undefined;
             user.createdAt = undefined;
             user.isChecked = undefined;
-
+            /*
             const sendEmail = await EmailService.sendMail(user.email, user.codigoVerificador);
 
             user.codigoVerificador = undefined;
 
             user.statusEmail = sendEmail.status;
+            */
 
             upload(req, res, function(err) {
                 if (err instanceof multer.MulterError) {
@@ -53,6 +60,7 @@ module.exports = {
             });
 
         } catch (error) {
+            console.log(error);
             return res.status(400).json({ error: error });
         }
     },
@@ -62,9 +70,9 @@ module.exports = {
         return res.json(SongSchema);
     },
     async authenticate(req, res) {
-        const { email, password } = req.body;
+        const { celular, password } = req.body;
 
-        const user = await User.findOne({ email }).select('+password');
+        const user = await User.findOne({ celular }).select('+password');
 
         if (!user)
             return res.status(400).send({ error: 'User not found' });
@@ -83,7 +91,10 @@ module.exports = {
             expiresIn: 86400
         });
 
-        res.send({ user, token });
+        res.cookie ('authcookie', token, {maxAge: 86400, httpOnly: true});
+
+        // res.send({ user, token });
+        res.redirect('/');
     },
     async confirmLogin(req, res) {
         const { email, codigoVerificador } = req.params;
