@@ -1,6 +1,6 @@
 
 :root {
-    --color-primary: #282828;
+    --color-primary: #fff4c6;
     --color-secundary: #202225;
     --color-intermed: #36393f;
 }
@@ -23,7 +23,7 @@ div.long{
 body div.container1 div.container-form{
     width: 90%;
     min-height: 90%;
-    background-color: var(--color-secundary);
+    background-color: var(--color-primary);
     border-radius: 5px;
     box-shadow: 0px 0px 35px black;
     display: flex;
@@ -45,7 +45,7 @@ img {
 }
 
 body {
-    background: #36393e !important;
+    /* background: #36393e !important; */
     color: #bfbfbf !important;
     font-family: 'Courier New', Courier, monospace !important;
     margin: 0 !important;
@@ -424,7 +424,7 @@ button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover {
-    background: #42444a;
+    /* background: #42444a; */
 }
 
 button:active,

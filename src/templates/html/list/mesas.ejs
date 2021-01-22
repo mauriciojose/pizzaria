@@ -12,7 +12,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
-
+        .clickable-row{
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -26,7 +28,7 @@
                         <ul class="cards">
                             <% mesas.forEach(function(mesa){ %>
                                 <li class="cards_item">
-                                    <div class="card">
+                                    <div class="card clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
                                         <div class="card_image"><img style="width: 75%;" src="/img/combo1.png"></div>
                                         <div class="card_content">
                                             <h1 class="card_title">

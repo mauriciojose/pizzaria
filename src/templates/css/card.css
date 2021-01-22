@@ -53,6 +53,7 @@ img {
     display: flex !important;
     padding: 1rem !important;
     width: 100% !important;
+    transition: 0.3s padding ease-out, 0.3s margin ease-out, 0.3s border ease-out;
 }
 
 @media (min-width: 40rem) {
@@ -70,16 +71,29 @@ img {
 .card {
     background-color: white !important;
     border-radius: 0.25rem !important;
-    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 20px 40px -14px rgba(0, 4, 89, 3) !important;
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
     width: 100% !important;
+    cursor: pointer;
+}
+
+.cards_item:hover { 
+    transition: 0.3s padding ease-in, 0.3s margin ease-in, 0.3s border ease-in;
+    /* opacity: 0; */
+    padding: 0 !important;
+}
+
+.card_btn:nth-child(n+2) {
+    margin-top: 3px;
 }
 
 .card_content {
+    height: 100%;
     padding: 1rem !important;
-    background: linear-gradient(to bottom left, #EF8D9C 40%, #FFC39E 100%) !important;
+    background: linear-gradient(to bottom left, #000459 40%, #1118a6 100%) !important;
+    /* background: #000459; */
 }
 
 .card_title {

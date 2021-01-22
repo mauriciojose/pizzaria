@@ -1,3 +1,6 @@
+body{
+    font-family: 'Century Gothic', Courier, monospace !important;
+}
 .sidebar {
     height: 100%;
     width: 0;
@@ -43,7 +46,7 @@
 }
 
 .openbtn:hover {
-    background-color: #444;
+    /* background-color: #444; */
 }
 
 #main {
@@ -88,4 +91,7 @@ a.dropdown-btn.inicio {
     text-align: left;
     cursor: pointer;
     outline: none;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
 }

@@ -124,7 +124,7 @@ div.clean {
 fieldset.float-label-field {
     width: 100%;
     display: grid;
-    color: white;
+    color: #000459;
     border: 0 solid black;
 }
 
