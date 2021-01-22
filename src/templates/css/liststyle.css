@@ -1,11 +1,10 @@
-
 :root {
     --color-primary: #fff4c6;
-    --color-secundary: #202225;
-    --color-intermed: #36393f;
+    --color-secundary: #fff4c6;
+    --color-intermed: #fff4c6;
 }
 
-body div.container1{
+body div.container1 {
     width: 100%;
     height: 100vh;
     /* padding: 27% 0; */
@@ -15,12 +14,12 @@ body div.container1{
     justify-content: center;
 }
 
-div.long{
+div.long {
     height: auto !important;
     padding: 2% 0 !important;
 }
 
-body div.container1 div.container-form{
+body div.container1 div.container-form {
     width: 90%;
     min-height: 90%;
     background-color: var(--color-primary);
@@ -30,14 +29,13 @@ body div.container1 div.container-form{
     padding: 2% 3%;
 }
 
-div.itens{
+div.itens {
     width: 100%;
 }
 
-.text-center{
+.text-center {
     text-align: center !important;
 }
-
 
 img {
     max-width: 100%;
