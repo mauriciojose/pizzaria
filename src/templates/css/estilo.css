@@ -10,27 +10,6 @@ body {
     margin: 0 !important;
 }
 
-h1 {
-    font-size: 1.7rem;
-    margin-top: 1rem;
-    /* background: #a68911; */
-    color: #000459;
-    padding: 0.2em 1em;
-    border-radius: 3px;
-    border-left: solid transparent 5px;
-    font-weight: 100;
-}
-
-h2 {
-    font-size: 1.1rem;
-    margin-top: 1rem;
-    color: #000459;
-    padding: 0.4em 1.8em;
-    border-radius: 3px;
-    /* border-left: solid #4974a9 5px; */
-    font-weight: 100;
-}
-
 table {
     border-collapse: collapse;
 }
