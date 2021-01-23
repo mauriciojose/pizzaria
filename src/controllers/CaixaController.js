@@ -72,14 +72,27 @@ module.exports = {
     async getAllView(req, res) {
         // await Mesa.remove();
         await Caixa.find({}, (err, caixas) => {
+            let totalGeral = 0;
+            for (let index = 0; index < caixas.length; index++) {
+                const element = caixas[index];
+                element.total = element.produtos.reduce((sum, produto) => {
+                    //console.log(parseFloat(produto.valorUnitario));
+                    return produto.pizzas.length > 0 ? Math.round(sum + (parseFloat(produto.valorUnitario)), 2) : Math.round(sum + (parseFloat(produto.valorUnitario) * produto.quantidade), 2);
+                }, 0);
+                totalGeral += element.total;
+            }
             res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
             res.render(path.resolve('src/templates/html/list/caixas'), {
                 "cache": false,
+                idMesa: typeof caixas.mesa === 'undefined' ? '' : caixas.mesa._id,
+                mesa: typeof caixas.mesa === 'undefined' ? '' : caixas.mesa.name,
+                total: totalGeral,
                 caixas: caixas
+
             });
         }).populate('mesa').sort([
             ['dateOpen', 'descending']
-        ]);
+        ]).populate('produtos').populate('client');
     },
     async getItensView(req, res) {
         await Caixa.findById(req.params.id, (err, caixa) => {

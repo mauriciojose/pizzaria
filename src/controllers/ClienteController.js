@@ -12,10 +12,12 @@ module.exports = {
     async view(req, res) {
         // await Produto.remove();
         // await Codigo.remove();
+        let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         // console.log(codigo);
         codigo = (codigo.length > 0) ? codigo[0].cliente + 1 : 0;
         res.render(path.resolve('src/templates/html/cadastros/cliente'), {
+            situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" },
             codigo: Functions.completeZeroLeft(codigo),
         });
     },
@@ -28,9 +30,10 @@ module.exports = {
             codigo.cliente = codigo.cliente + 1;
             await Codigo.update(codigo);
 
-            return res.json({ cliente });
+            res.redirect('/cadastros/cliente?success=1');
         } catch (error) {
             return res.status(400).json({ error: error });
+
         }
     },
     async getAll(req, res) {

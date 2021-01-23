@@ -8,7 +8,8 @@
     <base href="/">
     <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
     <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
-    <link rel="stylesheet" type="text/css" href="/templates/css/produto.css">
+
+    <link rel="stylesheet" type="text/css" href="/templates/css/caixa.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -20,49 +21,93 @@
             background-color: white !important;
             color: black !important;
         }
+        
+        body div.container1 {
+            height: 100% !important;
+        }
+        
+        table {
+            min-width: 100% !important;
+        }
+        
+        .form {
+            display: inherit !important;
+        }
     </style>
 </head>
 
 <body>
     <%- include('../componentes/menu.ejs'); -%>
+
         <div class="container1">
             <div class="container-form">
+                <form action="" method="post">
+                    <div class="form">
+                        <label for="">De
+                        <input type="date" name="" id=""></label>
+                        <label> até
+                        <input type="date" name="" id=""></label>
+                        <label>&nbsp;
+
+                        <button class="btn btn-success">Buscar</button></label>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="container1">
+            <div class="container-form">
+
+
+                <br>
                 <div id="#responsive" class="itens">
-                    <table id="#responsive">
+                    <table id="listItens">
                         <thead>
-                            <th>Código</th>
+
                             <th>Cliente</th>
-                            <th>Mesa</th>
-                            <th class="text-center">Inicio</th>
-                            <th class="text-center">Fim</th>
+                            <th class="text-center">Entrada</th>
                             <th class="text-center">Status</th>
+                            <th>Valor</th>
 
                         </thead>
                         <tbody>
                             <% caixas.forEach(function(caixa){ %>
+
                                 <tr class='clickable-row' data-href='<%="/financeiro/caixas/"+caixa._id%>' style="cursor: pointer;" id="<%=caixa._id%>">
+
                                     <td>
-                                        <%=caixa._id%>
+                                        <% if(caixa.isDelivery){%>
+                                            <%=caixa.client.name%>
+                                                <%}else{%>
+                                                    <%=caixa.mesa.name%>
+                                                        <%}%>
                                     </td>
-                                    <td>
-                                        <%=caixa.cliente%>
-                                    </td>
-                                    <td>
-                                        <%=caixa.mesa.name%>
-                                    </td>
+
+
                                     <td class="text-center">
-                                        <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>
-                                    </td>
-                                    <td class="text-center">
-                                        <%=(typeof caixa.dateClose=='undefined') ? '' : caixa.dateClose.getDate()+'/'+(caixa.dateClose.getMonth()+1)+'/'+caixa.dateClose.getFullYear()%>
+                                        <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear() +' '+(caixa.dateOpen.getHours())+':'+(caixa.dateOpen.getMinutes())%>
                                     </td>
                                     <td class="text-center">
                                         <%=(caixa.status==0) ? 'Aberto' : 'Fechado'%>
                                     </td>
+                                    <td>R$:
+                                        <%=caixa.total%>
+
+                                    </td>
+
                                 </tr>
                                 <% }); %>
+                                    <tr>
+                                        <td colspan="2">Total de Itens:
+                                            <%=total%>
+                                        </td>
+                                        <td colspan="2"> Valor Total:R$
+                                            <%=' '+total%>
+                                        </td>
+                                    </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>

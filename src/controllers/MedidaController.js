@@ -6,49 +6,52 @@ var path = require('path');
 const { Console } = require('console');
 
 module.exports = {
-    async view(req, res){
+    async view(req, res) {
         // await Medida.remove();
+        //console.log(req.query);
+        let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         console.log(codigo);
-        codigo = (codigo.length > 0) ? codigo[0].medida+1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/medida'),{codigo: Functions.completeZeroLeft(codigo)});
+        codigo = (codigo.length > 0) ? codigo[0].medida + 1 : 0;
+        res.render(path.resolve('src/templates/html/cadastros/medida'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
     },
-    async create(req, res){
+    async create(req, res) {
         try {
             // console.log(req.body);
             let medida = await Medida.create(req.body);
             let codigo = await Codigo.find({});
             codigo = codigo[0];
-            codigo.medida = codigo.medida+1;
+            codigo.medida = codigo.medida + 1;
             await Codigo.update(codigo);
-            
-            return res.json({medida});
+
+            res.redirect('/cadastros/medida?success=1');
+
         } catch (error) {
             return res.status(400).json({ error: error });
         }
     },
-    async getAll(req,res){
+    async getAll(req, res) {
         // await Medida.remove();
         await Medida.find({}, (err, medidas) => {
             return res.json(medidas);
         });
     },
-    async getById(req,res){
+    async getById(req, res) {
         await Medida.findById(req.params.id, (err, medidas) => {
-            if (err) { return res.status(500).json({error: "ID INVALID"}); }
+            if (err) { return res.status(500).json({ error: "ID INVALID" }); }
             return res.json(medidas);
         });
     },
-    async removeById(req,res){
-        await Medida.findById(req.params.id, async (err, medida) => {
-            if (err) { return res.status(500).json({error: "ID INVALID"}); }
+    async removeById(req, res) {
+        await Medida.findById(req.params.id, async(err, medida) => {
+            if (err) { return res.status(500).json({ error: "ID INVALID" }); }
             if (medida) {
                 await Medida.remove(medida, (err) => {
-                    if (err) { return res.status(500).json({error: "Error in process!"}); }
-                    return res.json({msg: "Removido com sucesso!"});
+                    if (err) { return res.status(500).json({ error: "Error in process!" }); }
+                    return res.json({ msg: "Removido com sucesso!" });
                 });
             } else {
-                return res.status(500).json({error: "Not Found!"});
+                return res.status(500).json({ error: "Not Found!" });
             }
         });
     }

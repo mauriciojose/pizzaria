@@ -8,10 +8,11 @@ const { Console } = require('console');
 module.exports = {
     async view(req, res) {
         // await Categoria.remove();
+        let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         console.log(codigo);
         codigo = (codigo.length > 0) ? codigo[0].categoria + 1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/categoria'), { codigo: Functions.completeZeroLeft(codigo) });
+        res.render(path.resolve('src/templates/html/cadastros/categoria'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
     },
     async create(req, res) {
         try {
@@ -21,7 +22,7 @@ module.exports = {
             codigo.categoria = codigo.categoria + 1;
             await Codigo.update(codigo);
 
-            res.redirect('/list/categorias');
+            res.redirect('/list/categorias?success=1');
         } catch (error) {
             return res.status(400).json({ error: error });
         }
@@ -34,6 +35,7 @@ module.exports = {
     },
     async getAllView(req, res) {
         // await Produto.remove();
+
         await Categoria.find({}, (err, categorias) => {
             console.log(categorias);
             res.render(path.resolve('src/templates/html/list/categorias'), {

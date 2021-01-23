@@ -21,7 +21,7 @@ module.exports = {
         // res.sendFile(path.resolve('src/templates/html/register'));
         res.render(path.resolve('src/templates/html/register'), { tipo: req.params.id });
     },
-    async getViewAuthenticate(req, res){
+    async getViewAuthenticate(req, res) {
         // await User.remove();
         res.render(path.resolve('src/templates/html/register/login'));
     },
@@ -88,10 +88,10 @@ module.exports = {
         user.codigoVerificador = undefined;
 
         const token = jwt.sign({ id: user.id }, authConfig.secret, {
-            expiresIn: 86400
+            expiresIn: 8640000
         });
 
-        res.cookie ('authcookie', token, {maxAge: 86400, httpOnly: true});
+        res.cookie('authcookie', token, { maxAge: 8640000, httpOnly: true });
 
         // res.send({ user, token });
         res.redirect('/');

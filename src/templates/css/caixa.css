@@ -9,7 +9,7 @@ body {
     margin: 1% 2%;
     border: solid 1px;
     border-radius: 8px;
-    background: #000459;
+    background: #fff;
 }
 
 .caixa {
@@ -75,7 +75,7 @@ button#inserir {
 
 th,
 td {
-    text-align: center;
+    text-align: left;
     color: #f2d561;
     font-size: 1.6vw;
 }

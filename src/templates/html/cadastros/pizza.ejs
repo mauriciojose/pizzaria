@@ -19,6 +19,7 @@
 
 <body>
     <%- include('../componentes/menu.ejs'); -%>
+        <div class="notify"><span id="notifyType" class=""></span></div>
         <form class="container long" action="/cadastros/pizza" method="POST" enctype="multipart/form-data">
             <div class="container-form">
                 <div class="informations">
@@ -159,8 +160,40 @@
                     return false;
                 }
             }
+
+            function sucess() {
+                $(".notify").toggleClass("active");
+                $(".notify").toggleClass("success");
+                $("#notifyType").html("cadastrado com Sucesso!");
+                $(".notify").show();
+
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("success");
+                    $(".notify").hide();
+                }, 5000);
+            }
+
+            function failure() {
+                $(".notify").addClass("active");
+                $(".notify").addClass("failure");
+                $("#notifyType").html("Error ao adicionar!");
+                $(".notify").show();
+
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("failure");
+                    $(".notify").hide();
+                }, 5000);
+            }
         </script>
-        <%- include('../componentes/rodape.ejs'); -%>
+        <% if(situacao.situacao==1){%>
+            <script>
+                sucess();
+            </script>
+            <%}%>
+
+                <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>

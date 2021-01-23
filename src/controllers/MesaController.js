@@ -10,10 +10,11 @@ module.exports = {
     async view(req, res) {
         // await Mesa.remove();
         // await Caixa.remove();
+        let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         console.log(codigo);
         codigo = (codigo.length > 0) ? codigo[0].mesa + 1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/mesa'), { codigo: Functions.completeZeroLeft(codigo) });
+        res.render(path.resolve('src/templates/html/cadastros/mesa'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
     },
     async create(req, res) {
         try {
@@ -24,7 +25,7 @@ module.exports = {
             codigo.mesa = codigo.mesa + 1;
             await Codigo.update(codigo);
 
-            return res.json({ mesa });
+            res.redirect('/cadastros/mesa?success=1');
         } catch (error) {
             return res.status(400).json({ error: error });
         }
