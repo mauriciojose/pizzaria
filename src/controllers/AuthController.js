@@ -88,10 +88,10 @@ module.exports = {
         user.codigoVerificador = undefined;
 
         const token = jwt.sign({ id: user.id }, authConfig.secret, {
-            expiresIn: 86400
+            expiresIn: 24 * 3600 * 1000
         });
 
-        res.cookie ('authcookie', token, {maxAge: 86400, httpOnly: true});
+        res.cookie ('authcookie', token, {maxAge: 24 * 3600 * 1000, httpOnly: true});
 
         // res.send({ user, token });
         res.redirect('/');

@@ -1,6 +1,7 @@
 const { create } = require('../models/produto');
 const Produto = require('../models/produto');
 const ProdutoCaixa = require('../models/ProdutoCaixa');
+const Caixa = require('../models/caixa');
 const Codigo = require('../models/codigos');
 const Medida = require('../models/medida');
 const Categoria = require('../models/categoria');
@@ -33,10 +34,16 @@ module.exports = {
                     images.push(element.path);
                 }
             }
-            req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
+            req.body.precoVenda       = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
+            req.body.precoVendaQuatro = Functions.getDecimalFromFormatBrazil(req.body.precoVendaQuatro);
+            req.body.precoVendaSeis   = Functions.getDecimalFromFormatBrazil(req.body.precoVendaSeis);
+            req.body.precoVendaOito   = Functions.getDecimalFromFormatBrazil(req.body.precoVendaOito);
+            req.body.precoVendaDez    = Functions.getDecimalFromFormatBrazil(req.body.precoVendaDez   );
+
             req.body.images=images;
             req.body.pizza = true;
             let produto = await Produto.create(req.body);
+            console.log(produto);
             
             let codigo = await Codigo.find({});
             codigo = codigo[0];
@@ -50,9 +57,11 @@ module.exports = {
     },
     async AddView(req, res){
         let produtos = await Produto.find({pizza: true});
+        let caixa = await Caixa.findById(req.params.id);
         res.render(path.resolve('src/templates/html/financeiro/AddPizza'),{
             idCaixa: req.params.id,
-            produtos: produtos
+            produtos: produtos,
+            delivery: caixa.isDelivery
         });
     },
     async getPizzasByProdutoCaixa(req, res){

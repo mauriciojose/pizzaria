@@ -10,10 +10,14 @@
     <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
 </head>
 
@@ -71,7 +75,25 @@
                         <div class="row">
                             <fieldset class='float-label-field'>
                                 <label for="precoVenda">Preço de Venda</label>
-                                <input id="precoVenda" class='texto money' value="0" name="precoVenda" type='text'>
+                                <input id="precoVenda" class='texto money' value="0" name="precoVenda" type='hidden'>
+                                <div style="display: flex;">
+                                    <div>
+                                        <span>Quatro Fatias</span>
+                                        <input id="precoVendaQuatro" class='texto money' value="0" name="precoVendaQuatro" type='text'>
+                                    </div>
+                                    <div>
+                                        <span>Seis Fatias</span>
+                                        <input id="precoVendaSeis" class='texto money' value="0" name="precoVendaSeis" type='text'>
+                                    </div>
+                                    <div>
+                                        <span>Oito Fatias</span>
+                                        <input id="precoVendaOito" class='texto money' value="0" name="precoVendaOito" type='text'>
+                                    </div>
+                                    <div>
+                                        <span>Dez Fatias</span>
+                                        <input id="precoVendaDez" class='texto money' value="0" name="precoVendaDez" type='text'>
+                                    </div>
+                                </div>
                             </fieldset>
                         </div>
                         <div class="row">
@@ -87,11 +109,9 @@
                 </div>
             </div>
         </form>
-        <script>
+        <script defer>
             $(document).ready(function() {
-                $('.select2').select2({
-                    placeholder: "Selecione as Categorias",
-                });
+                
                 $(".money").maskMoney({
                     prefix: '',
                     // allowNegative: true,
@@ -103,6 +123,11 @@
                 $('.money').each(function() { // function to apply mask on load!
                     $(this).maskMoney('mask', $(this).val());
                 });
+
+                $('.select2').select2({
+                    placeholder: "Selecione as Categorias",
+                });
+
             });
             CKEDITOR.replace('descricao');
 
