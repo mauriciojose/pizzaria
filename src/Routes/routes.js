@@ -44,8 +44,8 @@ routes.get('/',TokenServices.checkToken, MenuController.getAllView);
 
 // ---------------------------------------------------
 routes.get('/delivery/delivery',TokenServices.checkToken, DeliveryController.getAllView);
-routes.put('/delivery/novo/:id',TokenServices.checkToken, DeliveryController.novoPedido);
-routes.put('/delivery/finalizar/:id',TokenServices.checkToken, DeliveryController.closePedido);
+routes.put('/delivery/novo/:id', DeliveryController.novoPedido);
+routes.put('/delivery/finalizar/:id', DeliveryController.closePedido);
 
 // +_________________________________________________________-
 
@@ -116,7 +116,7 @@ routes.post('/cadastros/pizza',TokenServices.checkToken, uploadImages, PizzaCont
 
 routes.get('/cadastros/produto',TokenServices.checkToken, ProdutoController.view);
 routes.post('/cadastros/produto',TokenServices.checkToken, uploadImages, ProdutoController.create);
-routes.get('/list/produto',TokenServices.checkToken, ProdutoController.getBy);
+routes.get('/list/produto', ProdutoController.getBy);
 routes.get('/estoque/produtos',TokenServices.checkToken, ProdutoController.getAllView);
 routes.get('/list/produtos/:idCategoria/:idCaixa',TokenServices.checkToken, ProdutoController.getAllView);
 routes.get('/list/produtos/:idCaixa',TokenServices.checkToken, ProdutoController.getAllView);
@@ -138,18 +138,18 @@ routes.get('/list/mesas',TokenServices.checkToken, MesaController.getAllView);
 routes.get('/list/mesa/:id',TokenServices.checkToken, MesaController.getById);
 routes.get('/cadastros/mesa',TokenServices.checkToken, MesaController.view);
 routes.post('/cadastros/mesa',TokenServices.checkToken, MesaController.create);
-routes.put('/use/mesa/:id',TokenServices.checkToken, MesaController.useMesa);
-routes.put('/close/mesa/:id',TokenServices.checkToken, MesaController.closeMesa);
+routes.put('/use/mesa/:id', MesaController.useMesa);
+routes.put('/close/mesa/:id', MesaController.closeMesa);
 routes.get('/remove/mesa/:id',TokenServices.checkToken, MesaController.removeById);
 
-routes.get('/caixa/getpizzas/:id',TokenServices.checkToken, PizzaController.getPizzasByProdutoCaixa);
+routes.get('/caixa/getpizzas/:id', PizzaController.getPizzasByProdutoCaixa);
 
 routes.get('/financeiro/addpizza/:id',TokenServices.checkToken, PizzaController.AddView);
 
 routes.get('/financeiro/caixas',TokenServices.checkToken, CaixaController.getAllView);
 routes.get('/financeiro/caixas/:id',TokenServices.checkToken, CaixaController.getItensView);
 routes.get('/financeiro/caixa/:id',TokenServices.checkToken, CaixaController.view);
-routes.put('/financeiro/addproduto/:id',TokenServices.checkToken, CaixaController.addProduto);
-routes.put('/financeiro/addpizza/:id',TokenServices.checkToken, CaixaController.addPizza);
+routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
+routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
 
 module.exports = routes;

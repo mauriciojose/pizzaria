@@ -144,7 +144,7 @@
 
             $.ajax({
                 type: 'PUT',
-                url: 'http://localhost:3000/financeiro/addproduto/' + idCaixa.value,
+                url: 'financeiro/addproduto/' + idCaixa.value,
                 contentType: 'application/json',
                 data: JSON.stringify(data), // access in body
             }).done(function(data) {
