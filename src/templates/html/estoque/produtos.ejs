@@ -126,37 +126,21 @@
                 dialog.close();
             };
 
-            function showClickHandler(idProduto, quantidade) {
-                dialog.querySelector('#idProduto').value = idProduto;
-                dialog.querySelector('#qtdeDisponivel').value = idProduto;
-                dialog.querySelector('#disponivel').innerHTML = quantidade;
-                dialog.showModal();
-            };
-
-            function addProduto() {
-                let idCaixa = document.querySelector('#idCaixa');
-                let quantidade = document.querySelector('#quantidade');
-                let idProduto = document.querySelector('#idProduto');
-                let data = {
-                    quantidade: quantidade.value,
-                    idProduto: idProduto.value
-                };
-
-                $.ajax({
-                    type: 'PUT',
-                    url: '/financeiro/addproduto/' + idCaixa.value,
-                    contentType: 'application/json',
-                    data: JSON.stringify(data), // access in body
-                }).done(function(data) {
-                    console.log("Sucess");
-                    sucess();
-                    closeClickHandler();
-                }).fail(function(msg) {
-                    console.log('FAIL');
-                    failure();
-                }).always(function(msg) {
-                    console.log('ALWAYS');
-                });
+            $.ajax({
+                type: 'PUT',
+                url: 'financeiro/addproduto/' + idCaixa.value,
+                contentType: 'application/json',
+                data: JSON.stringify(data), // access in body
+            }).done(function(data) {
+                console.log("Sucess");
+                sucess();
+                closeClickHandler();
+            }).fail(function(msg) {
+                console.log('FAIL');
+                failure();
+            }).always(function(msg) {
+                console.log('ALWAYS');
+            });
             }
 
 
@@ -189,20 +173,29 @@
 
         <%}%>
 
-            <script>
-                var formatter = new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                    minimumFractionDigits: 2,
-                });
-                let moneys = document.querySelectorAll('.money');
-                for (let index = 0; index < moneys.length; index++) {
-                    const element = moneys[index];
-                    console.log(element, element.innerText);
-                    element.innerHTML = formatter.format(element.innerHTML);
-                }
+            function addProduto() { let idCaixa = document.querySelector('#idCaixa'); let quantidade = document.querySelector('#quantidade'); let idProduto = document.querySelector('#idProduto'); let data = { quantidade: quantidade.value, idProduto: idProduto.value
+            }; $.ajax({ type: 'PUT', url: '/financeiro/addproduto/' + idCaixa.value, contentType: 'application/json', data: JSON.stringify(data), // access in body }).done(function(data) { console.log("Sucess"); sucess(); closeClickHandler(); }).fail(function(msg)
+            { console.log('FAIL'); failure(); }).always(function(msg) { console.log('ALWAYS'); }); } function sucess() { $(".notify").toggleClass("active"); $(".notify").toggleClass("success"); $("#notifyType").html("Adicionado com Sucesso!"); $(".notify").show();
+            setTimeout(function() { $(".notify").removeClass("active"); $(".notify").removeClass("success"); $(".notify").hide(); }, 5000); } function failure() { $(".notify").addClass("active"); $(".notify").addClass("failure"); $("#notifyType").html("Error
+            ao adicionar!"); $(".notify").show(); setTimeout(function() { $(".notify").removeClass("active"); $(".notify").removeClass("failure"); $(".notify").hide(); }, 5000); }
             </script>
-            <%- include('../componentes/rodape.ejs'); -%>
+
+            <%}%>
+
+                <script>
+                    var formatter = new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                        minimumFractionDigits: 2,
+                    });
+                    let moneys = document.querySelectorAll('.money');
+                    for (let index = 0; index < moneys.length; index++) {
+                        const element = moneys[index];
+                        console.log(element, element.innerText);
+                        element.innerHTML = formatter.format(element.innerHTML);
+                    }
+                </script>
+                <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>

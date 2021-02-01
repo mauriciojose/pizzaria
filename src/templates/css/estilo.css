@@ -633,7 +633,7 @@ h2.subtitulos {
     position: absolute;
     margin-top: -107px;
     float: right;
-    margin-left: 81%;
+    margin-left: 94%;
     border: solid 5px white;
     border-radius: 50%;
     background-color: white;
@@ -948,6 +948,9 @@ span.btnMenu {
     .dropdown-content {
         margin: 0 40px;
     }
+    .next {
+        margin-left: 80%;
+    }
 }
 
 @media(min-width:30em) and (max-width:48em) {
@@ -996,6 +999,9 @@ span.btnMenu {
         border: solid 5px white;
         border-radius: 50%;
         background-color: white;
+    }
+    .next {
+        margin-left: 80%;
     }
 }
 
