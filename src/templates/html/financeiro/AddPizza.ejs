@@ -37,15 +37,6 @@
         .search {
             display: inline-block;
         }
-        /* .search input {
-        width: 250px;
-        height: 32px;
-
-        background: #fcfcfc;
-        border: 1px solid #aaa;
-        border-radius: 5px;
-        box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
-        } */
         
         .search input {
             width: 100% !important;
@@ -106,9 +97,9 @@
         }
         
         button.fixed {
-            position: fixed;
-            right: 6%;
-            bottom: 7%;
+            position: absolute;
+            right: 6.5%;
+            bottom: -3%;
             background-color: green;
         }
     </style>
@@ -177,7 +168,7 @@
                 codigo: '<%=produto.codigo%>',
                 name: '<%=produto.name%>',
                 quantidade: '<%=produto.quantidade%>',
-                precoVenda: '<%=produto.precoVenda%>'
+                precoVenda: '<%= delivery ?  25.0: produto.precoVenda%>'
             });
             <% }); %>
             const searchWrapper = document.querySelector('.search-input');

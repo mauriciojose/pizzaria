@@ -38,12 +38,12 @@ const uploadImages = (req, res, next) => {
     });
 };
 
-routes.get('/',TokenServices.checkToken, MenuController.getAllView);
+routes.get('/', TokenServices.checkToken, MenuController.getAllView);
 
 
 
 // ---------------------------------------------------
-routes.get('/delivery/delivery',TokenServices.checkToken, DeliveryController.getAllView);
+routes.get('/delivery/delivery', TokenServices.checkToken, DeliveryController.getAllView);
 routes.put('/delivery/novo/:id', DeliveryController.novoPedido);
 routes.put('/delivery/finalizar/:id', DeliveryController.closePedido);
 
@@ -63,9 +63,9 @@ routes.get('/templates/css/teste.css', function(req, res) {
 });
 
 // ____________________________________________________________----
-routes.get('/cadastros/cliente',TokenServices.checkToken, ClienteController.view);
-routes.get('/list/cliente',TokenServices.checkToken, ClienteController.getBy);
-routes.post('/cadastros/cliente',TokenServices.checkToken, ClienteController.create);
+routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
+routes.get('/list/cliente', TokenServices.checkToken, ClienteController.getBy);
+routes.post('/cadastros/cliente', TokenServices.checkToken, ClienteController.create);
 // 
 //-------------------------------------------------------------------------\\
 routes.get('/templates/css/global.css', function(req, res) {
@@ -97,11 +97,11 @@ routes.post('/auth/register', AuthController.register);
 routes.get('/auth/authenticate', AuthController.getViewAuthenticate);
 routes.post('/auth/authenticate', AuthController.authenticate);
 
-routes.get('/auth/confirmlogin/:email/:codigoVerificador',TokenServices.checkToken, AuthController.confirmLogin);
+routes.get('/auth/confirmlogin/:email/:codigoVerificador', TokenServices.checkToken, AuthController.confirmLogin);
 
-routes.get('/auth/getUsers',TokenServices.checkToken, AuthController.getUsers);
+routes.get('/auth/getUsers', TokenServices.checkToken, AuthController.getUsers);
 
-routes.get('/email/send',TokenServices.checkToken, EmailController.sendEmailRequest);
+routes.get('/email/send', TokenServices.checkToken, EmailController.sendEmailRequest);
 
 routes.get('/templates/css/produto.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/produto.css'));
@@ -111,45 +111,54 @@ routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
 
-routes.get('/cadastros/pizza',TokenServices.checkToken, PizzaController.view);
-routes.post('/cadastros/pizza',TokenServices.checkToken, uploadImages, PizzaController.create);
+routes.get('/cadastros/pizza', TokenServices.checkToken, PizzaController.view);
+routes.post('/cadastros/pizza', TokenServices.checkToken, uploadImages, PizzaController.create);
 
-routes.get('/cadastros/produto',TokenServices.checkToken, ProdutoController.view);
-routes.post('/cadastros/produto',TokenServices.checkToken, uploadImages, ProdutoController.create);
+routes.get('/cadastros/produto', TokenServices.checkToken, ProdutoController.view);
+routes.post('/cadastros/produto', TokenServices.checkToken, uploadImages, ProdutoController.create);
 routes.get('/list/produto', ProdutoController.getBy);
-routes.get('/estoque/produtos',TokenServices.checkToken, ProdutoController.getAllView);
-routes.get('/list/produtos/:idCategoria/:idCaixa',TokenServices.checkToken, ProdutoController.getAllView);
-routes.get('/list/produtos/:idCaixa',TokenServices.checkToken, ProdutoController.getAllView);
+routes.get('/estoque/produtos', TokenServices.checkToken, ProdutoController.getAllView);
+routes.get('/list/produtos/:idCategoria/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
+routes.get('/list/produtos/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
 
-routes.get('/list/medidas',TokenServices.checkToken, MedidaController.getAll);
-routes.get('/list/medida/:id',TokenServices.checkToken, MedidaController.getById);
-routes.get('/cadastros/medida',TokenServices.checkToken, MedidaController.view);
-routes.post('/cadastros/medida',TokenServices.checkToken, MedidaController.create);
-routes.get('/remove/medida/:id',TokenServices.checkToken, MedidaController.removeById);
+routes.get('/list/medidas', TokenServices.checkToken, MedidaController.getAll);
+routes.get('/list/medida/:id', TokenServices.checkToken, MedidaController.getById);
+routes.get('/cadastros/medida', TokenServices.checkToken, MedidaController.view);
+routes.post('/cadastros/medida', TokenServices.checkToken, MedidaController.create);
+routes.get('/remove/medida/:id', TokenServices.checkToken, MedidaController.removeById);
 
-routes.get('/list/categorias',TokenServices.checkToken, CategoriaController.getAllView);
-routes.get('/list/categorias/:idCaixa',TokenServices.checkToken, CategoriaController.getAllView);
-routes.get('/list/categoria/:id',TokenServices.checkToken, CategoriaController.getById);
-routes.get('/cadastros/categoria',TokenServices.checkToken, CategoriaController.view);
-routes.post('/cadastros/categoria',TokenServices.checkToken, CategoriaController.create);
-routes.get('/remove/categoria/:id',TokenServices.checkToken, CategoriaController.removeById);
+routes.get('/list/categorias', TokenServices.checkToken, CategoriaController.getAllView);
+routes.get('/list/categorias/:idCaixa', TokenServices.checkToken, CategoriaController.getAllView);
+routes.get('/list/categoria/:id', TokenServices.checkToken, CategoriaController.getById);
+routes.get('/cadastros/categoria', TokenServices.checkToken, CategoriaController.view);
+routes.post('/cadastros/categoria', TokenServices.checkToken, CategoriaController.create);
+routes.get('/remove/categoria/:id', TokenServices.checkToken, CategoriaController.removeById);
 
-routes.get('/list/mesas',TokenServices.checkToken, MesaController.getAllView);
-routes.get('/list/mesa/:id',TokenServices.checkToken, MesaController.getById);
-routes.get('/cadastros/mesa',TokenServices.checkToken, MesaController.view);
-routes.post('/cadastros/mesa',TokenServices.checkToken, MesaController.create);
+routes.get('/list/mesas', TokenServices.checkToken, MesaController.getAllView);
+routes.get('/list/mesa/:id', TokenServices.checkToken, MesaController.getById);
+routes.get('/cadastros/mesa', TokenServices.checkToken, MesaController.view);
+routes.post('/cadastros/mesa', TokenServices.checkToken, MesaController.create);
 routes.put('/use/mesa/:id', MesaController.useMesa);
 routes.put('/close/mesa/:id', MesaController.closeMesa);
-routes.get('/remove/mesa/:id',TokenServices.checkToken, MesaController.removeById);
+routes.get('/remove/mesa/:id', TokenServices.checkToken, MesaController.removeById);
 
 routes.get('/caixa/getpizzas/:id', PizzaController.getPizzasByProdutoCaixa);
 
-routes.get('/financeiro/addpizza/:id',TokenServices.checkToken, PizzaController.AddView);
+routes.get('/financeiro/addpizza/:id', TokenServices.checkToken, PizzaController.AddView);
 
-routes.get('/financeiro/caixas',TokenServices.checkToken, CaixaController.getAllView);
-routes.get('/financeiro/caixas/:id',TokenServices.checkToken, CaixaController.getItensView);
-routes.get('/financeiro/caixa/:id',TokenServices.checkToken, CaixaController.view);
+routes.get('/financeiro/caixas', TokenServices.checkToken, CaixaController.getAllView);
+routes.get('/financeiro/caixas/:id', TokenServices.checkToken, CaixaController.getItensView);
+routes.get('/financeiro/caixa/:id', TokenServices.checkToken, CaixaController.view);
 routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
 routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
+
+
+
+routes.get('/compra/cadastro/', function(req, res) {
+    res.render(path.resolve('src/templates/html/cadastros/compras'));
+});
+routes.get('/compra/cadastro/', function(req, res) {
+    res.render(path.resolve('src/templates/html/cadastros/compras'));
+});
 
 module.exports = routes;

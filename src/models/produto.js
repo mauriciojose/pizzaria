@@ -35,7 +35,24 @@ const ProdutoSchema = new mongoose.Schema({
         type: String
     },
     precoVenda: {
-        type: Decimal128
+        type: Decimal128,
+        default: 0
+    },
+    precoVendaQuatro: {
+        type: Decimal128,
+        default: 0
+    },
+    precoVendaSeis: {
+        type: Decimal128,
+        default: 0
+    },
+    precoVendaOito: {
+        type: Decimal128,
+        default: 0
+    },
+    precoVendaDez: {
+        type: Decimal128,
+        default: 0
     },
     precoFornecedor: {
         type: Decimal128
