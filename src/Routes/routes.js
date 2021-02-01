@@ -9,6 +9,7 @@ const CaixaController = require('../controllers/CaixaController');
 const ClienteController = require('../controllers/ClienteController');
 const MesaController = require('../controllers/MesaController');
 const PizzaController = require('../controllers/PizzaController');
+const CompraController = require('../controllers/CompraController');
 
 const TokenServices = require('../services/TokenService');
 
@@ -154,11 +155,13 @@ routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
 
 
 
-routes.get('/compra/cadastro/', function(req, res) {
-    res.render(path.resolve('src/templates/html/cadastros/compras'));
-});
-routes.get('/compra/cadastro/', function(req, res) {
-    res.render(path.resolve('src/templates/html/cadastros/compras'));
-});
+// routes.get('/compra/cadastro/', function(req, res) {
+//     res.render(path.resolve('src/templates/html/cadastros/compras'));
+// });
+// routes.get('/compra/cadastro/', function(req, res) {
+//     res.render(path.resolve('src/templates/html/cadastros/compras'));
+// });
+routes.get('/compra/cadastro', TokenServices.checkToken, CompraController.getAllView);
+routes.put('/compra/cadastro', TokenServices.checkToken, CompraController.create);
 
 module.exports = routes;

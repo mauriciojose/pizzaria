@@ -12,7 +12,7 @@ table tbody tr {
 }
 
 table tbody tr:nth-child(odd) {
-    background: #454141;
+    background: transparent;
 }
 
 table tbody tr td button {
@@ -37,6 +37,7 @@ table tbody tr td button {
 table thead {
     display: table-header-group;
     font-weight: 400;
+    color: #000459;
 }
 
 table tbody tr td:before {

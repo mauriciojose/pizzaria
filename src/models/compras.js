@@ -1,6 +1,6 @@
 const { Decimal128 } = require('mongodb');
-const { Schema } = require('../database');
 const mongoose = require('../database');
+const Schema = require('mongoose').Schema;
 
 const CompraSchema = new mongoose.Schema({
     descricao: {
@@ -12,7 +12,7 @@ const CompraSchema = new mongoose.Schema({
         default: false
     },
     valor: {
-        type: Decimal128s
+        type: Decimal128
     },
     data: {
         type: String

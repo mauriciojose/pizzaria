@@ -7,6 +7,7 @@
     <title>Caixa</title>
     <link rel="stylesheet" type="text/css" href="/templates/css/delivery.css">
     <link rel="stylesheet" href="/templates/css/estilo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <style>
         tbody {
@@ -85,7 +86,7 @@
 
 
             <!-- </form> -->
-            <a onclick="showClickHandler('12')">
+            <a id="adicionar" onclick="showClickHandler();">
                 <div class="float-button">
                     <span>+</span>
                 </div>
@@ -136,15 +137,13 @@
         </div>
     </div>
 </div>
+
 <script>
-    $(document).ready(function($) {
-        $(".clickable-row").click(function() {
-            // window.location = $(this).data("href");
-        });
-    });
-</script>
-<script>
-    function showClickHandler(idMesa) {
+    // $('#adicionar').click(function() {
+    //     console.log('teste');
+    // });
+
+    function showClickHandler() {
         document.querySelector('#idMesa').value = idMesa;
         $('#myModal').modal('show');
 
