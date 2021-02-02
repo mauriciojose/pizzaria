@@ -21,54 +21,19 @@
     <%- include('../componentes/menu.ejs'); -%>
 
         <h2>Lista de Compras</h2>
+        <div class="notify"><span id="notifyType" class=""></span></div>
+        <div class="form-outline">
+            <input type="text" class="form-control" onkeypress="buscar(event);" id="input">
+            <label for="datatable-search-input" class="form-label"></label>
+        </div>
         <div class="caixa">
             <!-- <div class="logo">
             <img id="cliente" src="/img/mesa.png" alt="">
         </div> -->
 
-            <div style="overflow-y: scroll;" class="">
+            <div style="overflow-y: scroll;" class="" id="table">
 
-                <table>
-                    <thead>
-                        <th>Descrição</th>
-                        <th>Data</th>
-                        <th>Quantidade</th>
-                        <th>Valor</th>
-                        <th>Responsavel</th>
-                        <th colspan="2">Ações</th>
-                    </thead>
-                    <tbody>
 
-                        <% compras.forEach(function(compra){ %>
-
-                            <%
-                                var data = compra.data.split('-');
-                                data = `${data[2]}/${data[1]}/${data[0]}`; 
-                            %>
-
-                                <tr class='clickable-row'>
-
-                                    <td data-title="descricao">
-                                        <%=compra.descricao %>
-                                    </td>
-                                    <td data-title="Data Pedido">
-                                        <%= data%>
-                                    </td>
-                                    <td data-title="quantidade">
-                                        <%= compra.quantidade%>
-                                    </td>
-                                    <td data-title="valor">
-                                        <%= compra.valor%>
-                                    </td>
-                                    <td data-title="responsavel">
-                                        <%= compra.responsavel%>
-                                    </td>
-                                    <td><button onclick="">Visualizar</button></td>
-                                    <td><button onclick="FinalizarPedido('')">Finalizar</button></td>
-                                </tr>
-                                <%});%>
-                    </tbody>
-                </table>
             </div>
         </div>
         <div class="container">
@@ -141,6 +106,78 @@
 
     };
 
+    function listar(dados) {
+        var html = "";
+        html += '<table>';
+        html += '<thead>';
+        html += '<th>Descrição</th>';
+        html += '<th>Data</th>';
+        html += '<th>Quantidade</th>';
+        html += '<th>Valor</th>';
+        html += '<th>Responsavel</th>';
+        html += '<th colspan="2">Ações</th>';
+        html += '</thead><tbody>';
+        dados.forEach(function(dado) {
+
+            html += '<tr class = "clickable-row" >';
+            html += '<td data - title = "descricao" >';
+            html += dado['descricao'];
+            html += '</td> <td data - title = "Data Pedido" >';
+            var data = dado['data'].split('-');
+            data = `${data[2]}/${data[1]}/${data[0]}`;
+            html += data;
+            html += '</td> <td data - title = "quantidade" >';
+            html += dado['quantidade'];
+            html += '</td> <td data - title = "valor" >';
+            html += 'R$: ' + dado['valor']['$numberDecimal'] + ',00';
+            html += '</td> <td data - title = "responsavel" >';
+            html += dado['responsavel'];
+            html += '</td> <td> <button onclick="" > Visualizar </button></td>';
+            html += '<td> <button onclick="" > Finalizar </button></td></tr>';
+        });
+        html += '</tbody> </table>';
+        return html;
+
+    }
+    $(document).ready(function() {
+
+        $.ajax({
+            method: 'POST',
+            url: "/compra/cadastro",
+            success: function(resposta) {
+                var dados = resposta;
+                // console.log(dados[0]['valor']['$numberDecimal']);
+
+                // var data = compra.data.split('-');
+                //         data = `${data[2]}/${data[1]}/${data[0]}`; 
+                //     %>
+                $('#table').html(listar(dados));
+                // console.log(html);
+            }
+        });
+    });
+
+    function buscar(event) {
+        if (event.which == 13) {
+            var busca = $('#input').val();
+            $.ajax({
+                method: 'PUT',
+                url: "/compra/busca",
+                data: {
+                    busca: busca
+                },
+                success: function(resposta) {
+                    var dados = resposta;
+                    $('#table').html(listar(dados));
+
+                    // window.location.href = "/compra/cadastro?success=1";
+
+                }
+            });
+        }
+
+    }
+
     function novaCompra() {
         let descricao = $('#descricao').val();
         let data = $('#data').val();
@@ -159,10 +196,25 @@
                 responsavel: responsavel
 
             },
+            success: function(resposta) {
+                // console.log('sucesso');
 
-            success: function() {
-                window.location.reload(true);
+                window.location.href = "/compra/cadastro?success=1";
+
             }
-        })
+        });
+    }
+
+    function sucess() {
+        $(".notify").toggleClass("active");
+        $(".notify").toggleClass("success");
+        $("#notifyType").html("Adicionado com Sucesso!");
+        $(".notify").show();
+
+        setTimeout(function() {
+            $(".notify").removeClass("active");
+            $(".notify").removeClass("success");
+            $(".notify").hide();
+        }, 5000);
     }
 </script>

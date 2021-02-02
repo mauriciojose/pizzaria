@@ -161,7 +161,9 @@ routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
 // routes.get('/compra/cadastro/', function(req, res) {
 //     res.render(path.resolve('src/templates/html/cadastros/compras'));
 // });
-routes.get('/compra/cadastro', TokenServices.checkToken, CompraController.getAllView);
+routes.get('/compra/cadastro', TokenServices.checkToken, function(req, res) { res.render(path.resolve('src/templates/html/cadastros/compras')) });
+routes.post('/compra/cadastro', TokenServices.checkToken, CompraController.getAllView);
+routes.put('/compra/busca', TokenServices.checkToken, CompraController.getBusca);
 routes.put('/compra/cadastro', TokenServices.checkToken, CompraController.create);
 
 module.exports = routes;

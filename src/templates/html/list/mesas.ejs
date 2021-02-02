@@ -30,25 +30,26 @@
                                 <li class="cards_item">
                                     <div class="card clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
                                         <div class="card_image"><img style="width: 75%;" src="/img/mesa.png"></div>
-                                        <div class="card_content">
-                                            <h1 class="card_title">
-                                                <%=mesa.name%>
-                                            </h1>
-                                            <p class="card_text">
-                                                Código:
-                                                <%=mesa.codigo%> <br>
-                                            </p>
-                                            <div>
-                                                <%if(mesa.tipo==0){%>
-                                                    <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="btn card_btn" data-translate="start">Usar</button></span>
-                                                    <%}else{%>
-                                                        <span><button id="" class="btn card_btn" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
-                                                        <%}%>
-                                                            <button id="" class="btn card_btn" data-translate="start">Editar</button>
-                                                            <button id="" class="btn card_btn" data-translate="start">Desativar</button>
+                                        <div class="card_content" <% if(mesa.tipo==0){ %> style="background: linear-gradient(to bottom left, #16c150 40%, #2ea954 100%) !important;"
+                                            <% }%>>
+                                                <h1 class="card_title">
+                                                    <%=mesa.name%>
+                                                </h1>
+                                                <p class="card_text">
+                                                    Código:
+                                                    <%=mesa.codigo%> <br>
+                                                </p>
+                                                <div>
+                                                    <%if(mesa.tipo==0){%>
+                                                        <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="btn card_btn" data-translate="start">Usar</button></span>
+                                                        <%}else{%>
+                                                            <span><button id="" class="btn card_btn" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
+                                                            <%}%>
+                                                                <button id="" class="btn card_btn" data-translate="start">Editar</button>
+                                                                <button id="" class="btn card_btn" data-translate="start">Desativar</button>
 
-                                            </div>
-                                            <!-- <button class="btn card_btn">Read More</button> -->
+                                                </div>
+                                                <!-- <button class="btn card_btn">Read More</button> -->
                                         </div>
                                     </div>
                                 </li>
@@ -112,13 +113,14 @@
                         $('#' + idMesa + ' td#usando').text('Não');
                         $('#' + idMesa + ' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
                         let tr = document.getElementById('' + idMesa);
-                        let clickables = tr.querySelectorAll('.clickable-row');
-                        for (let index = 0; index < clickables.length; index++) {
-                            const element = clickables[index];
-                            element.setAttribute("data-href", ``);
-                            element.setAttribute("data-tipo", 0);
-                        }
+                        // let clickables = tr.querySelectorAll('.clickable-row');
+                        // for (let index = 0; index < clickables.length; index++) {
+                        //     const element = clickables[index];
+                        //     element.setAttribute("data-href", ``);
+                        //     element.setAttribute("data-tipo", 0);
+                        // }
                         dialog.close();
+                        window.location.reload(true);
                     }).fail(function(msg) {
                         console.log('FAIL');
                     }).always(function(msg) {
@@ -143,13 +145,14 @@
                         $('#' + idMesa.value + ' td#usando').text('Sim');
                         $('#' + idMesa.value + ' td#acoes span').html(`<button id="" class="select" onclick="fecharMesa('${idMesa.value}');" data-translate="start">Fechar</button>`);
                         let tr = document.getElementById('' + idMesa.value);
-                        let clickables = tr.querySelectorAll('.clickable-row');
-                        for (let index = 0; index < clickables.length; index++) {
-                            const element = clickables[index];
-                            element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
-                            element.setAttribute("data-tipo", 1);
-                        }
+                        // let clickables = tr.querySelectorAll('.clickable-row');
+                        // for (let index = 0; index < clickables.length; index++) {
+                        //     const element = clickables[index];
+                        //     element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
+                        //     element.setAttribute("data-tipo", 1);
+                        // }
                         dialog.close();
+                        window.location.reload(true);
                     }).fail(function(msg) {
                         console.log('FAIL');
                     }).always(function(msg) {
