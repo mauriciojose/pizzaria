@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/templates/css/estilo.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
     <style>
         label {
             color: white !important;
@@ -161,6 +162,7 @@
         </div>
         <script>
             var suggestions = [];
+            var valores = [];
             var adicionados = [];
             <% produtos.forEach(function(produto){ %>
             suggestions.push({
@@ -170,7 +172,46 @@
                 quantidade: '<%=produto.quantidade%>',
                 precoVenda: '<%= delivery ?  25.0: produto.precoVenda%>'
             });
+
+            valores.push({
+                _id: '<%=produto._id%>',
+                codigo: '<%=produto.codigo%>',
+                name: '<%=produto.name%>',
+                quantidade: '<%=produto.quantidade%>',
+                precoVenda: '<%= delivery ?  25.0: produto.precoVenda%>',
+                precoVendaQuatro: '<%= delivery ?  25.0: produto.precoVendaQuatro%>',
+                precoVendaSeis: '<%= delivery ?  25.0: produto.precoVendaSeis%>',
+                precoVendaOito: '<%= delivery ?  25.0: produto.precoVendaOito%>',
+                precoVendaDez: '<%= delivery ?  25.0: produto.precoVendaDez%>'
+            });
+
             <% }); %>
+
+            function getValueForFatias(quant,id){
+                for (let index = 0; index < valores.length; index++) {
+                    const element = valores[index];
+                    if (element._id == id) {
+                        console.log(quant,element);
+                        switch (quant) {
+                            case '4':
+                                return element.precoVendaQuatro;
+                            break;
+                            case '6':
+                                return element.precoVendaSeis;
+                            break;
+                            case '8':
+                                console.log("asdasda");
+                                return element.precoVendaOito;
+                            break;
+                            case '10':
+                                return element.precoVendaDez;
+                            break;
+                        }
+                    }
+                }
+                return 0;
+            }
+
             const searchWrapper = document.querySelector('.search-input');
             const inputBox = searchWrapper.querySelector('input');
             const suggBox = searchWrapper.querySelector('.autocom-box');
@@ -204,6 +245,10 @@
 
             function addItem(id) {
                 let item = getItemById(id);
+                let quantFatias = document.querySelector('input[name=quantidade]').value;
+
+                item.precoVenda = getValueForFatias(quantFatias,id);
+                console.log(item);
 
                 if (typeof getExistsById(item._id) == 'undefined') {
 
@@ -226,9 +271,20 @@
                                     td.style.width = '20%';
                                     tr.appendChild(td);
                                 } else {
-                                    let text = document.createTextNode(item[prop]);
-                                    td.appendChild(text);
-                                    tr.appendChild(td);
+                                    if (prop == 'precoVenda') {
+                                        let input = document.createElement('input');
+                                        input.setAttribute('class', 'campo-texto precos money');
+                                        input.setAttribute('type', 'text');
+                                        input.setAttribute('size', '3');
+                                        input.value = item[prop];
+                                        td.appendChild(input);
+                                        td.style.width = '20%';
+                                        tr.appendChild(td);
+                                    }else{
+                                        let text = document.createTextNode(item[prop]);
+                                        td.appendChild(text);
+                                        tr.appendChild(td);
+                                    }
                                 }
                             }
                         }
@@ -236,6 +292,17 @@
                     adicionados.push(item);
                 }
                 searchWrapper.classList.remove('active');
+                $(".money").maskMoney({
+                    prefix: '',
+                    // allowNegative: true,
+                    thousands: '.',
+                    decimal: ',',
+                    allowZero: true,
+                    defaultZero: false
+                });
+                $('.money').each(function() { // function to apply mask on load!
+                    $(this).maskMoney('mask', $(this).val());
+                });
             }
 
             function getItemById(id) {
@@ -246,7 +313,27 @@
                 return adicionados.find(x => x._id == id);
             }
 
+            function getDecimalFromFormatBrazil(value){
+                String.prototype.replaceAll = String.prototype.replaceAll || function(needle, replacement) {
+                    return this.split(needle).join(replacement);
+                };
+                value = value.replaceAll('.','');
+                value = value.replace(',','.');
+                return value;
+            }
+
+            function atualizaFatias(){
+                for (let index = 0; index < adicionados.length; index++) {
+                    const element = adicionados[index];
+                    let newPreco = document.querySelector(`table.itens tbody tr#id_${element._id} td input.precos`).value;
+                    // console.log(newPreco);
+                    adicionados[index].precoVenda = getDecimalFromFormatBrazil(newPreco);
+                }
+            }
+
             function addPizza() {
+                atualizaFatias();
+                // console.log(adicionados);return;
                 let quantFatias = document.querySelector('input[name=quantidade]').value;
                 let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
                 let preco = (adicionados.length == 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
@@ -254,7 +341,7 @@
                 let pizzas = [];
                 for (let index = 0; index < produtos.length; index++) {
                     const element = produtos[index];
-                    console.log(element);
+                    //console.log(element);
                     let fatias = document.querySelector(`table.itens tbody tr#id_${element} td input.fatias`).value;
                     let item = {
                         fatias: fatias,
@@ -294,7 +381,7 @@
                 let sumFatias = 0;
                 for (let index = 0; index < adicionados.length; index++) {
                     const element = adicionados[index];
-                    console.log(document.querySelector(`#id_${element._id} .fatias`), document.querySelector(`#id_${element._id} .fatias`).value);
+                    //console.log(document.querySelector(`#id_${element._id} .fatias`), document.querySelector(`#id_${element._id} .fatias`).value);
                     sumFatias += Number(document.querySelector(`#id_${element._id} .fatias`).value);
                 }
                 if (quantFatias != sumFatias) {

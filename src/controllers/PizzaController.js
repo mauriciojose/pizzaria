@@ -58,6 +58,7 @@ module.exports = {
     },
     async AddView(req, res) {
         let produtos = await Produto.find({ pizza: true });
+        let caixa = await Caixa.findById(req.params.id);
         res.render(path.resolve('src/templates/html/financeiro/AddPizza'), {
             idCaixa: req.params.id,
             produtos: produtos,

@@ -15,6 +15,9 @@
         .clickable-row {
             cursor: pointer;
         }
+        .usando{
+            background: linear-gradient(90deg, rgba(82,81,13,1) 0%, rgba(177,180,29,0.8939950980392157) 57%) !important;
+        }
     </style>
 </head>
 
@@ -27,9 +30,10 @@
                     <div class="main">
                         <ul class="cards">
                             <% mesas.forEach(function(mesa){ %>
-                                <li class="cards_item">
+                                <li class="cards_item" id="<%=mesa._id%>">
                                     <div class="card clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
                                         <div class="card_image"><img style="width: 75%;" src="/img/mesa.png"></div>
+<<<<<<< HEAD
                                         <div class="card_content" <% if(mesa.tipo==0){ %> style="background: linear-gradient(to bottom left, #16c150 40%, #2ea954 100%) !important;"
                                             <% }%>>
                                                 <h1 class="card_title">
@@ -47,6 +51,24 @@
                                                             <%}%>
                                                                 <button id="" class="btn card_btn" data-translate="start">Editar</button>
                                                                 <button id="" class="btn card_btn" data-translate="start">Desativar</button>
+=======
+                                        <div class="card_content <%=(mesa.tipo==0)?'':' usando'%>">
+                                            <h1 class="card_title">
+                                                <%=mesa.name%>
+                                            </h1>
+                                            <p class="card_text">
+                                                Código:
+                                                <%=mesa.codigo%> <br>
+                                            </p>
+                                            <div class="card_buttons">
+                                                <%if(mesa.tipo==0){%>
+                                                    <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="btn card_btn" data-translate="start">Usar</button></span>
+                                                    <%}else{%>
+                                                        <span><button id="" class="btn card_btn" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
+                                                        <%}%>
+                                                            <button id="" class="btn card_btn" data-translate="start">Editar</button>
+                                                            <button id="" class="btn card_btn" data-translate="start">Desativar</button>
+>>>>>>> 176f60fbb7e63eb30b465abff30b73a29b9c8179
 
                                                 </div>
                                                 <!-- <button class="btn card_btn">Read More</button> -->
@@ -110,15 +132,26 @@
                         contentType: 'application/json',
                         data: JSON.stringify({}), // access in body
                     }).done(function(data) {
-                        $('#' + idMesa + ' td#usando').text('Não');
-                        $('#' + idMesa + ' td#acoes span').html(`<button id="" onclick="showClickHandler('${idMesa}');" class="select" data-translate="start">Usar</button>`);
+                        //$('#' + idMesa + ' td#usando').text('Não');
+                        $('#' + idMesa + ' div.card_buttons span').html(`<button id="" onclick="showClickHandler('${idMesa}');"  class="btn card_btn" data-translate="start">Usar</button>`);
                         let tr = document.getElementById('' + idMesa);
+<<<<<<< HEAD
                         // let clickables = tr.querySelectorAll('.clickable-row');
                         // for (let index = 0; index < clickables.length; index++) {
                         //     const element = clickables[index];
                         //     element.setAttribute("data-href", ``);
                         //     element.setAttribute("data-tipo", 0);
                         // }
+=======
+                        let clickables = tr.querySelectorAll('.clickable-row');
+                        for (let index = 0; index < clickables.length; index++) {
+                            const element = clickables[index];
+                            let href = element.getAttribute('data-href');
+                            element.setAttribute("data-href", ``);
+                            element.setAttribute("data-tipo", 0);
+                            window.location = href;
+                        }
+>>>>>>> 176f60fbb7e63eb30b465abff30b73a29b9c8179
                         dialog.close();
                         window.location.reload(true);
                     }).fail(function(msg) {
@@ -142,15 +175,27 @@
                         contentType: 'application/json',
                         data: JSON.stringify(data), // access in body
                     }).done(function(data) {
-                        $('#' + idMesa.value + ' td#usando').text('Sim');
-                        $('#' + idMesa.value + ' td#acoes span').html(`<button id="" class="select" onclick="fecharMesa('${idMesa.value}');" data-translate="start">Fechar</button>`);
+                        //$('#' + idMesa.value + ' td#usando').text('Sim');
+                        $('#' + idMesa.value + ' div.card_buttons span').html(`<button id="" onclick="fecharMesa('${idMesa.value}');"  class="btn card_btn" data-translate="start">Fechar</button>`);
                         let tr = document.getElementById('' + idMesa.value);
+<<<<<<< HEAD
                         // let clickables = tr.querySelectorAll('.clickable-row');
                         // for (let index = 0; index < clickables.length; index++) {
                         //     const element = clickables[index];
                         //     element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
                         //     element.setAttribute("data-tipo", 1);
                         // }
+=======
+                        let clickables = tr.querySelectorAll('.clickable-row');
+                        for (let index = 0; index < clickables.length; index++) {
+                            const element = clickables[index];
+                            element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
+                            element.setAttribute("data-tipo", 1);
+                        }
+                        let card = document.getElementById(idMesa.value); 
+                        card = card.querySelector('div.card_content');
+                        card.classList.add('usando');
+>>>>>>> 176f60fbb7e63eb30b465abff30b73a29b9c8179
                         dialog.close();
                         window.location.reload(true);
                     }).fail(function(msg) {
