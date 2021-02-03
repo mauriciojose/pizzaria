@@ -41,7 +41,7 @@
                                                     <button id="" class="btn card_btn" data-translate="start">Editar</button>
                                                     <button id="" class="btn card_btn" data-translate="start">Desativar</button>
                                                     <%}else{%>
-                                                        <button id="" class="btn card_btn" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
+                                                        <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
                                                         <%}%>
                                             </div>
                                             <!-- <button class="btn card_btn">Read More</button> -->
@@ -51,38 +51,6 @@
                                 <%});%>
                         </ul>
                     </div>
-                    <!-- <table id="#responsive">
-                    <thead>
-                        <th>Código</th>
-                        <th>Produto</th>
-                        <th class="text-center">Qtde</th>
-                        <th class="text-center">Valor</th>
-                        <th class="text-center">Tipo</th>
-                        <th class="text-center">Status</th>
-                        <th style="width: 20%;">ações</th>
-            
-                    </thead>
-                    <tbody>
-                        <% produtos.forEach(function(produto){ %>
-                            <tr>
-                                <td><%=produto.codigo%></td>
-                                <td><%=produto.name%></td>
-                                <td class="text-center"><%=produto.quantidade%></td>
-                                <td class="text-center"><%=produto.precoVenda%></td>
-                                <td class="text-center"><%=(typeof produto.medida != 'undefined') ? produto.medida.sigla : ''%></td>
-                                <td class="text-center"><%=(produto.ativo) ? "ativo":"inativo"%></td>
-                                <td>
-                                    <%if(tipo==0){%>
-                                        <button id="" class="select" data-translate="start">Editar</button>
-                                        <button id="" class="select" data-translate="start">Desativar</button>
-                                    <%}else{%>
-                                        <button id="" class="select" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
-                                    <%}%>
-                                </td>
-                            </tr>
-                          <% }); %>
-                    </tbody>
-                </table> -->
                 </div>
             </div>
 
@@ -126,22 +94,28 @@
                 dialog.close();
             };
 
-            $.ajax({
-                type: 'PUT',
-                url: 'financeiro/addproduto/' + idCaixa.value,
-                contentType: 'application/json',
-                data: JSON.stringify(data), // access in body
-            }).done(function(data) {
-                console.log("Sucess");
-                sucess();
-                closeClickHandler();
-            }).fail(function(msg) {
-                console.log('FAIL');
-                failure();
-            }).always(function(msg) {
-                console.log('ALWAYS');
-            });
-            }
+            function showClickHandler(idProduto, quantidade) {
+                dialog.querySelector('#idProduto').value = idProduto;
+                dialog.querySelector('#qtdeDisponivel').value = quantidade;
+                dialog.querySelector('#disponivel').innerHTML = quantidade;
+                dialog.showModal();
+            };
+            // $.ajax({
+            //     type: 'PUT',
+            //     url: 'financeiro/addproduto/' + idCaixa.value,
+            //     contentType: 'application/json',
+            //     data: JSON.stringify(data), // access in body
+            // }).done(function(data) {
+            //     console.log("Sucess");
+            //     sucess();
+            //     closeClickHandler();
+            // }).fail(function(msg) {
+            //     console.log('FAIL');
+            //     failure();
+            // }).always(function(msg) {
+            //     console.log('ALWAYS');
+            // });
+            // }
 
 
             function sucess() {
@@ -169,17 +143,34 @@
                     $(".notify").hide();
                 }, 5000);
             }
-        </script>
 
-        <%}%>
-
-            function addProduto() { let idCaixa = document.querySelector('#idCaixa'); let quantidade = document.querySelector('#quantidade'); let idProduto = document.querySelector('#idProduto'); let data = { quantidade: quantidade.value, idProduto: idProduto.value
-            }; $.ajax({ type: 'PUT', url: '/financeiro/addproduto/' + idCaixa.value, contentType: 'application/json', data: JSON.stringify(data), // access in body }).done(function(data) { console.log("Sucess"); sucess(); closeClickHandler(); }).fail(function(msg)
-            { console.log('FAIL'); failure(); }).always(function(msg) { console.log('ALWAYS'); }); } function sucess() { $(".notify").toggleClass("active"); $(".notify").toggleClass("success"); $("#notifyType").html("Adicionado com Sucesso!"); $(".notify").show();
-            setTimeout(function() { $(".notify").removeClass("active"); $(".notify").removeClass("success"); $(".notify").hide(); }, 5000); } function failure() { $(".notify").addClass("active"); $(".notify").addClass("failure"); $("#notifyType").html("Error
-            ao adicionar!"); $(".notify").show(); setTimeout(function() { $(".notify").removeClass("active"); $(".notify").removeClass("failure"); $(".notify").hide(); }, 5000); }
+            function addProduto() { 
+                let idCaixa = document.querySelector('#idCaixa'); 
+                let quantidade = document.querySelector('#quantidade'); 
+                let idProduto = document.querySelector('#idProduto'); 
+                let data = { quantidade: quantidade.value, idProduto: idProduto.value}; 
+                $.ajax({ 
+                    type: 'PUT', 
+                    url: '/financeiro/addproduto/' + idCaixa.value, 
+                    contentType: 'application/json', 
+                    data: JSON.stringify(data), 
+                    // access in body 
+                }).done(function(data) { 
+                    console.log("Sucess"); 
+                    sucess(); 
+                    console.log(`btn${idProduto.value}`);
+                    let btn = document.getElementById(`btn${idProduto.value}`);
+                    console.log(btn);
+                    let disponivel = document.getElementById('qtdeDisponivel').value;
+                    let newDisponivel = Number.parseInt(disponivel) - Number.parseInt(quantidade.value);
+                    btn.setAttribute('onclick',`showClickHandler('${idProduto.value}',${newDisponivel})`);
+                    closeClickHandler(); 
+                }).fail(function(msg){ 
+                    console.log('FAIL'); 
+                    failure(); 
+                });
+            }
             </script>
-
             <%}%>
 
                 <script>
@@ -195,7 +186,7 @@
                         element.innerHTML = formatter.format(element.innerHTML);
                     }
                 </script>
-                <%- include('../componentes/rodape.ejs'); -%>
+    <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>

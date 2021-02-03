@@ -118,8 +118,10 @@ routes.post('/cadastros/pizza', TokenServices.checkToken, uploadImages, PizzaCon
 routes.get('/cadastros/produto', TokenServices.checkToken, ProdutoController.view);
 routes.post('/cadastros/produto', TokenServices.checkToken, uploadImages, ProdutoController.create);
 routes.get('/list/produto', ProdutoController.getBy);
+routes.get('/produto/:id', ProdutoController.getById);
 routes.get('/estoque/produtos', TokenServices.checkToken, ProdutoController.getAllView);
 routes.get('/estoque/addestoque', TokenServices.checkToken, ProdutoController.getEstoqueView);
+routes.post('/estoque/addestoque', ProdutoController.addEstoque);
 routes.get('/list/produtos/:idCategoria/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
 routes.get('/list/produtos/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
 

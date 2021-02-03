@@ -11,22 +11,193 @@
         <link rel="stylesheet" type="text/css" href="/templates/css/card.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
         <style>
 
+            footer {
+                width: 100%;
+                height: 10%;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                /* padding-right: 2%; */
+            }
+
+            .register {
+                /* height: 50%; */
+                padding: 0 5%;
+                font-size: 16px;
+                background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+                background-color: #77b55a;
+                border-radius: 3px;
+                border: 1px solid #52a329;
+                display: inline-block;
+                cursor: pointer;
+                color: #ffffff;
+                font-family: Arial;
+                /* font-size: 26px; */
+                text-decoration: none;
+                text-shadow: 0px 1px 0px #5b8a3c;
+            }
+            body div.container1 div.container-form{
+                display: block !important;
+            }
+            div.itens{
+                height: 90%;
+            }
         </style>
     </head>
 
     <body>
-        <table>
-            <thead>
-                <th>Código</th>
-                <th>Descrição</th>
-                <th>Saldo Atual</th>
-                <th>Quantidade Adicionar</th>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+        <%- include('../componentes/menu.ejs'); -%>
+        <div class="notify"><span id="notifyType" class=""></span></div>
+        <div class="container1">
+            <div class="container-form">
+                <div id="#responsive" class="itens">
+                    <select onchange="addItem(this);" style="width: 40% !important;" name="produtos" id="produtos">
+                        <% produtos.forEach(function(produto){ %>
+                            <option value="<%=produto._id%>"><%=produto.name%></option>
+                        <%});%>
+                        <option selected value="">Selecione os produtos</option>
+                    </select>
+                    <table>
+                        <thead>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Saldo Atual</th>
+                            <th>Quantidade a Adicionar</th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    
+                </div>
+                <footer>
+                    <button type="submit" onclick="adicionar();" class="register">Confirmar</button>
+                </footer>
+            </div>
+        </div>
+
+        <script>
+            var adicionados = [];
+            function addItem(element) {
+                let value = element.value.trim();
+                if (value != '' && !adicionados.includes(value)) {
+                    adicionados.push(value);
+                    $.ajax({
+                        type: 'GET',
+                        url: '/produto/' + value,
+                        contentType: 'application/json'
+                    }).done(function(data) {
+                        // console.log(data);
+                        addTr(data);
+                    }).fail(function(msg) {
+                        console.log('FAIL');
+                    }).always(function(msg) {
+                        console.log('ALWAYS');
+                    });
+                }
+            }
+
+            function addTr(data){
+                let tr =  `
+                    <tr>
+                        <td>
+                            ${data.codigo}
+                        </td>
+                        <td>
+                            ${data.name}
+                        </td>
+                        <td>
+                            ${data.quantidade}
+                        </td>
+                        <td>
+                            <input class='number' name="posestoque[]" value="0" id="${data._id}">
+                        </td>
+                    </tr>
+                `;
+                let tbody = document.querySelector('table tbody');
+                tbody.innerHTML += tr;
+                numberMask();
+            }
+
+            function numberMask(){
+                let numbers = document.querySelectorAll('.number');
+                for (let index = 0; index < numbers.length; index++) {
+                    const item = numbers[index];
+                    item.onkeypress = function (event) {
+                        let charCode = (event.which) ? event.which : event.keyCode
+                        return !(charCode > 31 && (charCode < 48 || charCode > 57));
+                    }
+                }
+            }
+
+            function preparaAdicionar(){
+                let prepara = [];
+                for (let index = 0; index < adicionados.length; index++) {
+                    const id = adicionados[index];
+                    let quantidade = document.getElementById(id).value;
+                    prepara.push({
+                        produto: id,
+                        quantidadeEntrada: quantidade
+                    });
+                }
+                return prepara;
+            }
+
+            function adicionar(){
+                let adicionar = preparaAdicionar();
+                $.ajax({
+                    type: 'POST',
+                    url: '/estoque/addestoque',
+                    contentType: 'application/json',
+                    data: JSON.stringify(adicionar), // access in body
+                }).done(function(data) {
+
+                    sucess();
+                    let tbody = document.querySelector('table tbody');
+                    tbody.innerHTML = '';
+                    adicionados=[];
+
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                    failure();
+                }).always(function(msg) {
+                    console.log('ALWAYS');
+                });
+                console.log(adicionar);
+            }
+
+
+            function sucess() {
+                $(".notify").toggleClass("active");
+                $(".notify").toggleClass("success");
+                $("#notifyType").html("Adicionado com Sucesso!");
+                $(".notify").show();
+
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("success");
+                    $(".notify").hide();
+                }, 5000);
+            }
+
+            function failure() {
+                $(".notify").addClass("active");
+                $(".notify").addClass("failure");
+                $("#notifyType").html("Error ao adicionar!");
+                $(".notify").show();
+
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("failure");
+                    $(".notify").hide();
+                }, 5000);
+            }
+        </script>
+
+        <%- include('../componentes/rodape.ejs'); -%>
     </body>
 </html>
