@@ -22,8 +22,11 @@ module.exports = {
         res.render(path.resolve('src/templates/html/register'), { tipo: req.params.id });
     },
     async getViewAuthenticate(req, res) {
-        // await User.remove();
-        res.render(path.resolve('src/templates/html/register/login'));
+        // await User.remove();s
+        let negado = typeof req.query.negado == 'undefined' ? 0 : 1;
+        res.render(path.resolve('src/templates/html/register/login'), {
+            situacao: { situacao: negado }
+        });
     },
     async register(req, res) {
 
@@ -75,13 +78,16 @@ module.exports = {
         const user = await User.findOne({ celular }).select('+password');
 
         if (!user)
-            return res.status(400).send({ error: 'User not found' });
+        // return res.status(400).send({ error: 'User not found' });
+            res.redirect('/auth/authenticate?negado=1');
 
         if (!await bcrypt.compare(password, user.password))
-            return res.status(400).send({ error: 'Invalid password' });
+        // return res.status(400).send({ error: 'Invalid password' });
+            res.redirect('/auth/authenticate?negado=1');
 
         if (!user.isChecked)
-            return res.status(403).send({ error: 'User not authorized' });
+        // return res.status(403).send({ error: 'User not authorized' });
+            res.redirect('/auth/authenticate?negado=1');
 
         user.password = undefined;
         user.isChecked = undefined;

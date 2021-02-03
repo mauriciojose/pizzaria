@@ -17,6 +17,7 @@
 
             </div>
             <div class="informations">
+                <div class="notify"><span id="notifyType" class=""></span></div>
                 <header>Tela de Acesso</header>
                 <main>
                     <fieldset class='float-label-field'>
@@ -78,8 +79,28 @@
             } else {
                 return false;
             }
+
+        }
+
+        function sucess() {
+            $(".notify").toggleClass("active");
+            $(".notify").toggleClass("success");
+            $("#notifyType").html("Acesso negado, verifique os dados inseridos!");
+            $(".notify").show();
+
+            setTimeout(function() {
+                $(".notify").removeClass("active");
+                $(".notify").removeClass("success");
+                $(".notify").hide();
+            }, 5000);
         }
     </script>
 </body>
 
 </html>
+<% if(situacao.situacao==1){%>
+    <script>
+        sucess();
+        alert('Acesso negado!!');
+    </script>
+    <%}%>
