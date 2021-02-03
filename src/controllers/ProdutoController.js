@@ -86,6 +86,11 @@ module.exports = {
             }
         }).populate('medida').populate('categorias');
     },
+    async getEstoqueView(req, res) {
+        
+        res.render(path.resolve('src/templates/html/estoque/entrada'));
+
+    },
     async getById(req, res) {
         await Produto.findById(req.params.id, (err, produtos) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }

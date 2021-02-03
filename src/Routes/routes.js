@@ -119,6 +119,7 @@ routes.get('/cadastros/produto', TokenServices.checkToken, ProdutoController.vie
 routes.post('/cadastros/produto', TokenServices.checkToken, uploadImages, ProdutoController.create);
 routes.get('/list/produto', ProdutoController.getBy);
 routes.get('/estoque/produtos', TokenServices.checkToken, ProdutoController.getAllView);
+routes.get('/estoque/addestoque', TokenServices.checkToken, ProdutoController.getEstoqueView);
 routes.get('/list/produtos/:idCategoria/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
 routes.get('/list/produtos/:idCaixa', TokenServices.checkToken, ProdutoController.getAllView);
 
