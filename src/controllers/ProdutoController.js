@@ -1,9 +1,14 @@
 const { create } = require('../models/produto');
 const Produto = require('../models/produto');
+const PosicaoEstoque = require('../models/posicaoEstoque');
+PosicaoEstoque.init();
 const Codigo = require('../models/codigos');
 const Medida = require('../models/medida');
+const User = require('../models/user');
 const Categoria = require('../models/categoria');
 const Functions = require('../functions/functions');
+const jwt = require('jsonwebtoken');
+const authConfig = require("../configuration/auth.json");
 var path = require('path');
 const { Console } = require('console');
 
@@ -51,6 +56,38 @@ module.exports = {
             return res.status(400).json({ error: error });
         }
     },
+    async addEstoque(req, res) {
+        try {
+            // await PosicaoEstoque.remove();
+            console.log(await PosicaoEstoque.find({}));
+
+            try {
+                const authcookie = req.cookies.authcookie;
+                decoded = jwt.verify(authcookie, authConfig.secret);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            const userId = decoded.id;
+
+            for (let index = 0; index < req.body.length; index++) {
+                const element = req.body[index];
+                let produto = await Produto.findById(element.produto);
+                // console.log(produto);
+                req.body[index].saldoAnterior = produto.quantidade;
+                req.body[index].status = 1;
+                req.body[index].responsavel =userId;
+                produto.quantidade += Number.parseInt(element.quantidadeEntrada);
+                // console.log(produto);
+                await Produto.updateOne({_id:element.produto},produto);
+                let posicao = await PosicaoEstoque.create(req.body);
+            }
+            // console.log(req.body);
+            return res.status(200).json({ status: 200 });
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({ error: error });
+        }
+    },
     async getAll(req, res) {
         // await Produto.remove();
         await Produto.find({}, (err, produtos) => {
@@ -61,9 +98,10 @@ module.exports = {
         // await Produto.remove();
         let filter = (typeof req.params.idCategoria == 'undefined') ? {} : await Categoria.findById(req.params.idCategoria);
         filter = (Object.keys(filter).length === 0) ? {} : { categorias: filter };
-        console.log(req.params.idCategoria, filter);
+        console.log("aquiiiii",req.params.idCategoria, filter);
         await Produto.find(filter, (err, produtos) => {
             if ((typeof req.params.idCategoria == 'undefined')) {
+                console.log("teste");
                 res.render(path.resolve('src/templates/html/estoque/produtos'), {
                     produtos: produtos,
                     tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
@@ -87,8 +125,10 @@ module.exports = {
         }).populate('medida').populate('categorias');
     },
     async getEstoqueView(req, res) {
-        
-        res.render(path.resolve('src/templates/html/estoque/entrada'));
+        let produtos = await Produto.find({pizza: false});
+        res.render(path.resolve('src/templates/html/estoque/entrada'), {
+            produtos: produtos
+        });
 
     },
     async getById(req, res) {

@@ -39,6 +39,8 @@ module.exports = {
                     produto: req.body.idProduto,
                     valorUnitario: produto.precoVenda
                 });
+                produto.quantidade -= Number.parseInt(req.body.quantidade); 
+                await Produto.updateOne({_id:produto._id},produto);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
                 console.log(caixa);
