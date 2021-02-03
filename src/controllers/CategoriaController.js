@@ -15,18 +15,41 @@ module.exports = {
         res.render(path.resolve('src/templates/html/cadastros/categoria'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
     },
     async create(req, res) {
-        try {
-            let categoria = await Categoria.create(req.body);
-            let codigo = await Codigo.find({});
-            codigo = codigo[0];
-            codigo.categoria = codigo.categoria + 1;
-            await Codigo.update(codigo);
+        var dado = req.body.id;
+        if (dado != '') {
+            try {
+                let categoria = await Categoria.create(req.body);
+                let codigo = await Codigo.find({});
+                codigo = codigo[0];
+                codigo.categoria = codigo.categoria + 1;
+                await Codigo.update(codigo);
 
-            res.redirect('/list/categorias?success=1');
-        } catch (error) {
-            return res.status(400).json({ error: error });
+                res.redirect('/list/categorias?success=1');
+            } catch (error) {
+                return res.status(400).json({ error: error });
+
+            }
+
+        } else {
+            try {
+
+                await Categoria.updateOne({ 'name': req.body.name, 'ativo': req.body.ativo, 'pizza': req.body.pizza });
+                res.redirect('/list/categorias?success=1');
+
+            } catch (error) {
+                return res.status(400).json({ error: error });
+            }
         }
     },
+
+    async getCode(req, res) {
+        var dado = req.body.busca;
+        await Categoria.find({ 'name': dado }, (err, categorias) => {
+            return res.json(categorias);
+        });
+
+    },
+
     async getAll(req, res) {
         // await Categoria.remove();
         await Categoria.find({}, (err, categorias) => {

@@ -134,6 +134,7 @@ routes.get('/list/categorias/:idCaixa', TokenServices.checkToken, CategoriaContr
 routes.get('/list/categoria/:id', TokenServices.checkToken, CategoriaController.getById);
 routes.get('/cadastros/categoria', TokenServices.checkToken, CategoriaController.view);
 routes.post('/cadastros/categoria', TokenServices.checkToken, CategoriaController.create);
+routes.put('/cadastros/categoria', TokenServices.checkToken, CategoriaController.getCode);
 routes.get('/remove/categoria/:id', TokenServices.checkToken, CategoriaController.removeById);
 
 routes.get('/list/mesas', TokenServices.checkToken, MesaController.getAllView);

@@ -7,18 +7,33 @@
     <title>Register</title>
     <base href="/">
     <link rel="stylesheet" type="text/css" href="/templates/css/produto.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
 </head>
 
 <body>
     <%- include('../componentes/menu.ejs'); -%>
+
         <div class="notify"><span id="notifyType" class=""></span></div>
         <form class="container" action="/cadastros/categoria" method="POST">
+
             <div class="container-form">
                 <div class="informations">
-                    <header>Nova Categoria</header>
+                    <header>Nova Categoria
+
+                    </header>
+
                     <main>
+                        <div class="form-outline">
+                            <label style="color: white;" for="">Pesquisa</label>
+                            <input type="text" class="form-control" id="input">
+                            <button class="register" id="busca">Busca</button>
+                            <br> <br>
+                            <hr>
+                            <br>
+                        </div>
                         <div class="row">
+                            <input id="id" name="id" value="" class='campo-texto' required name="codigo" type='hidden'>
                             <fieldset class='float-label-field quarentaecinco'>
                                 <label for="codigo">Código</label>
                                 <input id="codigo" value="<%=codigo%>" class='campo-texto' required name="codigo" type='text'>
@@ -34,7 +49,7 @@
                                 </div>
                             </fieldset>
                             <fieldset class='float-label-field' style="width:5% !important">
-                                <label style="" for="pizza">É Pizza?</label>
+                                <label for="pizza">É Pizza?</label>
                                 <div class="onoffswitch">
                                     <input type="checkbox" name="pizza" class="onoffswitch-checkbox" id="myonoffswitch1" value="false" tabindex="0">
                                     <label class="onoffswitch-label" for="myonoffswitch1">
@@ -139,6 +154,35 @@
                     $(".notify").hide();
                 }, 5000);
             }
+
+
+            $('#busca').click(function(event) {
+                event.preventDefault();
+                var busca = $('#input').val();
+                $.ajax({
+                    method: 'PUT',
+                    url: "/cadastros/categoria",
+                    data: {
+                        busca: busca
+                    },
+                    success: function(resposta) {
+                        var dados = resposta;
+                        document.getElementById('id').value = dados[0]['_id'];
+                        document.getElementById('codigo').value = dados[0]['codigo'];
+                        document.getElementById('name').value = dados[0]['name'];
+                        document.getElementById('myonoffswitch').value = dados[0]['ativo'];
+                        document.getElementById('myonoffswitch1').value = dados[0]['pizza'];
+
+
+                        // window.location.href = "/compra/cadastro?success=1";
+
+                    }
+                });
+                // console.log(busca);
+                // document.getElementById('codigo').value = 'teste';
+
+
+            });
         </script>
 
         <% if(situacao.situacao==1){%>
