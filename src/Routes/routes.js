@@ -65,7 +65,7 @@ routes.get('/templates/css/teste.css', function(req, res) {
 
 // ____________________________________________________________----
 routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
-routes.get('/list/cliente', TokenServices.checkToken, ClienteController.getBy);
+routes.put('/list/cliente', TokenServices.checkToken, ClienteController.getById);
 routes.post('/cadastros/cliente', TokenServices.checkToken, ClienteController.create);
 // 
 //-------------------------------------------------------------------------\\
@@ -127,6 +127,7 @@ routes.get('/list/produtos/:idCaixa', TokenServices.checkToken, ProdutoControlle
 
 routes.get('/list/medidas', TokenServices.checkToken, MedidaController.getAll);
 routes.get('/list/medida/:id', TokenServices.checkToken, MedidaController.getById);
+routes.put('/list/medida', TokenServices.checkToken, MedidaController.getById);
 routes.get('/cadastros/medida', TokenServices.checkToken, MedidaController.view);
 routes.post('/cadastros/medida', TokenServices.checkToken, MedidaController.create);
 routes.get('/remove/medida/:id', TokenServices.checkToken, MedidaController.removeById);

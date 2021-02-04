@@ -8,15 +8,16 @@ const { Console } = require('console');
 module.exports = {
     async view(req, res) {
         // await Categoria.remove();
+        let dados = await Categoria.find({});
         let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         console.log(codigo);
         codigo = (codigo.length > 0) ? codigo[0].categoria + 1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/categoria'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
+        res.render(path.resolve('src/templates/html/cadastros/categoria'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo), dados: dados });
     },
     async create(req, res) {
         var dado = req.body.id;
-        if (dado != '') {
+        if (dado == '') {
             try {
                 let categoria = await Categoria.create(req.body);
                 let codigo = await Codigo.find({});
@@ -24,7 +25,7 @@ module.exports = {
                 codigo.categoria = codigo.categoria + 1;
                 await Codigo.update(codigo);
 
-                res.redirect('/list/categorias?success=1');
+                res.redirect('/cadastros/categoria?success=1');
             } catch (error) {
                 return res.status(400).json({ error: error });
 
@@ -32,9 +33,9 @@ module.exports = {
 
         } else {
             try {
-
-                await Categoria.updateOne({ 'name': req.body.name, 'ativo': req.body.ativo, 'pizza': req.body.pizza });
-                res.redirect('/list/categorias?success=1');
+                await Categoria.updateOne({ _id: dado }, { name: req.body.name, ativo: req.body.ativo });
+                // res.redirect('/list/categorias?success=1');
+                res.redirect('/cadastros/categoria?success=1');
 
             } catch (error) {
                 return res.status(400).json({ error: error });

@@ -23,6 +23,7 @@ module.exports = {
 
     async getAllView(req, res) {
         // await Compra.remove();
+
         let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         await Compra.find({}, (err, compras) => {
             // console.log(compras);
