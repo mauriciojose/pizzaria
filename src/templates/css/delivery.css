@@ -76,3 +76,8 @@ table tbody tr td button:focus {
         width: 100%;
     }
 }
+
+tbody {
+    background: transparent;
+    color: #000458;
+}

@@ -90,6 +90,11 @@ module.exports = {
             });
         }).populate('ProdutoCaixa');
     },
+
+    async getById(req, res) {
+        let caixa = await Caixa.updateOne({ _id: req.body.id }, { ativo: req.body.ativo });
+        return res.json(caixa);
+    },
     async getAllView(req, res) {
         // await Mesa.remove();
         await Caixa.find({}, (err, caixas) => {

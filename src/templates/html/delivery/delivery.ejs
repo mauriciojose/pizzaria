@@ -10,9 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <style>
-        tbody {
-            background: #1118a6;
-        }
+
     </style>
 </head>
 
@@ -68,7 +66,7 @@
                                         <% }else{%>
                                             <td></td>
                                             <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                            <td><button disabled onclick="FinalizarPedido('<%=caixa._id%>')">Reabrir</button></td>
+                                            <td><button disabled onclick="reabrir('<%=caixa._id%>')">Pagamento</button></td>
                                             <%}%>
                                 </tr>
                                 <% }%>
@@ -254,6 +252,19 @@
 
     function add(idCaixa) {
         window.location.href = "/list/categorias/" + idCaixa;
+
+    }
+
+    function reabrir(idCaixa) {
+        $.ajax({
+            method: 'POST',
+            url: '/caixa/reabrir',
+            data: {
+                id: idCaixa,
+                ativo: 0
+            },
+        });
+        window.location.reload(true);
 
     }
 </script>

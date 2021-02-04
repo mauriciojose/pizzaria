@@ -15,8 +15,9 @@
         .clickable-row {
             cursor: pointer;
         }
-        .usando{
-            background: linear-gradient(90deg, rgba(82,81,13,1) 0%, rgba(177,180,29,0.8939950980392157) 57%) !important;
+        
+        .usando {
+            background: linear-gradient(90deg, rgba(82, 81, 13, 1) 0%, rgba(177, 180, 29, 0.8939950980392157) 57%) !important;
         }
     </style>
 </head>
@@ -45,13 +46,13 @@
                                                 <%if(mesa.tipo==0){%>
                                                     <span><button id="" onclick="showClickHandler('<%=mesa._id%>');" class="btn card_btn" data-translate="start">Usar</button></span>
                                                     <%}else{%>
-                                                        <span><button id="" class="btn card_btn" onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
+                                                        <span><button id="" class="btn card_btn" disabled onclick="fecharMesa('<%=mesa._id%>');" data-translate="start">Fechar</button></span>
                                                         <%}%>
                                                             <button id="" class="btn card_btn" data-translate="start">Editar</button>
                                                             <button id="" class="btn card_btn" data-translate="start">Desativar</button>
 
-                                                </div>
-                                                <!-- <button class="btn card_btn">Read More</button> -->
+                                            </div>
+                                            <!-- <button class="btn card_btn">Read More</button> -->
                                         </div>
                                     </div>
                                 </li>
@@ -155,7 +156,7 @@
                             element.setAttribute("data-href", `/financeiro/caixa/${data._id}`);
                             element.setAttribute("data-tipo", 1);
                         }
-                        let card = document.getElementById(idMesa.value); 
+                        let card = document.getElementById(idMesa.value);
                         card = card.querySelector('div.card_content');
                         card.classList.add('usando');
                         dialog.close();
