@@ -39,7 +39,8 @@ const CaixaSchema = new mongoose.Schema({
     produtos: [{
         type: Schema.Types.ObjectId,
         ref: "ProdutoCaixa"
-    }]
+    }],
+
 });
 
 const Caixa = mongoose.model('Caixa', CaixaSchema);

@@ -7,7 +7,17 @@
     <title>Caixa</title>
     <link rel="stylesheet" type="text/css" href="/templates/css/style.css">
     <link rel="stylesheet" type="text/css" href="/templates/css/caixa.css">
-
+    <style>
+        @media (max-width: 24rem) {
+            div .row {
+                display: block !important;
+            }
+        }
+        
+        label {
+            color: #000459;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
@@ -26,7 +36,7 @@
 
         <div class="caixa">
             <div class="logo">
-                <img id="cliente" src="images/img/mesa.png" alt="">
+                <!-- <img id="cliente" src="images/img/mesa.png" alt=""> -->
             </div>
             <div style="overflow-y: scroll;" class="tabela">
                 <table id="listItens">
@@ -99,27 +109,45 @@
                 </div>
             </div>-->
             <div class="row" style="display: inline-flex;">
-                <div style="display: flex;margin-left: 8%;margin-top: 2%;">
+                <div style="display: flex;margin-left: 4%;margin-top: 2%;">
                     <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
 
                 </div>
-                <div style="display: block;margin-top: 2%;">
+                <div style="display: flex;margin-left: 4%;margin-top: 2%;">
+
+                    <label style="margin-right: 5px;">Pagamento <input type="text" value="<%=pgto%>" readonly disabled name="" class="input" id="pagamento"></label>
+
+                </div>
+                <div style="display: flex;margin-left: 4%;margin-top: 2%;">
+
+                    <label style="margin-right: 5px;">Total <input type="text" value="<%=total-pgto%>" readonly disabled name="" class="input" id="total"></label>
+
+                </div>
+                <div style="display: block;margin-top: 2%;margin-left: 2%;">
+                    <label>&nbsp;
+                        <button class="input green" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
+                </div>
+                <div style="display: block;margin-top: 2%;margin-left: 2%;">
                     <label>&nbsp;
                         <button class="input green">Imprimir</button></label>
                 </div>
-                <div style="display: block;margin-top: 2%;">
+
+                <div style="display: block;margin-top: 2%; margin-left: 2%;">
                     <label>&nbsp;
                         <%if(status==0){%>
-                        <% if(idMesa==''){%>
+                            <!-- -->
+                    <% if(idMesa==''){%>
                         <button class="input green" onclick="FinalizarPedido('<%=idCaixa%>');">Finalizar</button></label>
+
                     <% }else{%>
                         <button class="input green" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
-                        <% } }%>
+
+                        <% }
+                     }%>
 
                 </div>
-
-
             </div>
+
 
             <!-- </form> -->
             <a href="/list/categorias/<%=idCaixa%>">
@@ -155,18 +183,101 @@
             </div> -->
             </div>
         </dialog>
+
+
+        <dialog class="mdl-dialog" id="modalpagamento">
+            <input type="hidden" id="id_caixa">
+            <div class="mdl-dialog__content">
+                <div>
+                    <table id="pgto">
+                        <thead>
+                            <th>Valor</th>
+                            <th>Tipo</th>
+                            <th>Acao</th>
+                        </thead>
+                        <tbody>
+                            <%pagamentos.forEach(function(pagamento){%>
+
+                                <tr>
+                                    <td>
+                                        <%=pagamento.valor%>
+                                    </td>
+                                    <td>
+                                        <%=pagamento.tipo%>
+                                    </td>
+                                    <td>
+                                        <button onclick="busca('<%=pagamento._id%>');">&#9999;</button>
+                                    </td>
+                                </tr>
+                                <%});%>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <label for="name">Cliente</label>
+                    <select name="cliente" class="form-control" id="cliente" style="margin-top:0;width: 100% !important; font-size: 14px;">
+                      <% clientes.forEach(function(cliente){
+                            if(cliente.codigo=='0000000001'){%>
+                                <option value="<%=cliente._id%>"><%=cliente.name%></option>                                
+                                <% }else{%>
+                                    <option value="<%=cliente._id%>"><%=cliente.name%></option>
+                        
+                        <% }});%>
+                    </select>
+                    <br>
+                    <input type="hidden" id="id_pagamento" name="id">
+                    <label for="name">Pagamento</label>
+                    <select name="tipo" class="form-control" id="tipo" style="width: 100% !important; font-size: 14px;">
+                       <option value="dinheiro">Dinheiro</option>  
+                       <option value="Cartão de credito">Cartão de Credito</option>
+                       <option value="Cartão de Débito">Cartão de Débito</option>
+                       <option value="Transferência">Transferência Bancária</option>
+                    </select>
+                    <br>
+                    <label for="name">Valor</label>
+                    <input type="text" name="valor" id="valor">
+                </div>
+                <br>
+            </div>
+            <hr>
+            <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                <div class="container-button left">
+                    <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
+                    <button onclick="addPagamento();" type="button" id="addicionar" class="mdl-button">Adicionar</button>
+                </div>
+                <!-- <div class="container-button right">
+        <button type="button" onclick="usarMesa();" class="mdl-button">Usar</button>
+    </div> -->
+            </div>
+        </dialog>
         <%- include('../componentes/rodape.ejs'); -%>
 </body>
+
+
 
 <script>
     var dialog = document.querySelector('#modal-example');
     if (!dialog.showModal) {
         dialogPolyfill.registerDialog(dialog);
     }
+    var pagamento = document.querySelector('#modalpagamento');
+    if (!pagamento.showModal) {
+        dialogPolyfill.registerDialog(pagamento);
+    }
+
+    function pagamentos(idCaixa) {
+
+        document.querySelector('#id_caixa').value = idCaixa;
+        pagamento.showModal();
+
+    }
 
     function closeClickHandler() {
         dialog.close();
+        pagamento.close();
     };
+    $("#pagamento").val(formatter.format($("#pagamento").val()));
+    $("#total").val(formatter.format($("#total").val()));
 
     function showClickHandler(idProdutoCaixa) {
         // dialog.querySelector('#idMesa').value = idMesa;
@@ -198,6 +309,7 @@
     };
     // var total = 0.00;
     $("#subtotal").val(formatter.format($("#subtotal").val()));
+
 
     let moneys = document.querySelectorAll('td.money');
     for (let index = 0; index < moneys.length; index++) {
@@ -305,32 +417,80 @@ document.oncontextmenu = new Function('return false;');*/
     }
 
     function FinalizarPedido(idCaixa) {
+        var total = $('#total').val();
+        if (total == "R$ 0,00") {
 
-        $.ajax({
-            method: 'PUT',
-            url: "/delivery/finalizar/" + idCaixa,
-            data: {
-                caixa: idCaixa,
-            },
-            success: function() {
-                window.location.href = "/delivery/delivery";
-            }
-        })
+            $.ajax({
+                    method: 'PUT',
+                    url: "/delivery/finalizar/" + idCaixa,
+                    data: {
+                        caixa: idCaixa,
+                    },
+                    success: function() {
+                        window.location.href = "/delivery/delivery";
+                    }
+                })
+                // console.log(total);
+        } else {
+            window.alert('Valor diferente de zero');
+        }
     }
 
+
+
     function fecharMesa(idMesa) {
+        var total = $('#total').val();
+        if (total == "R$ 0,00") {
+            $.ajax({
+                type: 'PUT',
+                url: '/close/mesa/' + idMesa,
+                contentType: 'application/json',
+                data: JSON.stringify({}), // access in body
+            }).done(function(data) {
+                window.location.href = "/list/mesas";
+            }).fail(function(msg) {
+                console.log('FAIL');
+            }).always(function(msg) {
+                console.log('ALWAYS');
+            });
+        } else {
+            window.alert('Valor diferente de zero');
+        }
+    }
+
+    function busca(idPagamento) {
         $.ajax({
-            type: 'PUT',
-            url: '/close/mesa/' + idMesa,
-            contentType: 'application/json',
-            data: JSON.stringify({}), // access in body
-        }).done(function(data) {
-            window.location.href = "/list/mesas";
-        }).fail(function(msg) {
-            console.log('FAIL');
-        }).always(function(msg) {
-            console.log('ALWAYS');
+            method: 'PUT',
+            url: '/pagamento/' + idPagamento,
+            success: function(resposta) {
+                $('#tipo').val(resposta.tipo);
+                $('#valor').val(resposta.valor.$numberDecimal);
+                $('#id_pagamento').val(resposta._id);
+                $('#cliente').val(resposta.cliente);
+            }
         });
+    }
+
+    function addPagamento() {
+        var id = $('#id_pagamento').val();
+        dados = {
+            caixa: $('#id_caixa').val(),
+            cliente: $('#cliente').val(),
+            tipo: $('#tipo').val(),
+            valor: $('#valor').val(),
+            id: id
+        }
+        $.ajax({
+            method: 'PUT',
+            url: '/adicionar/pagamento',
+            data: dados,
+            success: function(resposta) {
+                window.location.reload(true);
+            }
+
+        });
+        // console.log(dados);
+
     }
 </script>
 

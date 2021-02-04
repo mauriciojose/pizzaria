@@ -64,11 +64,11 @@
                                     <% if(caixa.status==0){%>
                                         <td><button onclick="add('<%=caixa._id%>')">Adicionar</button></td>
                                         <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                        <td><button onclick="FinalizarPedido('<%=caixa._id%>')">Finalizar</button></td>
+                                        <td><button onclick="Pagamento('<%=caixa._id%>')">Pagamento</button></td>
                                         <% }else{%>
                                             <td></td>
                                             <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                            <td><button disabled onclick="FinalizarPedido('<%=caixa._id%>')">Finalizar</button></td>
+                                            <td><button disabled onclick="FinalizarPedido('<%=caixa._id%>')">Reabrir</button></td>
                                             <%}%>
                                 </tr>
                                 <% }%>
@@ -138,6 +138,47 @@
     </div>
 </div>
 
+
+<div class="modal" tabindex="-1" id="Modal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Pagamento</h5>
+                <button type="button" class="" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <input type="hidden" id="id_caixa">
+                    <label for="name">Pagamento</label>
+                    <select name="tipo" class="form-control" id="tipo" style="width: 100% !important; font-size: 14px;">
+                       <option value="dinheiro">Dinheiro</option>  
+                       <option value="Cartão de credito">Cartão de Credito</option>
+                       <option value="Cartão de Débito">Cartão de Débito</option>
+                       <option value="Transferência">Transferência Bancária</option>
+                       <option value="Carteira">Carteira</option>
+                       <option value="Cortesia">Cortesia</option>
+                    </select>
+                    <label for="">Valor</label>
+                    <input type="text" name="valor" id="valor">
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div>
+                    <button type="button" id="pagamento" class="success-button">Adiconar</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="FinalizarPedido();" class="success-button">Finalizar</button>
+                <button type="button" class="mdl-button" onclick="closeClickHandler()" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // $('#adicionar').click(function() {
     //     console.log('teste');
@@ -164,7 +205,34 @@
         })
     }
 
-    function FinalizarPedido(idCaixa) {
+    function Pagamento(idCaixa) {
+        document.querySelector('#id_caixa').value = idCaixa;
+        $('#Modal').modal('show');
+
+    }
+    $('#pagamento').click(function(event) {
+        event.preventDefault();
+        var tipo = $('#tipo').val();
+        var valor = $('#valor').val();
+        var caixa = $('#id_caixa').val();
+        var dados = {
+            tipo: tipo,
+            valor: valor,
+            caixa: caixa
+        }
+        $.ajax({
+            method: 'PUT',
+            url: '/delivery/pagamento',
+            data: dados,
+            success: function(resposta) {
+                console.log(resposta);
+            }
+        });
+
+    });
+
+    function FinalizarPedido() {
+        var idCaixa = ('#id_caixa').val();
 
         $.ajax({
             method: 'PUT',
@@ -176,6 +244,7 @@
                 window.location.reload(true);
             }
         })
+
     }
 
     function caixa(idCaixa) {

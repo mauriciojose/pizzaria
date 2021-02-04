@@ -2,21 +2,40 @@ var path = require('path');
 const { Console } = require('console');
 const Mesa = require('../models/mesa');
 const Caixa = require('../models/caixa');
+const Cliente = require('../models/cliente');
+const Pagamentos = require('../models/pagamentos');
 const ProdutoCaixa = require('../models/ProdutoCaixa');
 const PizzaCaixa = require('../models/PizzaCaixa');
 const Produto = require('../models/produto');
 
 module.exports = {
     async view(req, res) {
+        let totalP = 0;
+        let pags
+        let clientes = await Cliente.find({});
+        await Pagamentos.find({ caixa: req.params.id }, (err, pagamentos) => {
+            for (let index = 0; index < pagamentos.length; index++) {
+                var total = parseFloat(pagamentos[index].valor);
+                totalP += total;
+            }
+            pags = pagamentos;
+
+        });
+        // console.log(totalP);
         await Caixa.findById(req.params.id, (err, caixa) => {
-            console.log(caixa);
+            // console.log(caixa);
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
             res.render(path.resolve('src/templates/html/cadastros/caixa'), {
                 idMesa: typeof caixa.mesa === 'undefined' ? '' : caixa.mesa._id,
                 idCaixa: caixa._id,
                 produtos: caixa.produtos,
-                status: caixa.status
+                status: caixa.status,
+                pgto: totalP,
+                clientes: clientes,
+                pagamentos: pags
+
             });
+
         }).populate('mesa').populate({
             path: 'produtos',
             model: 'ProdutoCaixa',
@@ -39,8 +58,8 @@ module.exports = {
                     produto: req.body.idProduto,
                     valorUnitario: produto.precoVenda
                 });
-                produto.quantidade -= Number.parseInt(req.body.quantidade); 
-                await Produto.updateOne({_id:produto._id},produto);
+                produto.quantidade -= Number.parseInt(req.body.quantidade);
+                await Produto.updateOne({ _id: produto._id }, produto);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
                 console.log(caixa);

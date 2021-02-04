@@ -10,6 +10,7 @@ const ClienteController = require('../controllers/ClienteController');
 const MesaController = require('../controllers/MesaController');
 const PizzaController = require('../controllers/PizzaController');
 const CompraController = require('../controllers/CompraController');
+const PagamentoController = require('../controllers/PagamentoController');
 
 const TokenServices = require('../services/TokenService');
 
@@ -43,12 +44,6 @@ routes.get('/', TokenServices.checkToken, MenuController.getAllView);
 
 
 
-// ---------------------------------------------------
-routes.get('/delivery/delivery', TokenServices.checkToken, DeliveryController.getAllView);
-routes.put('/delivery/novo/:id', DeliveryController.novoPedido);
-routes.put('/delivery/finalizar/:id', DeliveryController.closePedido);
-
-// +_________________________________________________________-
 
 routes.get('/templates/css/estilo.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/estilo.css'));
@@ -63,11 +58,7 @@ routes.get('/templates/css/teste.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/teste.css'));
 });
 
-// ____________________________________________________________----
-routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
-routes.put('/list/cliente', TokenServices.checkToken, ClienteController.getById);
-routes.post('/cadastros/cliente', TokenServices.checkToken, ClienteController.create);
-// 
+
 //-------------------------------------------------------------------------\\
 routes.get('/templates/css/global.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/global.css'));
@@ -158,17 +149,26 @@ routes.get('/financeiro/caixa/:id', TokenServices.checkToken, CaixaController.vi
 routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
 routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
 
+routes.put('/pagamento/:id', TokenServices.checkToken, PagamentoController.getById);
+routes.put('/adicionar/pagamento', TokenServices.checkToken, PagamentoController.addPag);
 
+// ---------------------------------------------------
+routes.get('/delivery/delivery', TokenServices.checkToken, DeliveryController.getAllView);
+routes.put('/delivery/novo/:id', TokenServices.checkToken, DeliveryController.novoPedido);
+routes.put('/delivery/finalizar/:id', TokenServices.checkToken, DeliveryController.closePedido);
 
-// routes.get('/compra/cadastro/', function(req, res) {
-//     res.render(path.resolve('src/templates/html/cadastros/compras'));
-// });
-// routes.get('/compra/cadastro/', function(req, res) {
-//     res.render(path.resolve('src/templates/html/cadastros/compras'));
-// });
+// +_________________________________________________________-
+// ____________________________________________________________----
+routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
+routes.put('/list/cliente', TokenServices.checkToken, ClienteController.getById);
+routes.post('/cadastros/cliente', TokenServices.checkToken, ClienteController.create);
+// 
+
 routes.get('/compra/cadastro', TokenServices.checkToken, function(req, res) { res.render(path.resolve('src/templates/html/cadastros/compras')) });
 routes.post('/compra/cadastro', TokenServices.checkToken, CompraController.getAllView);
 routes.put('/compra/busca', TokenServices.checkToken, CompraController.getBusca);
 routes.put('/compra/cadastro', TokenServices.checkToken, CompraController.create);
+
+
 
 module.exports = routes;
