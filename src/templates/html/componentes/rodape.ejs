@@ -30,7 +30,16 @@
     }
 </script>
 <script>
+    function Atualiza() {
+
+        window.location.reload(true);
+    }
+
     function goBack() {
-        window.history.back()
+        window.history.back();
+        // console.log('funcionou');
+        window.setTimeout(Atualiza, 500);
+        // window.location.reload();
+
     }
 </script>

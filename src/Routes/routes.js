@@ -28,6 +28,7 @@ const multerConfig = require('../libraries/multer');
 const multer = require('multer');
 const MenuController = require('../controllers/MenuController');
 const DeliveryController = require('../controllers/DeliveryController');
+const Pagamento = require('../models/pagamentos');
 const uploadProduto = multer(multerConfig).array('images', 10);
 
 const uploadImages = (req, res, next) => {
@@ -169,6 +170,8 @@ routes.post('/compra/cadastro', TokenServices.checkToken, CompraController.getAl
 routes.put('/compra/busca', TokenServices.checkToken, CompraController.getBusca);
 routes.put('/compra/cadastro', TokenServices.checkToken, CompraController.create);
 
+routes.get('/relatorio/caixa', TokenServices.checkToken, function(req, res) { res.render(path.resolve('src/templates/html/relatorios/caixa')) });
+routes.post('/relatorio/caixa', TokenServices.checkToken, PagamentoController.getAllView);
 
 
 module.exports = routes;

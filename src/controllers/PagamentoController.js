@@ -28,6 +28,31 @@ module.exports = {
     async getById(req, res) {
         let pagamento = await Pagamento.findById({ _id: req.params.id });
         return res.json(pagamento);
+    },
+
+    async getAllView(req, res) {
+        const hora = "T00:00:00.058+00:00";
+        // let busca = req.body.busca;
+        if (req.body.busca == '') {
+            var inicio = req.body.inicio + hora;
+            var fim = req.body.fim + hora;
+
+            await Pagamento.find({
+                createdAt: {
+                    '$gte': inicio,
+                    '$lt': fim
+                }
+            }, (err, pagamentos) => {
+                return res.json(pagamentos);
+            }).populate('cliente');
+            console.log(pagamentos);
+        } else {
+            await Pagamento.find({}, (err, pagamentos) => {
+                return res.json(pagamentos);
+            }).populate('cliente');
+        }
+
+
     }
 
 

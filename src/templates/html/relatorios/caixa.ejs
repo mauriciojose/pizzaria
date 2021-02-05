@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caixa</title>
+    <link rel="stylesheet" type="text/css" href="/templates/css/delivery.css">
+    <link rel="stylesheet" href="/templates/css/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <style>
+        tbody {
+            background: transparent;
+        }
+    </style>
+</head>
+<script>
+</script>
+
+<body>
+    <%- include('../componentes/menu.ejs'); -%>
+
+        <h2>Relatório de Caixa</h2>
+        <div class="notify"><span id="notifyType" class=""></span></div>
+        <div class="row">
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <label for="">De</label>
+                    <input type="date" class="form-control" name="" id="inicio" value="">
+                </div>
+                <div class="col-sm-3">
+                    <label for="">Até</label>
+                    <input type="date" name="" class="form-control" id="fim">
+                </div>
+                <div class="col-sm-2">
+                    <label for="">&nbsp;</label>
+                    <button class="form-control btn-primary" onclick="buscar();">Buscar</button>
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="form-outline">
+            <input type="text" class="form-control" onkeypress="buscar(event);" id="input">
+            <label for="datatable-search-input" class="form-label"></label>
+        </div> -->
+        <div class="caixa">
+            <!-- <div class="logo">
+            <img id="cliente" src="/img/mesa.png" alt="">
+         </div> -->
+
+            <div style="overflow-y: scroll;" class="" id="table">
+
+
+            </div>
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-2">
+                        <label for="">Quantidade</label>
+                        <input type="text" disabled class="form-control" id="qtde">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="">Total</label>
+                        <input type="text" disabled class="form-control" id="total">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <!-- 
+        <div style="display: flex;margin-left: 8%;margin-top: 2%;">
+            <label style="margin-right: 5px;">SubTotal: <input type="text" readonly disabled name="" class="input" id="subtotal"></label>
+        </div> -->
+
+
+            <!-- </form> -->
+            <a onclick="showClickHandler()">
+                <div class="float-button">
+                    <span>+</span>
+                </div>
+            </a>
+        </div>
+        <div class="info">
+            <center>
+                <p>Clicle no pedido para inserir o produto</p>
+            </center>
+        </div>
+
+
+        <%- include('../componentes/rodape.ejs'); -%>
+</body>
+
+
+</html>
+<div class="modal" tabindex="-1" id="myModal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nova Compra</h5>
+                <button type="button" class="" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="col mb-2">
+                            <input type="text" name="" id="descricao" class="form-control" placeholder="Descrição">
+                        </div>
+                        <div class="col mb-2">
+                            <input type="date" name="" id="data" class="form-control" placeholder="Data">
+                        </div>
+                        <div class="col mb-2">
+                            <input type="text" name="" id="quantidade" class="form-control" placeholder="quantidade">
+                        </div>
+                        <div class="col mb-2">
+                            <input type="text" name="" id="valor" class="form-control" placeholder="valor">
+                        </div>
+                        <div class="col mb-2">
+                            <input type="text" name="" id="responsavel" class="form-control" placeholder="responsavel">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="novaCompra();" class="success-button">Criar</button>
+                <button type="button" class="mdl-button" onclick="closeClickHandler()" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showClickHandler() {
+        $('#myModal').modal('show');
+
+    };
+
+    function listar(dados) {
+        var html = "";
+        var total = 0;
+        for (let index = 0; index < dados.length; index++) {
+            total += parseFloat(dados[index]['valor']['$numberDecimal']);
+
+        }
+        $('#total').val('R$: ' + total);
+        $('#qtde').val(dados.length);
+
+
+        html += '<table>';
+        html += '<thead>';
+        html += '<th>Cliente</th>';
+        html += '<th>Data</th>';
+        html += '<th>Tipo</th>';
+        html += '<th>Valor</th>';
+        html += '<th colspan="1">Ações</th>';
+        html += '</thead><tbody>';
+        dados.forEach(function(dado) {
+
+            html += '<tr class = "clickable-row" >';
+            html += '<td data - title = "descricao" >';
+            html += dado.cliente.name;
+            html += '</td> <td data - title = "Data Pedido" >';
+            var data = dado['createdAt'].split('-');
+            var dia = data[2].split('T');
+            data = `${dia[0]}/${data[1]}/${data[0]}`;
+            html += data;
+            html += '</td> <td data - title = "quantidade" >';
+            html += dado.tipo;
+            html += '</td> <td data - title = "valor" >';
+            html += 'R$: ' + dado['valor']['$numberDecimal'];
+            html += "</td> <td> <button onclick=" + "visualiza('" + dado.caixa + "');" + " > Visualizar </button></td>";
+
+        });
+        html += '</tbody> </table>';
+        return html;
+
+    }
+    $(document).ready(function() {
+
+
+        $.ajax({
+            method: 'POST',
+            url: "/relatorio/caixa",
+            success: function(resposta) {
+                var dados = resposta;
+
+                // console.log(dados[0]['valor']['$numberDecimal']);
+
+                // var data = compra.data.split('-');
+                //         data = `${data[2]}/${data[1]}/${data[0]}`; 
+                //     %>
+                $('#table').html(listar(dados));
+                // console.log(total);
+            }
+        });
+    });
+
+    function buscar() {
+
+        var busca = "";
+        var inicio = $('#inicio').val();
+        var fim = $('#fim').val();
+        if (inicio != "" && fim != "") {
+            $.ajax({
+                method: 'POST',
+                url: "/relatorio/caixa",
+                data: {
+                    busca: busca,
+                    inicio: inicio,
+                    fim: fim
+                },
+                success: function(resposta) {
+                    var dados = resposta;
+                    $('#table').html(listar(dados));
+                    console.log(dados);
+
+                    // window.location.href = "/compra/cadastro?success=1";
+
+                }
+            });
+        } else {
+            window.alert('Selecione um intervalo de data');
+        }
+
+
+
+
+    }
+
+    function novaCompra() {
+        let descricao = $('#descricao').val();
+        let data = $('#data').val();
+        let quantidade = $('#quantidade').val();
+        let valor = $('#valor').val();
+        let responsavel = $('#responsavel').val();
+
+        $.ajax({
+            method: 'PUT',
+            url: "/compra/cadastro",
+            data: {
+                descricao: descricao,
+                data: data,
+                quantidade: quantidade,
+                valor: valor,
+                responsavel: responsavel
+
+            },
+            success: function(resposta) {
+                // console.log('sucesso');
+
+                // window.location.href = "/compra/cadastro?success=1";
+
+            }
+        });
+    }
+
+    function visualiza(idCaixa) {
+        window.location.href = "/financeiro/caixa/" + idCaixa;
+        // console.log(idCaixa);
+
+    }
+
+    function sucess() {
+        $(".notify").toggleClass("active");
+        $(".notify").toggleClass("success");
+        $("#notifyType").html("Adicionado com Sucesso!");
+        $(".notify").show();
+
+        setTimeout(function() {
+            $(".notify").removeClass("active");
+            $(".notify").removeClass("success");
+            $(".notify").hide();
+        }, 5000);
+    }
+</script>

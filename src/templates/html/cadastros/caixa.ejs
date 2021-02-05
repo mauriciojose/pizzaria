@@ -17,6 +17,10 @@
         label {
             color: #000459;
         }
+        
+        #valor {
+            color: #fff !important;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -41,6 +45,7 @@
             <div style="overflow-y: scroll;" class="tabela">
                 <table id="listItens">
                     <thead>
+                        <input type="hidden" name="" id="status" value="<%=status%>">
                         <th>Código</th>
                         <th style="text-align: left !important;">Nome</th>
                         <th>Quantidade</th>
@@ -123,29 +128,31 @@
                     <label style="margin-right: 5px;">Total <input type="text" value="<%=total-pgto%>" readonly disabled name="" class="input" id="total"></label>
 
                 </div>
-                <div style="display: block;margin-top: 2%;margin-left: 2%;">
-                    <label>&nbsp;
+                <%if(status==0){%>
+                    <div style="display: block;margin-top: 2%;margin-left: 2%;">
+                        <label>&nbsp;
                         <button class="input green" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
-                </div>
-                <div style="display: block;margin-top: 2%;margin-left: 2%;">
-                    <label>&nbsp;
+                    </div>
+                    <% }%>
+                        <div style="display: block;margin-top: 2%;margin-left: 2%;">
+                            <label>&nbsp;
                         <button class="input green">Imprimir</button></label>
-                </div>
+                        </div>
 
-                <div style="display: block;margin-top: 2%; margin-left: 2%;">
-                    <label>&nbsp;
+                        <div style="display: block;margin-top: 2%; margin-left: 2%;">
+                            <label>&nbsp;
                         <%if(status==0){%>
                             <!-- -->
                     <% if(idMesa==''){%>
                         <button class="input green" onclick="FinalizarPedido('<%=idCaixa%>');">Finalizar</button></label>
 
-                    <% }else{%>
-                        <button class="input green" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
+                            <% }else{%>
+                                <button class="input green" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
 
-                        <% }
+                                <% }
                      }%>
 
-                </div>
+                        </div>
             </div>
 
 
@@ -418,7 +425,8 @@ document.oncontextmenu = new Function('return false;');*/
 
     function FinalizarPedido(idCaixa) {
         var total = $('#total').val();
-        if (total == "R$ 0,00") {
+        var status = $('#status').val();
+        if (total == "R$ 0,00" && status == 0) {
 
             $.ajax({
                     method: 'PUT',
@@ -440,7 +448,8 @@ document.oncontextmenu = new Function('return false;');*/
 
     function fecharMesa(idMesa) {
         var total = $('#total').val();
-        if (total == "R$ 0,00") {
+        var status = $('#status').val();
+        if (total == "R$ 0,00" && status == 0) {
             $.ajax({
                 type: 'PUT',
                 url: '/close/mesa/' + idMesa,
