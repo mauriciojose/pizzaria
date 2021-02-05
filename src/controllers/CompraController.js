@@ -25,12 +25,14 @@ module.exports = {
         // await Compra.remove();
 
         let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
+
         await Compra.find({}, (err, compras) => {
             // console.log(compras);
             // res.render(path.resolve('src/templates/html/cadastros/compras'), {
             //     compras: compras,
             //     situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" },
             // });
+
             return res.json(compras);
         });
 

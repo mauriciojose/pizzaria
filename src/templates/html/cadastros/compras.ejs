@@ -12,7 +12,7 @@
 
     <style>
         tbody {
-            background: #1118a6;
+            background: transparent;
         }
     </style>
 </head>
@@ -29,11 +29,23 @@
         <div class="caixa">
             <!-- <div class="logo">
             <img id="cliente" src="/img/mesa.png" alt="">
-        </div> -->
+         </div> -->
 
             <div style="overflow-y: scroll;" class="" id="table">
 
 
+            </div>
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-2">
+                        <label for="">Quantidade</label>
+                        <input type="text" disabled class="form-control" id="qtde">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="">Total</label>
+                        <input type="text" disabled class="form-control" id="total">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -108,6 +120,15 @@
 
     function listar(dados) {
         var html = "";
+        var total = 0;
+        for (let index = 0; index < dados.length; index++) {
+            total += parseFloat(dados[index]['valor']['$numberDecimal']);
+
+        }
+        $('#total').val('R$: ' + total);
+        $('#qtde').val(dados.length);
+
+
         html += '<table>';
         html += '<thead>';
         html += '<th>Descrição</th>';
@@ -129,7 +150,7 @@
             html += '</td> <td data - title = "quantidade" >';
             html += dado['quantidade'];
             html += '</td> <td data - title = "valor" >';
-            html += 'R$: ' + dado['valor']['$numberDecimal'] + ',00';
+            html += 'R$: ' + dado['valor']['$numberDecimal'];
             html += '</td> <td data - title = "responsavel" >';
             html += dado['responsavel'];
             html += '</td> <td> <button onclick="" > Visualizar </button></td>';
@@ -146,13 +167,14 @@
             url: "/compra/cadastro",
             success: function(resposta) {
                 var dados = resposta;
+
                 // console.log(dados[0]['valor']['$numberDecimal']);
 
                 // var data = compra.data.split('-');
                 //         data = `${data[2]}/${data[1]}/${data[0]}`; 
                 //     %>
                 $('#table').html(listar(dados));
-                // console.log(html);
+                // console.log(total);
             }
         });
     });
@@ -218,8 +240,3 @@
         }, 5000);
     }
 </script>
-<% if(situacao.situacao==1){%>
-    <script>
-        sucess();
-    </script>
-    <%}%>
