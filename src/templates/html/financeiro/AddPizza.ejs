@@ -178,11 +178,11 @@
                 codigo: '<%=produto.codigo%>',
                 name: '<%=produto.name%>',
                 quantidade: '<%=produto.quantidade%>',
-                precoVenda: '<%= delivery ?  25.0: produto.precoVenda%>',
-                precoVendaQuatro: '<%= delivery ?  25.0: produto.precoVendaQuatro%>',
-                precoVendaSeis: '<%= delivery ?  25.0: produto.precoVendaSeis%>',
-                precoVendaOito: '<%= delivery ?  25.0: produto.precoVendaOito%>',
-                precoVendaDez: '<%= delivery ?  25.0: produto.precoVendaDez%>'
+                precoVenda: '<%= delivery ?  25.00: produto.precoVenda%>',
+                precoVendaQuatro: '<%= delivery ?  25.00: produto.precoVendaQuatro%>',
+                precoVendaSeis: '<%= delivery ?  25.00: produto.precoVendaSeis%>',
+                precoVendaOito: '<%= delivery ?  25.00: produto.precoVendaOito%>',
+                precoVendaDez: '<%= delivery ?  25.00: produto.precoVendaDez%>'
             });
 
             <% }); %>
@@ -200,7 +200,6 @@
                                 return element.precoVendaSeis;
                             break;
                             case '8':
-                                console.log("asdasda");
                                 return element.precoVendaOito;
                             break;
                             case '10':
@@ -276,7 +275,7 @@
                                         input.setAttribute('class', 'campo-texto precos money');
                                         input.setAttribute('type', 'text');
                                         input.setAttribute('size', '3');
-                                        input.value = item[prop];
+                                        input.value = Number.parseFloat(item[prop]).toFixed(2);
                                         td.appendChild(input);
                                         td.style.width = '20%';
                                         tr.appendChild(td);
@@ -297,7 +296,7 @@
                     // allowNegative: true,
                     thousands: '.',
                     decimal: ',',
-                    allowZero: true,
+                    allowZero: false,
                     defaultZero: false
                 });
                 $('.money').each(function() { // function to apply mask on load!
