@@ -159,6 +159,7 @@ routes.put('/delivery/novo/:id', TokenServices.checkToken, DeliveryController.no
 routes.put('/delivery/finalizar/:id', TokenServices.checkToken, DeliveryController.closePedido);
 
 // +_________________________________________________________-
+routes.put('/produto/atualiza', TokenServices.checkToken, CaixaController.atualiza);
 // ____________________________________________________________----
 routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
 routes.put('/list/cliente', TokenServices.checkToken, ClienteController.getById);

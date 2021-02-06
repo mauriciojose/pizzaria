@@ -148,5 +148,12 @@ module.exports = {
                 model: 'Produto'
             }
         });
+    },
+    async atualiza(req, res) {
+        let atualiza = await ProdutoCaixa.updateOne({ _id: req.body.id }, { quantidade: req.body.quantidade });
+        console.log(atualiza);
+        return res.json(atualiza);
+
+
     }
 };

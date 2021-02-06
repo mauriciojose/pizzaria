@@ -32,7 +32,7 @@
                         <ul class="cards">
                             <% mesas.forEach(function(mesa){ %>
                                 <li class="cards_item" id="<%=mesa._id%>">
-                                    <div class="card clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id:""%>'>
+                                    <div class="card clickable-row" data-tipo="<%=mesa.tipo%>" data-href='<%=(mesa.tipo==1)?"/financeiro/caixa/"+mesa.caixa._id : " "%>'>
                                         <div class="card_image"><img style="width: 75%;" src="/img/mesa.png"></div>
                                         <div class="card_content <%=(mesa.tipo==0)?'':' usando'%>">
                                             <h1 class="card_title">

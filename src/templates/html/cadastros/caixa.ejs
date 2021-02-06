@@ -8,9 +8,12 @@
     <link rel="stylesheet" type="text/css" href="/templates/css/style.css">
     <link rel="stylesheet" type="text/css" href="/templates/css/caixa.css">
     <style>
-        @media (max-width: 24rem) {
+        @media (max-width: 48rem) {
             div .row {
                 display: block !important;
+            }
+            .container {
+                display: block;
             }
         }
         
@@ -20,6 +23,43 @@
         
         #valor {
             color: #fff !important;
+        }
+        
+        .container {
+            display: flex;
+        }
+        
+        .customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .customers tbody td,
+        .customers thead th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-break: normal;
+        }
+        
+        .customers th {
+            width: 10%;
+        }
+        
+        .customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .customers tr:hover {
+            background-color: #ddd;
+        }
+        
+        .customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -43,7 +83,7 @@
                 <!-- <img id="cliente" src="images/img/mesa.png" alt=""> -->
             </div>
             <div style="overflow-y: scroll;" class="tabela">
-                <table id="listItens">
+                <table id="listItens" class="customers">
                     <thead>
                         <input type="hidden" name="" id="status" value="<%=status%>">
                         <th>Código</th>
@@ -51,11 +91,14 @@
                         <th>Quantidade</th>
                         <th>Valor Unitário</th>
                         <th>Valor Total</th>
+                        <th>Ação</th>
 
                     </thead>
                     <tbody>
-                        <%var total = 0;%>
-                            <% produtos.forEach(function(produto){ %>
+                        <%var total = 0; var i=0;%>
+                            <% produtos.forEach(function(produto){ 
+                             i++;
+                                %>
                                 <%if(typeof produto.produto != 'undefined'){%>
                                     <%total+=(parseFloat(produto.quantidade)*parseFloat(produto.valorUnitario))%>
                                         <tr>
@@ -66,7 +109,10 @@
                                                 <%=produto.produto.name%>
                                             </td>
                                             <td>
-                                                <%=produto.quantidade%>
+                                                <a href="" id="diminuir<%=i%>">&#10134</a>
+                                                <input type="hidden" id="produto<%=i%>" value="<%=produto._id%>">
+                                                <input type="text" disabled id="qtde<%=i%>" style="width: 4em; font-size:14px;text-align: center; color: #000458;background-color: white;" value="<%=produto.quantidade%>">
+                                                <a href="" id="aumentar<%=i%>">&#10133</a>
                                             </td>
                                             <td class="money">
                                                 <%=produto.valorUnitario%>
@@ -74,11 +120,12 @@
                                             <td class="money">
                                                 <%=(produto.quantidade*produto.valorUnitario)%>
                                             </td>
+                                            <td><a onclick="remover('<%=produto.produto%>');">&#9940</a></td>
                                         </tr>
                                         <%}else{%>
                                             <%total+=(parseFloat(produto.valorUnitario))%>
                                                 <tr>
-                                                    <td><button onclick="showClickHandler('<%=produto._id%>');">Visualizar Sabores</button></td>
+                                                    <td><button onclick="showClickHandler('<%=produto._id%>');">Sabores</button></td>
                                                     <td style="text-align: left !important;">Pizza com
                                                         <%=produto.quantidade%> fatias</td>
                                                     <td>1</td>
@@ -88,32 +135,18 @@
                                                     <td class="money">
                                                         <%=produto.valorUnitario%>
                                                     </td>
+                                                    <td><a onclick="remover('<%=produto.produto%>');">&#9940</a></td>
                                                 </tr>
                                                 <%}%>
                                                     <% }); %>
+
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="container">
-            <!-- <form action="" method="post"> -->
 
-            <!-- <div class="form">
-                <label>Valor Unitario: <input type="text" name="" class="input" id="valorUnidade"></label>
-            </div>
-            <div class="form">
-                <label>Valor Total: <input type="text" name="" class="input" id="valorTotal"></label>
-            </div> -->
-
-
-            <!-- <div class="formdivide">
-                <div class="form2">
-                    <label style="margin-right: 5px;">Quantidade: <input type="text" value="1" class="input" name="" id="quantidade"></label>
-                    <label style="width: 70%;">Produto: <input style="width: 100%;" type="text" name="" class="input codigo" id="descricao"></label>
-                    <div style="padding-top: 34px;"><button type="submit" id="inserir">Inserir</button></div>
-                </div>
-            </div>-->
-            <div class="row" style="display: inline-flex;">
+            <div class="row">
                 <div style="display: flex;margin-left: 4%;margin-top: 2%;">
                     <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
 
@@ -128,6 +161,8 @@
                     <label style="margin-right: 5px;">Total <input type="text" value="<%=total-pgto%>" readonly disabled name="" class="input" id="total"></label>
 
                 </div>
+            </div>
+            <div class="row">
                 <%if(status==0){%>
                     <div style="display: block;margin-top: 2%;margin-left: 2%;">
                         <label>&nbsp;
@@ -501,6 +536,63 @@ document.oncontextmenu = new Function('return false;');*/
         // console.log(dados);
 
     }
+
+
+
+    jQuery(document).ready(function() {
+        var vezes = <%=i%>;
+        // console.log(i);
+
+        for (let index = 1; index <= 3; index++) {
+            // console.log(index);
+
+            $('#diminuir' + index).click(function(event) {
+                event.preventDefault();
+                var idProduto = $('#produto' + index).val();
+                var qtde = $('#qtde' + index).val();
+                if (qtde > 1) {
+                    qtde -= 1;
+                    $('#qtde').val(qtde);
+                    $.ajax({
+                        method: 'PUT',
+                        url: '/produto/atualiza',
+                        data: {
+                            id: idProduto,
+                            quantidade: qtde
+                        },
+                        success: function(resposta) {
+                            window.location.reload(true);
+                        }
+
+                    });
+                }
+            });
+
+            $('#aumentar' + index).click(function() {
+                event.preventDefault();
+                var idProduto = $('#produto' + index).val();
+                var qtde = $('#qtde' + index).val();
+                console.log(idProduto);
+                if (qtde >= 1) {
+                    qtde++;
+                    $('#qtde' + index).val(qtde);
+                    $.ajax({
+                        method: 'PUT',
+                        url: '/produto/atualiza',
+                        data: {
+                            id: idProduto,
+                            quantidade: qtde
+                        },
+                        success: function(resposta) {
+                            window.location.reload(true);
+                        }
+
+                    });
+                }
+            });
+
+        }
+    });
 </script>
 
 </html>
