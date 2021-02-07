@@ -19,6 +19,7 @@ module.exports = {
     async view(req, res) {
         // await Produto.remove();
         // await Codigo.remove();
+
         let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         // console.log(codigo);
@@ -27,33 +28,62 @@ module.exports = {
             situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" },
             codigo: Functions.completeZeroLeft(codigo),
             medidas: await Medida.find({}).sort({ 'name': 'ascending' }),
-            categorias: await Categoria.find({}).sort({ 'name': 'ascending' })
+            categorias: await Categoria.find({}).sort({ 'name': 'ascending' }),
+            dados: await Produto.find({ pizza: false }),
+
         });
+
     },
     async create(req, res) {
-        try {
-            // console.log(req.files);
-            let images = [];
-            if (typeof req.files != 'undefined') {
-                for (let index = 0; index < req.files.length; index++) {
-                    const element = req.files[index];
-                    images.push(element.path);
+        var id = req.body.id;
+        if (id == '') {
+
+
+            try {
+                // console.log(req.files);
+                let images = [];
+                if (typeof req.files != 'undefined') {
+                    for (let index = 0; index < req.files.length; index++) {
+                        const element = req.files[index];
+                        images.push(element.path);
+                    }
                 }
+                // console.log(images);
+                req.body.precoFornecedor = Functions.getDecimalFromFormatBrazil(req.body.precoFornecedor);
+                req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
+                req.body.images = images;
+                let produto = await Produto.create(req.body);
+
+                let codigo = await Codigo.find({});
+                codigo = codigo[0];
+                codigo.produto = codigo.produto + 1;
+                await Codigo.update(codigo);
+
+                res.redirect('/cadastros/produto?success=1');
+            } catch (error) {
+                return res.status(400).json({ error: error });
             }
-            // console.log(images);
-            req.body.precoFornecedor = Functions.getDecimalFromFormatBrazil(req.body.precoFornecedor);
-            req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
-            req.body.images = images;
-            let produto = await Produto.create(req.body);
+        } else {
+            try {
+                await Produto.updateOne({ _id: id }, {
+                    name: req.body.name,
+                    descricao: req.body.descricao,
+                    ativo: req.body.ativo,
+                    quantidade: req.body.quantidade,
+                    categorias: req.body.categorias,
+                    codigo: req.body.codigo,
+                    refInterna: req.body.refInterna,
+                    medida: req.body.medida,
+                    precoFornecedor: req.body.precoFornecedor,
+                    precoVenda: req.body.precoVenda
+                });
 
-            let codigo = await Codigo.find({});
-            codigo = codigo[0];
-            codigo.produto = codigo.produto + 1;
-            await Codigo.update(codigo);
+                res.redirect('/cadastros/produto?success=0');
 
-            res.redirect('/cadastros/produto?success=1');
-        } catch (error) {
-            return res.status(400).json({ error: error });
+
+            } catch (error) {
+                return res.status(400).json({ error: error });
+            }
         }
     },
     async addEstoque(req, res) {
@@ -75,10 +105,10 @@ module.exports = {
                 // console.log(produto);
                 req.body[index].saldoAnterior = produto.quantidade;
                 req.body[index].status = 1;
-                req.body[index].responsavel =userId;
+                req.body[index].responsavel = userId;
                 produto.quantidade += Number.parseInt(element.quantidadeEntrada);
                 // console.log(produto);
-                await Produto.updateOne({_id:element.produto},produto);
+                await Produto.updateOne({ _id: element.produto }, produto);
                 let posicao = await PosicaoEstoque.create(req.body);
             }
             // console.log(req.body);
@@ -98,7 +128,7 @@ module.exports = {
         // await Produto.remove();
         let filter = (typeof req.params.idCategoria == 'undefined') ? {} : await Categoria.findById(req.params.idCategoria);
         filter = (Object.keys(filter).length === 0) ? {} : { categorias: filter };
-        console.log("aquiiiii",req.params.idCategoria, filter);
+        console.log("aquiiiii", req.params.idCategoria, filter);
         await Produto.find(filter, (err, produtos) => {
             if ((typeof req.params.idCategoria == 'undefined')) {
                 console.log("teste");
@@ -125,7 +155,7 @@ module.exports = {
         }).populate('medida').populate('categorias');
     },
     async getEstoqueView(req, res) {
-        let produtos = await Produto.find({pizza: false});
+        let produtos = await Produto.find({ pizza: false });
         res.render(path.resolve('src/templates/html/estoque/entrada'), {
             produtos: produtos
         });

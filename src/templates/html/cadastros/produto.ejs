@@ -25,6 +25,19 @@
                 <div class="informations">
                     <header>Novo Produto</header>
                     <main>
+                        <div class="form-outline">
+                            <label style="color: white;" for="">Pesquisa</label>
+                            <select id="input">
+                                <% dados.forEach(function(dado){%>
+                                    <option value="<%=dado._id %>"><b>Produto:</b><%=dado.name%> |<b> Preço:</b><%=dado.precoVenda%></option>
+                                    <% });%>
+                            </select>
+                            <button class="register" id="busca">Busca</button>
+                            <br> <br>
+                            <hr>
+                            <br>
+                        </div>
+                        <input type="hidden" id="id" name="id">
                         <div class="row">
                             <fieldset class='float-label-field'>
                                 <label for="name">Nome</label>
@@ -215,6 +228,34 @@
                     $(".notify").hide();
                 }, 5000);
             }
+            $('#busca').click(function(event) {
+                event.preventDefault();
+                var busca = $('#input').val();
+                $.ajax({
+                    method: 'GET',
+                    url: '/produto/' + busca,
+                    // data: {
+                    //     id: busca
+                    // },
+                    success: function(retorno) {
+                        $('#codigo').val(retorno['codigo']);
+                        $('#name').val(retorno['name']);
+                        $('#id').val(retorno['_id']);
+                        $('#fatorMinino').val(retorno['fatorMinino']);
+                        $('#categorias').val(retorno['categorias'][0]);
+                        $('#descricao').val(retorno['descricao']);
+                        $('#refInterna').val(retorno['refInterna']);
+                        $('#precoFornecedor').val(retorno['precoFornecedor']['$numberDecimal']);
+                        $('#precoVenda').val(retorno['precoVenda']['$numberDecimal']);
+                        $('#medida').val(retorno['medida']);
+                        $('#quantidade').val(retorno['quantidade']);
+                        $('#myonoffswitch').val(retorno['ativo']);
+                        console.log(retorno['categorias'][0]);
+
+                    }
+
+                });
+            });
         </script>
         <% if(situacao.situacao==1){%>
             <script>

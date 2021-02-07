@@ -10,24 +10,43 @@ module.exports = {
     async view(req, res) {
         // await Mesa.remove();
         // await Caixa.remove();
+        let dados = await Mesa.find({});
         let sucess = typeof req.query.success == 'undefined' ? 0 : 1;
         let codigo = await Codigo.find({});
         console.log(codigo);
         codigo = (codigo.length > 0) ? codigo[0].mesa + 1 : 0;
-        res.render(path.resolve('src/templates/html/cadastros/mesa'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo) });
+        res.render(path.resolve('src/templates/html/cadastros/mesa'), { situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" }, codigo: Functions.completeZeroLeft(codigo), dados: dados });
     },
     async create(req, res) {
-        try {
-            // console.log(req.body);
-            let mesa = await Mesa.create(req.body);
-            let codigo = await Codigo.find({});
-            codigo = codigo[0];
-            codigo.mesa = codigo.mesa + 1;
-            await Codigo.update(codigo);
+        var id = req.body.id;
+        if (id == '') {
+            try {
+                // console.log(req.body);
+                let mesa = await Mesa.create(req.body);
+                let codigo = await Codigo.find({});
+                codigo = codigo[0];
+                codigo.mesa = codigo.mesa + 1;
+                await Codigo.update(codigo);
 
-            res.redirect('/cadastros/mesa?success=1');
-        } catch (error) {
-            return res.status(400).json({ error: error });
+                res.redirect('/cadastros/mesa?success=1');
+            } catch (error) {
+                return res.status(400).json({ error: error });
+            }
+        } else {
+            try {
+                await Mesa.updateOne({ _id: id }, {
+                    name: req.body.name,
+                    codigo: req.body.codigo,
+                    ativo: req.body.ativo
+                });
+
+                res.redirect('/cadastros/mesa?success=0');
+                console.log(dado);
+
+            } catch (error) {
+                return res.status(400).json({ error: error });
+            }
+
         }
     },
     async useMesa(req, res) {
