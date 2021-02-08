@@ -6,6 +6,7 @@ module.exports = {
         try {
             console.log(req.body);
             let itens = [];
+
             for (let index = 0; index < req.body.ids.length; index++) {
                 const element = req.body.ids[index];
                 const pizza = await PizzaCaixa.findById(element).populate('produto');
@@ -18,5 +19,6 @@ module.exports = {
             return res.status(400).json({ error: error });
         }
     }
+
 
 };
