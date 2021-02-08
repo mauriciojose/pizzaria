@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressao</title>
+    <link rel="stylesheet" href="/templates/geral/css/impressao.css">
+</head>
+
+<body>
+    <div class="impressao">
+        <div class="left">
+            <b>Nome da Empresa</b>
+            <b>Local</b>
+        </div>
+        <div class="diver"></div>
+        <table>
+            <thead>
+                <th>Cod</th>
+                <th>Descricao</th>
+                <th>Fatias</th>
+                <th>Obs</th>
+            </thead>
+            <tbody>
+                <% pizzas.forEach(function(pizza){ %>
+                    <tr>
+                        <td>
+                            <%= pizza.produto.codigo %>
+                        </td>
+                        <td>
+                            <%= pizza.produto.name %>
+                        </td>
+                        <td class="text-center">
+                            <%= pizza.fatias %>
+                        </td>
+                        <td>
+                            <%= pizza.observacao %>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+        <footer>
+            <%
+                var data = new Date(),
+                dia  = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0'+dia : dia,
+                mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                mesF = (mes.length == 1) ? '0'+mes : mes,
+                anoF = data.getFullYear();
+                minute = ("0000000000"+data.getMinutes()).slice(-2);
+                var newDate =  diaF+"/"+mesF+"/"+anoF +" "+data.getHours()+":"+minute;
+            %>
+                Emissão:
+                <%= newDate %>
+        </footer>
+        <div style="text-align: center;">
+            -------------------------------------------------------------------
+        </div>
+    </div>
+    <div class="float-rigth" onclick="window.print();">
+        <img src="/templates/geral/img/print.png" alt="">
+    </div>
+</body>
+
+</html>

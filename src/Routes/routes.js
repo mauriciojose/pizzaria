@@ -11,6 +11,7 @@ const MesaController = require('../controllers/MesaController');
 const PizzaController = require('../controllers/PizzaController');
 const CompraController = require('../controllers/CompraController');
 const PagamentoController = require('../controllers/PagamentoController');
+const ImpressaoControler = require('../controllers/ImpressaoControler');
 
 const TokenServices = require('../services/TokenService');
 
@@ -64,6 +65,9 @@ routes.get('/templates/css/teste.css', function(req, res) {
 routes.get('/templates/css/global.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/global.css'));
 });
+routes.get('/templates/geral/css/:name', function(req, res) {
+    res.sendFile(path.resolve(`src/templates/css/${req.params.name}`));
+});
 routes.get('/templates/css/card.css', function(req, res) {
     res.sendFile(path.resolve('src/templates/css/card.css'));
 });
@@ -82,6 +86,10 @@ routes.get('/templates/css/liststyle.css', function(req, res) {
 });
 routes.get('/templates/img/add.svg', function(req, res) {
     res.sendFile(path.resolve('src/templates/img/add.svg'));
+});
+
+routes.get('/templates/geral/img/:name', function(req, res) {
+    res.sendFile(path.resolve(`src/templates/img/${req.params.name}`));
 });
 
 routes.get('/auth/register/:id', AuthController.getViewRegister);
@@ -103,6 +111,9 @@ routes.get('/templates/css/produto.css', function(req, res) {
 routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
+
+routes.get('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
+routes.post('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
 
 routes.get('/cadastros/pizza', TokenServices.checkToken, PizzaController.view);
 routes.post('/cadastros/pizza', TokenServices.checkToken, uploadImages, PizzaController.create);

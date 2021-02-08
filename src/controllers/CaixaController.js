@@ -64,7 +64,7 @@ module.exports = {
             const userId = decoded.id;
 
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            
+
             await Produto.findById(req.body.idProduto, async(err, produto) => {
                 let produtoCaixa = await ProdutoCaixa.create({
                     quantidade: req.body.quantidade,
@@ -85,7 +85,7 @@ module.exports = {
                 await Produto.updateOne({ _id: produto._id }, produto);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
-                
+
                 return res.json(caixa);
             });
         }).populate('ProdutoCaixa');
@@ -103,11 +103,11 @@ module.exports = {
 
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
 
-            let produtoCaixaId   = await caixa.produtos.find(item => item == req.params.id);
-            
-            let produtoCaixa   = await ProdutoCaixa.findById(produtoCaixaId);
-            
-            let produto        = await Produto.findById(produtoCaixa.produto);
+            let produtoCaixaId = await caixa.produtos.find(item => item == req.params.id);
+
+            let produtoCaixa = await ProdutoCaixa.findById(produtoCaixaId);
+
+            let produto = await Produto.findById(produtoCaixa.produto);
 
             let posicao = await PosicaoEstoque.create({
                 saldoAnterior: produto.quantidade,
@@ -121,8 +121,8 @@ module.exports = {
             produto.quantidade += Number.parseInt(produtoCaixa.quantidade);
 
             await Produto.updateOne({ _id: produto._id }, produto);
-            await ProdutoCaixa.findOneAndRemove({ _id: produtoCaixa._id}); 
-            
+            await ProdutoCaixa.findOneAndRemove({ _id: produtoCaixa._id });
+
             return res.json(caixa);
 
         }).populate('ProdutoCaixa');
@@ -146,7 +146,7 @@ module.exports = {
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
                 console.log(caixa);
-                return res.json(caixa);
+                return res.json(pizzas);
             });
         }).populate('ProdutoCaixa');
     },
