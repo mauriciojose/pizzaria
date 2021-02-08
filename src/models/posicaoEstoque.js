@@ -28,6 +28,10 @@ const PosicaoEstoqueSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    tipo: {
+        type: Number,
+        default: 0
+    },
     produto: {
         type: Schema.Types.ObjectId,
         ref: "Produto"

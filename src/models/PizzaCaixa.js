@@ -13,6 +13,9 @@ const PizzaCaixaSchema = new mongoose.Schema({
     fatias: {
         type: Number
     },
+    observacao: {
+        type: String
+    },
     produto: {
         type: Schema.Types.ObjectId,
         ref: "Produto"

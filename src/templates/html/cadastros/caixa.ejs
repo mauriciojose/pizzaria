@@ -7,7 +7,11 @@
     <title>Caixa</title>
     <link rel="stylesheet" type="text/css" href="/templates/css/style.css">
     <link rel="stylesheet" type="text/css" href="/templates/css/caixa.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
     <style>
+        .mdl-dialog {
+            width: 50% !important;
+        }
         @media (max-width: 48rem) {
             div .row {
                 display: block !important;
@@ -61,6 +65,9 @@
             background-color: #4CAF50;
             color: white;
         }
+        a{
+            cursor: pointer;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -77,6 +84,8 @@
     <%- include('../componentes/menu.ejs'); -%>
         <input type="hidden" name="idMesa" id="idMesa" value="<%=idMesa%>">
         <input type="hidden" name="idCaixa" id="idCaixa" value="<%=idCaixa%>">
+
+        <div class="notify"><span id="notifyType" class=""></span></div>
 
         <div class="caixa">
             <div class="logo">
@@ -109,10 +118,10 @@
                                                 <%=produto.produto.name%>
                                             </td>
                                             <td>
-                                                <a href="" id="diminuir<%=i%>">&#10134</a>
+                                                <a id="diminuir<%=i%>">&#10134</a>
                                                 <input type="hidden" id="produto<%=i%>" value="<%=produto._id%>">
                                                 <input type="text" disabled id="qtde<%=i%>" style="width: 4em; font-size:14px;text-align: center; color: #000458;background-color: white;" value="<%=produto.quantidade%>">
-                                                <a href="" id="aumentar<%=i%>">&#10133</a>
+                                                <a id="aumentar<%=i%>">&#10133</a>
                                             </td>
                                             <td class="money">
                                                 <%=produto.valorUnitario%>
@@ -120,7 +129,7 @@
                                             <td class="money">
                                                 <%=(produto.quantidade*produto.valorUnitario)%>
                                             </td>
-                                            <td><a onclick="remover('<%=produto.produto%>');">&#9940</a></td>
+                                            <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                         </tr>
                                         <%}else{%>
                                             <%total+=(parseFloat(produto.valorUnitario))%>
@@ -135,7 +144,7 @@
                                                     <td class="money">
                                                         <%=produto.valorUnitario%>
                                                     </td>
-                                                    <td><a onclick="remover('<%=produto.produto%>');">&#9940</a></td>
+                                                    <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                                 </tr>
                                                 <%}%>
                                                     <% }); %>
@@ -210,7 +219,8 @@
                         <thead>
                             <th>Código</th>
                             <th>Sabor</th>
-                            <th>Fatias</th>
+                            <th class='center'>Fatias</th>
+                            <th>Obs</th>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -328,7 +338,7 @@
             url: '/caixa/getpizzas/' + idProdutoCaixa,
             contentType: 'application/json'
         }).done(function(data) {
-            // console.log(data);
+            console.log(data);
             let table = document.querySelector("table#sabores tbody");
             let tr = '';
             for (let index = 0; index < data.pizzas.length; index++) {
@@ -337,7 +347,8 @@
                         <tr>
                             <td>${element.produto.codigo}</td>
                             <td>${element.produto.name}</td>
-                            <td>${element.fatias}</td>
+                            <td class='center'>${element.fatias}</td>
+                            <td class='center'>${element.observacao}</td>
                         </tr>
                     `;
             }
@@ -408,12 +419,55 @@
 document.onmousedown = click
 document.oncontextmenu = new Function('return false;');*/
 
+    function sucess(msg='Adicionado com Sucesso!', recarregar=false) {
+        $(".notify").toggleClass("active");
+        $(".notify").toggleClass("success");
+        $("#notifyType").html(msg);
+        $(".notify").show();
+
+        setTimeout(function() {
+            $(".notify").removeClass("active");
+            $(".notify").removeClass("success");
+            $(".notify").hide();
+            if (recarregar) {
+                goAtualiza();
+            }
+        }, 1000);
+    }
+
+    function failure(msg='Error ao adicionar!') {
+        $(".notify").addClass("active");
+        $(".notify").addClass("failure");
+        $("#notifyType").html(msg);
+        $(".notify").show();
+
+        setTimeout(function() {
+            $(".notify").removeClass("active");
+            $(".notify").removeClass("failure");
+            $(".notify").hide();
+        }, 1000);
+    }
+
     $('.codigo').on('keypress', function(event) {
         if (event.which == 13) {
             event.preventDefault();
             getProdutoByCod(this.value);
         }
     });
+
+    function remover(id){
+        let caixa = $('#idCaixa').val();
+        $.ajax({
+                method: "DELETE",
+                url: `/produtocaixa/${caixa}/${id}`
+            })
+            .done(function(dados) {
+                sucess("Removido com sucesso",true);
+            })
+            .fail(function(jqXHR, textStatus, msg) {
+                failure("Error ao processar solicitação");
+            });
+    }
 
     function getProdutoByCod(codigo) {
         let quantidade = document.querySelector('#quantidade');
@@ -543,11 +597,11 @@ document.oncontextmenu = new Function('return false;');*/
         var vezes = <%=i%>;
         // console.log(i);
 
-        for (let index = 1; index <= 3; index++) {
+        for (let index = 1; index <= vezes; index++) {
             // console.log(index);
 
             $('#diminuir' + index).click(function(event) {
-                event.preventDefault();
+                // event.preventDefault();
                 var idProduto = $('#produto' + index).val();
                 var qtde = $('#qtde' + index).val();
                 if (qtde > 1) {
@@ -558,6 +612,7 @@ document.oncontextmenu = new Function('return false;');*/
                         url: '/produto/atualiza',
                         data: {
                             id: idProduto,
+                            tipo: 1,
                             quantidade: qtde
                         },
                         success: function(resposta) {
@@ -568,8 +623,8 @@ document.oncontextmenu = new Function('return false;');*/
                 }
             });
 
-            $('#aumentar' + index).click(function() {
-                event.preventDefault();
+            $('#aumentar' + index).click(function(event) {
+                // event.preventDefault();
                 var idProduto = $('#produto' + index).val();
                 var qtde = $('#qtde' + index).val();
                 console.log(idProduto);
@@ -581,6 +636,7 @@ document.oncontextmenu = new Function('return false;');*/
                         url: '/produto/atualiza',
                         data: {
                             id: idProduto,
+                            tipo: 0,
                             quantidade: qtde
                         },
                         success: function(resposta) {

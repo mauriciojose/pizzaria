@@ -149,6 +149,7 @@ routes.get('/financeiro/caixas/:id', TokenServices.checkToken, CaixaController.g
 routes.get('/financeiro/caixa/:id', TokenServices.checkToken, CaixaController.view);
 routes.put('/financeiro/addproduto/:id', CaixaController.addProduto);
 routes.put('/financeiro/addpizza/:id', CaixaController.addPizza);
+routes.delete('/produtocaixa/:idCaixa/:id', CaixaController.removeProduto);
 
 routes.put('/pagamento/:id', TokenServices.checkToken, PagamentoController.getById);
 routes.put('/adicionar/pagamento', TokenServices.checkToken, PagamentoController.addPag);
@@ -159,7 +160,7 @@ routes.put('/delivery/novo/:id', TokenServices.checkToken, DeliveryController.no
 routes.put('/delivery/finalizar/:id', TokenServices.checkToken, DeliveryController.closePedido);
 
 // +_________________________________________________________-
-routes.put('/produto/atualiza', TokenServices.checkToken, CaixaController.atualiza);
+routes.put('/produto/atualiza', CaixaController.atualiza);
 // ____________________________________________________________----
 routes.get('/cadastros/cliente', TokenServices.checkToken, ClienteController.view);
 routes.put('/list/cliente', TokenServices.checkToken, ClienteController.getById);

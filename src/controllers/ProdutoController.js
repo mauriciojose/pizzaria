@@ -106,6 +106,8 @@ module.exports = {
                 req.body[index].saldoAnterior = produto.quantidade;
                 req.body[index].status = 1;
                 req.body[index].responsavel = userId;
+                req.body.tipo = 1;
+
                 produto.quantidade += Number.parseInt(element.quantidadeEntrada);
                 // console.log(produto);
                 await Produto.updateOne({ _id: element.produto }, produto);
@@ -155,6 +157,7 @@ module.exports = {
         }).populate('medida').populate('categorias');
     },
     async getEstoqueView(req, res) {
+        console.log(await PosicaoEstoque.find({}));
         let produtos = await Produto.find({ pizza: false });
         res.render(path.resolve('src/templates/html/estoque/entrada'), {
             produtos: produtos

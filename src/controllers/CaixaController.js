@@ -7,6 +7,10 @@ const Pagamentos = require('../models/pagamentos');
 const ProdutoCaixa = require('../models/ProdutoCaixa');
 const PizzaCaixa = require('../models/PizzaCaixa');
 const Produto = require('../models/produto');
+const PosicaoEstoque = require('../models/posicaoEstoque');
+PosicaoEstoque.init();
+const authConfig = require("../configuration/auth.json");
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     async view(req, res) {
@@ -50,21 +54,77 @@ module.exports = {
     },
     async addProduto(req, res) {
         await Caixa.findById(req.params.id, async(err, caixa) => {
+
+            try {
+                const authcookie = req.cookies.authcookie;
+                decoded = jwt.verify(authcookie, authConfig.secret);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            const userId = decoded.id;
+
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            console.log(caixa, req.body);
+            
             await Produto.findById(req.body.idProduto, async(err, produto) => {
                 let produtoCaixa = await ProdutoCaixa.create({
                     quantidade: req.body.quantidade,
                     produto: req.body.idProduto,
                     valorUnitario: produto.precoVenda
                 });
+
+                let posicao = await PosicaoEstoque.create({
+                    saldoAnterior: produto.quantidade,
+                    quantidadeEntrada: Number.parseInt(req.body.quantidade) * -1,
+                    status: 1,
+                    produto: produto._id,
+                    responsavel: userId,
+                    tipo: 2
+                });
+
                 produto.quantidade -= Number.parseInt(req.body.quantidade);
                 await Produto.updateOne({ _id: produto._id }, produto);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
-                console.log(caixa);
+                
                 return res.json(caixa);
             });
+        }).populate('ProdutoCaixa');
+    },
+    async removeProduto(req, res) {
+        await Caixa.findById(req.params.idCaixa, async(err, caixa) => {
+
+            try {
+                const authcookie = req.cookies.authcookie;
+                decoded = jwt.verify(authcookie, authConfig.secret);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            const userId = decoded.id;
+
+            if (err) { return res.status(500).json({ error: "ID INVALID" }); }
+
+            let produtoCaixaId   = await caixa.produtos.find(item => item == req.params.id);
+            
+            let produtoCaixa   = await ProdutoCaixa.findById(produtoCaixaId);
+            
+            let produto        = await Produto.findById(produtoCaixa.produto);
+
+            let posicao = await PosicaoEstoque.create({
+                saldoAnterior: produto.quantidade,
+                quantidadeEntrada: Number.parseInt(produtoCaixa.quantidade),
+                status: 1,
+                produto: produto._id,
+                responsavel: userId,
+                tipo: 2
+            });
+
+            produto.quantidade += Number.parseInt(produtoCaixa.quantidade);
+
+            await Produto.updateOne({ _id: produto._id }, produto);
+            await ProdutoCaixa.findOneAndRemove({ _id: produtoCaixa._id}); 
+            
+            return res.json(caixa);
+
         }).populate('ProdutoCaixa');
     },
     async addPizza(req, res) {
@@ -150,8 +210,43 @@ module.exports = {
         });
     },
     async atualiza(req, res) {
+        // console.log("aquiiiiiiiii");
+        let produtoCaixa = await ProdutoCaixa.findById(req.body.id).populate('produto');
+
+        try {
+            const authcookie = req.cookies.authcookie;
+            decoded = jwt.verify(authcookie, authConfig.secret);
+        } catch (e) {
+            return res.status(401).send('unauthorized');
+        }
+        const userId = decoded.id;
+
+        if (req.body.tipo == 0) {
+            let posicao = await PosicaoEstoque.create({
+                saldoAnterior: produtoCaixa.produto.quantidade,
+                quantidadeEntrada: -1,
+                status: 1,
+                produto: produtoCaixa.produto._id,
+                responsavel: userId,
+                tipo: -3
+            });
+            produtoCaixa.produto.quantidade -= 1;
+        } else {
+            let posicao = await PosicaoEstoque.create({
+                saldoAnterior: produtoCaixa.produto.quantidade,
+                quantidadeEntrada: 1,
+                status: 1,
+                produto: produtoCaixa.produto._id,
+                responsavel: userId,
+                tipo: 3
+            });
+            produtoCaixa.produto.quantidade += 1;
+        }
+        let produto = await Produto.updateOne({ _id: produtoCaixa.produto._id }, produtoCaixa.produto);
         let atualiza = await ProdutoCaixa.updateOne({ _id: req.body.id }, { quantidade: req.body.quantidade });
-        console.log(atualiza);
+        // let produto = await Produto.findById(produto.produto);
+        // let atualiza = await ProdutoCaixa.updateOne({ _id: req.body.id }, { quantidade: req.body.quantidade });
+        // console.log(produtoCaixa,produtoCaixa.produto);
         return res.json(atualiza);
 
 
