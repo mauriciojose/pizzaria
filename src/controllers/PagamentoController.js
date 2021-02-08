@@ -45,7 +45,7 @@ module.exports = {
             }, (err, pagamentos) => {
                 return res.json(pagamentos);
             }).populate('cliente');
-            console.log(pagamentos);
+            // console.log(pagamentos);
         } else {
             await Pagamento.find({}, (err, pagamentos) => {
                 return res.json(pagamentos);
