@@ -112,7 +112,7 @@ routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
 
-routes.get('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
+routes.get('/impressao/impressaopizza/:id', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
 routes.post('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
 routes.get('/relatorio/impressao', TokenServices.checkToken, ImpressaoControler.impressaoCaixaGeral);
 

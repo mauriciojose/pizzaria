@@ -1,15 +1,20 @@
 var path = require('path');
 const PizzaCaixa = require('../models/PizzaCaixa');
+const ProdutoCaixa = require('../models/ProdutoCaixa');
 const Pagamento = require('../models/pagamentos');
 module.exports = {
 
     async impressaoPizza(req, res) {
         try {
+            let t = await ProdutoCaixa.find({});
+            console.log(t);
+            let produto = await ProdutoCaixa.findById(req.params.id);
+            console.log(produto);
             console.log(req.body);
             let itens = [];
 
-            for (let index = 0; index < req.body.ids.length; index++) {
-                const element = req.body.ids[index];
+            for (let index = 0; index < produto.pizzas.length; index++) {
+                const element = produto.pizzas[index];
                 const pizza = await PizzaCaixa.findById(element).populate('produto');
                 itens.push(pizza);
             }
