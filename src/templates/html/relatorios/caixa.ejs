@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="">Até</label>
-                    <input type="date" name="" class="form-control" id="fim">
+                    <input type="date" name="" class="form-control" id="fim" value="">
                 </div>
                 <div class="col-sm-2">
                     <label for="">&nbsp;</label>
@@ -144,7 +144,7 @@
             total += parseFloat(dados[index]['valor']['$numberDecimal']);
 
         }
-        $('#total').val('R$: ' + total);
+        $('#total').val('R$: ' + total.toFixed(2));
         $('#qtde').val(dados.length);
 
 
@@ -169,20 +169,39 @@
             html += '</td> <td data - title = "quantidade" >';
             html += dado.tipo;
             html += '</td> <td data - title = "valor" >';
-            html += 'R$: ' + dado['valor']['$numberDecimal'];
+            html += 'R$: ' + parseFloat(dado['valor']['$numberDecimal']).toFixed(2);
             html += "</td> <td> <button onclick=" + "visualiza('" + dado.caixa + "');" + " > Visualizar </button></td>";
 
         });
+        html += "<tr><td> <button onclick=" + "imprimir('');" + " > Imprimir </button></td></tr>";
         html += '</tbody> </table>';
         return html;
 
     }
+
+    function dataAtualFormatada() {
+
+        var data = new Date(),
+            dia = data.getDate().toString(),
+            diaF = (dia.length == 1) ? '0' + dia : dia,
+            mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length == 1) ? '0' + mes : mes,
+            anoF = data.getFullYear();
+        return anoF + "-" + mesF + "-" + diaF;
+    }
     $(document).ready(function() {
 
+        $('#inicio').val(dataAtualFormatada());
+        $('#fim').val(dataAtualFormatada());
 
         $.ajax({
             method: 'POST',
             url: "/relatorio/caixa",
+            data: {
+                busca: "",
+                inicio: dataAtualFormatada(),
+                fim: dataAtualFormatada()
+            },
             success: function(resposta) {
                 var dados = resposta;
 
@@ -229,36 +248,21 @@
 
     }
 
-    function novaCompra() {
-        let descricao = $('#descricao').val();
-        let data = $('#data').val();
-        let quantidade = $('#quantidade').val();
-        let valor = $('#valor').val();
-        let responsavel = $('#responsavel').val();
 
-        $.ajax({
-            method: 'PUT',
-            url: "/compra/cadastro",
-            data: {
-                descricao: descricao,
-                data: data,
-                quantidade: quantidade,
-                valor: valor,
-                responsavel: responsavel
-
-            },
-            success: function(resposta) {
-                // console.log('sucesso');
-
-                // window.location.href = "/compra/cadastro?success=1";
-
-            }
-        });
-    }
 
     function visualiza(idCaixa) {
         window.location.href = "/financeiro/caixa/" + idCaixa;
         // console.log(idCaixa);
+
+    }
+
+    function imprimir() {
+        var inicio = $('#inicio').val();
+
+        var fim = $('#fim').val();
+
+        window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
+
 
     }
 

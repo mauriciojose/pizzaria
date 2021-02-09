@@ -32,10 +32,11 @@ module.exports = {
 
     async getAllView(req, res) {
         const hora = "T00:00:00.058+00:00";
+        const hora2 = "T23:59:59.058+00:00";
         // let busca = req.body.busca;
         if (req.body.busca == '') {
             var inicio = req.body.inicio + hora;
-            var fim = req.body.fim + hora;
+            var fim = req.body.fim + hora2;
 
             await Pagamento.find({
                 createdAt: {

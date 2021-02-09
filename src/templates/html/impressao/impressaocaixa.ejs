@@ -7,44 +7,85 @@
     <title>Impressao</title>
     <link rel="stylesheet" href="/templates/geral/css/impressao.css">
 </head>
+<style>
+    th,
+    td {
+        font-size: 10pt;
+        /* font-weight: bold; */
+    }
+    
+    th.rigth,
+    td.rigth {
+        text-align: right;
+    }
+</style>
 
 <body>
     <div class="impressao">
         <div class="left">
             <b>Pizzaria Pit Stop</b>
             <b>Av. Luiz Viana Filho, 290, Caldas do Jorro</b>
+            <br>
         </div>
         <div class="diver"></div>
         <table>
             <thead>
-                <th>Cod</th>
-                <th>Descricao</th>
-                <th>Fatias</th>
-                <th>Obs</th>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th class="rigth">Valor</th>
             </thead>
             <tbody>
-                <% pizzas.forEach(function(pizza){ %>
-                    <tr>
-                        <td>
-                            <%= pizza.produto.codigo %>
-                        </td>
-                        <td>
-                            <%= pizza.produto.name %>
-                        </td>
-                        <td class="text-center">
-                            <%= pizza.fatias %>
-                        </td>
-                    </tr>
-
+                <% var total = 0;
+                pagamentos.forEach(function(pagamento){
+                    total += parseFloat(pagamento.valor);
+                        
+                    %>
                     <tr>
                         <td colspan="4" style="word-break: break-all;">
-                            <%= pizza.observacao %>
+                            <b>Cliente:</b>
+                            <%=pagamento.cliente.name%>
                         </td>
                     </tr>
-                    <% }); %>
+                    <tr>
+                        <td>
+                            <%=pagamento.createdAt.getDate()+'/'+(pagamento.createdAt.getMonth()+1)+'/'+pagamento.createdAt.getFullYear()%>
+                        </td>
+                        <td>
+                            <%=pagamento.tipo%>
+                        </td>
+                        <td class="text-center rigth">
+                            <%=parseFloat(pagamento.valor).toFixed(2)%>
+                        </td>
+
+                    </tr>
+                    <% });%>
+
+                        <tr>
+
+                            <td colspan="2">
+                                <b> Quantidade:</b></td>
+                            <td colspan="2" class="rigth">
+                                <%=pagamentos.length%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Total:</b></td>
+                            <td colspan="2" class="rigth">
+                                <%=parseFloat(total).toFixed(2)%>
+                            </td>
+                        </tr>
+
             </tbody>
+
         </table>
         <footer>
+            <p> De:
+                <% var data = inicio.split('-'); data= data[2]+'/'+data[1]+'/'+data[0]%>
+                    <%=data%> até:
+                        <% var datafim = fim.split('-'); datafim= datafim[2]+'/'+datafim[1]+'/'+datafim[0]%>
+                            <%=datafim%>
+            </p>
+
             <%
                 var data = new Date(),
                 dia  = data.getDate().toString(),

@@ -107,20 +107,25 @@ module.exports = {
 
             let produtoCaixa = await ProdutoCaixa.findById(produtoCaixaId);
 
+            console.log(produtoCaixa);
+
             let produto = await Produto.findById(produtoCaixa.produto);
 
-            let posicao = await PosicaoEstoque.create({
-                saldoAnterior: produto.quantidade,
-                quantidadeEntrada: Number.parseInt(produtoCaixa.quantidade),
-                status: 1,
-                produto: produto._id,
-                responsavel: userId,
-                tipo: 2
-            });
+            if (produtoCaixa.pizzas.length == 0) {
 
-            produto.quantidade += Number.parseInt(produtoCaixa.quantidade);
+                let posicao = await PosicaoEstoque.create({
+                    saldoAnterior: produto.quantidade,
+                    quantidadeEntrada: Number.parseInt(produtoCaixa.quantidade),
+                    status: 1,
+                    produto: produto._id,
+                    responsavel: userId,
+                    tipo: 2
+                });
 
-            await Produto.updateOne({ _id: produto._id }, produto);
+                produto.quantidade += Number.parseInt(produtoCaixa.quantidade);
+
+                await Produto.updateOne({ _id: produto._id }, produto);
+            }
             await ProdutoCaixa.findOneAndRemove({ _id: produtoCaixa._id });
 
             return res.json(caixa);

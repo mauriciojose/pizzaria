@@ -114,6 +114,8 @@ routes.get('/teste', function(req, res) {
 
 routes.get('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
 routes.post('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
+routes.get('/relatorio/impressao', TokenServices.checkToken, ImpressaoControler.impressaoCaixaGeral);
+
 
 routes.get('/cadastros/pizza', TokenServices.checkToken, PizzaController.view);
 routes.post('/cadastros/pizza', TokenServices.checkToken, uploadImages, PizzaController.create);

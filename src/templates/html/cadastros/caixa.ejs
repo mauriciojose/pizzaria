@@ -12,6 +12,7 @@
         .mdl-dialog {
             width: 50% !important;
         }
+        
         @media (max-width: 48rem) {
             div .row {
                 display: block !important;
@@ -65,7 +66,8 @@
             background-color: #4CAF50;
             color: white;
         }
-        a{
+        
+        a {
             cursor: pointer;
         }
     </style>
@@ -241,7 +243,7 @@
             <input type="hidden" id="id_caixa">
             <div class="mdl-dialog__content">
                 <div>
-                    <table id="pgto">
+                    <table id="pgto" class="customers">
                         <thead>
                             <th>Valor</th>
                             <th>Tipo</th>
@@ -419,7 +421,7 @@
 document.onmousedown = click
 document.oncontextmenu = new Function('return false;');*/
 
-    function sucess(msg='Adicionado com Sucesso!', recarregar=false) {
+    function sucess(msg = 'Adicionado com Sucesso!', recarregar = false) {
         $(".notify").toggleClass("active");
         $(".notify").toggleClass("success");
         $("#notifyType").html(msg);
@@ -435,7 +437,7 @@ document.oncontextmenu = new Function('return false;');*/
         }, 1000);
     }
 
-    function failure(msg='Error ao adicionar!') {
+    function failure(msg = 'Error ao adicionar!') {
         $(".notify").addClass("active");
         $(".notify").addClass("failure");
         $("#notifyType").html(msg);
@@ -455,14 +457,14 @@ document.oncontextmenu = new Function('return false;');*/
         }
     });
 
-    function remover(id){
+    function remover(id) {
         let caixa = $('#idCaixa').val();
         $.ajax({
                 method: "DELETE",
                 url: `/produtocaixa/${caixa}/${id}`
             })
             .done(function(dados) {
-                sucess("Removido com sucesso",true);
+                sucess("Removido com sucesso", true);
             })
             .fail(function(jqXHR, textStatus, msg) {
                 failure("Error ao processar solicitação");
