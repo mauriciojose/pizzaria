@@ -25,27 +25,32 @@
                     <div class="main">
                         <ul class="cards">
                             <% produtos.forEach(function(produto){ %>
+
                                 <li class="cards_item">
                                     <div class="card">
-                                        <div class="card_image"><img style="width: 75%;" src="/img/combo1.png"></div>
-                                        <div class="card_content">
-                                            <h1 class="card_title">
-                                                <%=produto.name%>
-                                            </h1>
-                                            <p class="card_text">
-                                                Código:
-                                                <%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span>
-                                            </p>
-                                            <div>
-                                                <%if(tipo==0){%>
-                                                    <button id="" class="btn card_btn" data-translate="start">Editar</button>
-                                                    <button id="" class="btn card_btn" data-translate="start">Desativar</button>
-                                                    <%}else{%>
-                                                        <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
-                                                        <%}%>
-                                            </div>
-                                            <!-- <button class="btn card_btn">Read More</button> -->
-                                        </div>
+                                        <% if(produto.categorias[0].name=='Bebidas'){%>
+                                            <div class="card_image"><img style="width: 75%;" src="/img/bebida.png"></div>
+                                            <% }else {%>
+                                                <div class="card_image"><img style="width: 75%;" src="/img/combo1.png"></div>
+                                                <%}%>
+                                                    <div class="card_content">
+                                                        <h1 class="card_title">
+                                                            <%=produto.name%>
+                                                        </h1>
+                                                        <p class="card_text">
+                                                            Código:
+                                                            <%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span>
+                                                        </p>
+                                                        <div>
+                                                            <%if(tipo==0){%>
+                                                                <button id="" class="btn card_btn" data-translate="start">Editar</button>
+                                                                <button id="" class="btn card_btn" data-translate="start">Desativar</button>
+                                                                <%}else{%>
+                                                                    <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
+                                                                    <%}%>
+                                                        </div>
+                                                        <!-- <button class="btn card_btn">Read More</button> -->
+                                                    </div>
                                     </div>
                                 </li>
                                 <%});%>
@@ -144,49 +149,52 @@
                 }, 5000);
             }
 
-            function addProduto() { 
-                let idCaixa = document.querySelector('#idCaixa'); 
-                let quantidade = document.querySelector('#quantidade'); 
-                let idProduto = document.querySelector('#idProduto'); 
-                let data = { quantidade: quantidade.value, idProduto: idProduto.value}; 
-                $.ajax({ 
-                    type: 'PUT', 
-                    url: '/financeiro/addproduto/' + idCaixa.value, 
-                    contentType: 'application/json', 
-                    data: JSON.stringify(data), 
+            function addProduto() {
+                let idCaixa = document.querySelector('#idCaixa');
+                let quantidade = document.querySelector('#quantidade');
+                let idProduto = document.querySelector('#idProduto');
+                let data = {
+                    quantidade: quantidade.value,
+                    idProduto: idProduto.value
+                };
+                $.ajax({
+                    type: 'PUT',
+                    url: '/financeiro/addproduto/' + idCaixa.value,
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
                     // access in body 
-                }).done(function(data) { 
-                    console.log("Sucess"); 
-                    sucess(); 
+                }).done(function(data) {
+                    console.log("Sucess");
+                    sucess();
                     console.log(`btn${idProduto.value}`);
                     let btn = document.getElementById(`btn${idProduto.value}`);
                     console.log(btn);
                     let disponivel = document.getElementById('qtdeDisponivel').value;
                     let newDisponivel = Number.parseInt(disponivel) - Number.parseInt(quantidade.value);
-                    btn.setAttribute('onclick',`showClickHandler('${idProduto.value}',${newDisponivel})`);
-                    closeClickHandler(); 
-                }).fail(function(msg){ 
-                    console.log('FAIL'); 
-                    failure(); 
+                    btn.setAttribute('onclick', `showClickHandler('${idProduto.value}',${newDisponivel})`);
+                    closeClickHandler();
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                    failure();
                 });
             }
-            </script>
-            <%}%>
+        </script>
+        <%}%>
 
-                <script>
-                    var formatter = new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                        minimumFractionDigits: 2,
-                    });
-                    let moneys = document.querySelectorAll('.money');
-                    for (let index = 0; index < moneys.length; index++) {
-                        const element = moneys[index];
-                        console.log(element, element.innerText);
-                        element.innerHTML = formatter.format(element.innerHTML);
-                    }
-                </script>
-    <%- include('../componentes/rodape.ejs'); -%>
+            <script>
+                var formatter = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2,
+                });
+                let moneys = document.querySelectorAll('.money');
+                for (let index = 0; index < moneys.length; index++) {
+                    const element = moneys[index];
+                    console.log(element, element.innerText);
+                    element.innerHTML = formatter.format(element.innerHTML);
+                }
+            </script>
+            <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>

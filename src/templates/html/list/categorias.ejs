@@ -59,16 +59,27 @@
                                             </center>
                                         </div>
                                         <% }else{%>
-                                            <div class="card">
-                                                <center>
-                                                    <img class="img-fluid" src="/img/bebida.png" width="150" alt="Card image cap">
-                                                    <div class="card-body">
+                                            <% if(categoria.name=="Bebidas"){%>
+                                                <div class="card">
+                                                    <center>
+                                                        <img class="img-fluid" src="/img/bebida.png" width="150" alt="Card image cap">
+                                                        <div class="card-body">
 
-                                                        <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                            <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                        </div>
+                                                    </center>
+                                                </div>
+                                                <%}else if(categoria.name=='Hamburgues') {%>
+                                                    <div class="card">
+                                                        <center>
+                                                            <img class="img-fluid" src="/img/lanches.png" width="150" alt="Card image cap">
+                                                            <div class="card-body">
+
+                                                                <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                            </div>
+                                                        </center>
                                                     </div>
-                                                </center>
-                                            </div>
-                                            <%}%>
+                                                    <%}}%>
                                 </div>
                                 <%if(tipo==0){%>
 
