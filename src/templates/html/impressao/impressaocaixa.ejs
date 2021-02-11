@@ -78,6 +78,12 @@
             </tbody>
 
         </table>
+        <div>Dinheiro: R$
+            <%=parseFloat(dinheiro).toFixed(2)%>, C.Crédito: R$
+                <%=parseFloat(credito).toFixed(2)%>, C.Débito: R$
+                    <%=parseFloat(debito).toFixed(2)%>, Transferência: R$
+                        <%=parseFloat(transferencia).toFixed(2)%>
+        </div>
         <footer>
             <p> De:
                 <% var data = inicio.split('-'); data= data[2]+'/'+data[1]+'/'+data[0]%>

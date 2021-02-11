@@ -146,7 +146,7 @@
                                                         <%=produto.valorUnitario%>
                                                     </td>
                                                     <td class="money">
-                                                        <%=produto.valorUnitario%>
+                                                        <%=!isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
                                                     </td>
                                                     <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                                 </tr>
@@ -611,7 +611,7 @@ document.oncontextmenu = new Function('return false;');*/
             console.log('ALWAYS');
         });
 
-        // window.open('/caixa/impressao/' + idCaixa, '_blank');
+        // window.open('/caixa/impressao?id=' + idCaixa, '_blank');
 
 
     }

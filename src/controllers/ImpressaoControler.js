@@ -100,6 +100,7 @@ module.exports = {
         });
         // console.log(totalP);
         await Caixa.findById(req.query.id, (err, caixa) => {
+
             // console.log(caixa);
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
             res.render(path.resolve('src/templates/html/impressao/impressaocliente'), {
@@ -130,17 +131,44 @@ module.exports = {
         // let busca = req.body.busca;
         var inicio = req.query.inicio + hora;
         var fim = req.query.fim + hora2;
-
+        var credito = 0;
+        var debito = 0;
+        var transferencia = 0;
+        var dinheiro = 0;
         await Pagamento.find({
             createdAt: {
                 '$gte': inicio,
                 '$lt': fim
             }
         }, (err, pagamentos) => {
+            for (let index = 0; index < pagamentos.length; index++) {
+                // console.log(parseFloat(pagamentos[index].valor));
+                switch (pagamentos[index].tipo) {
+                    case 'Cartão de credito':
+                        credito += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'Cartão de Débito':
+                        debito += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'dinheiro':
+                        dinheiro += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'Transferência':
+                        transferencia += parseFloat(pagamentos[index].valor)
+                        break
+
+                    default:
+                        break;
+                }
+            }
             res.render(path.resolve('src/templates/html/impressao/impressaocaixa'), {
                 pagamentos: pagamentos,
                 inicio: req.query.inicio,
-                fim: req.query.fim
+                fim: req.query.fim,
+                credito: credito,
+                debito: debito,
+                transferencia: transferencia,
+                dinheiro: dinheiro
 
             })
 

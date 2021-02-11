@@ -66,6 +66,26 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-2">
+                        <label for="">Dinheiro</label>
+                        <input type="text" disabled class="form-control" id="dinheiro">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="">C.Crédito</label>
+                        <input type="text" disabled class="form-control" id="credito">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="">C.débito</label>
+                        <input type="text" disabled class="form-control" id="debito">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="">Transferência</label>
+                        <input type="text" disabled class="form-control" id="transferencia">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="container">
             <!-- 
@@ -140,10 +160,36 @@
     function listar(dados) {
         var html = "";
         var total = 0;
+        var credito = 0;
+        var debito = 0;
+        var transferencia = 0;
+        var dinheiro = 0;
+
         for (let index = 0; index < dados.length; index++) {
             total += parseFloat(dados[index]['valor']['$numberDecimal']);
+            switch (dados[index]['tipo']) {
+                case 'Cartão de credito':
+                    credito += parseFloat(dados[index]['valor']['$numberDecimal']);
+                    break
+                case 'Cartão de Débito':
+                    debito += parseFloat(dados[index]['valor']['$numberDecimal']);
+                    break
+                case 'dinheiro':
+                    dinheiro += parseFloat(dados[index]['valor']['$numberDecimal']);
+                    break
+                case 'Transferência':
+                    transferencia += parseFloat(dados[index]['valor']['$numberDecimal']);
+                    break
+
+                default:
+                    break;
+            }
 
         }
+        $('#dinheiro').val('R$: ' + dinheiro.toFixed(2));
+        $('#credito').val('R$: ' + credito.toFixed(2));
+        $('#debito').val('R$: ' + debito.toFixed(2));
+        $('#transferencia').val('R$: ' + transferencia.toFixed(2));
         $('#total').val('R$: ' + total.toFixed(2));
         $('#qtde').val(dados.length);
 

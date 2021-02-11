@@ -38,11 +38,12 @@
         <table>
             <thead>
                 <th>Consumo</th>
-                <th>Quantidade</th>
-                <th class="rigth">Total</th>
+                <th>Qtdo</th>
+                <th class="rigth">Valor</th>
             </thead>
             <%var total = 0; var i=0;%>
                 <% produtos.forEach(function(produto){%>
+
                     <%if(typeof produto.produto != 'undefined'){%>
                         <%total+=(parseFloat(produto.quantidade)*parseFloat(produto.valorUnitario));%>
                             <tbody>
@@ -62,11 +63,13 @@
                             </tbody>
                             <%}else{%>
                                 <%total+= !isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
+
                                     <tbody>
                                         <tr>
                                             <td>
                                                 Pizza com
                                                 <%=produto.quantidade%> fatias
+
                                             </td>
                                             <td>
                                                 1
