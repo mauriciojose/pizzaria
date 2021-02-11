@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     async view(req, res) {
         let totalP = 0;
-        let pags
+        let pags = {};
         let clientes = await Cliente.find({});
         await Pagamentos.find({ caixa: req.params.id }, (err, pagamentos) => {
             for (let index = 0; index < pagamentos.length; index++) {
@@ -151,7 +151,7 @@ module.exports = {
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
                 console.log(caixa);
-                return res.json(pizzas);
+                return res.json(produtoCaixa);
             });
         }).populate('ProdutoCaixa');
     },

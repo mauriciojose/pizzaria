@@ -21,6 +21,7 @@
         "node-windows": "^1.0.0-beta.5",
         "nodemailer": "^6.4.10",
         "pdf-to-printer": "^1.5.4",
+        "puppeteer": "^2.0.0",
         "query-selector": "^2.0.0",
         "ramda": "^0.27.1",
         "request": "^2.88.2",

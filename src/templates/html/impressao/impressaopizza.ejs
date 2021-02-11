@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="/templates/geral/css/impressao.css">
 
     <style>
-        th,
-        td {
+        th {
             font-size: 12pt;
             font-weight: bold;
+        }
+        
+        td {
+            font-size: 13pt;
         }
     </style>
 </head>
@@ -21,31 +24,28 @@
         <div class="left">
             <b>Cliente:</b>
         </div>
+        <div class="left">
+            <b>Tamanho: <%=tamanho%></b>
+        </div>
         <div class="diver"></div>
         <table>
-            <thead>
-                <th>Cod</th>
-                <th>Descricao</th>
-                <th>Fatias</th>
-                <th>Obs</th>
-            </thead>
+
             <tbody>
                 <% pizzas.forEach(function(pizza){ %>
                     <tr>
+
                         <td>
-                            <%= pizza.produto.codigo %>
-                        </td>
-                        <td>
+                            <b>SABOR: </b>
                             <%= pizza.produto.name %>
                         </td>
-                        <td class="text-center">
-                            <%= pizza.fatias %>
-                        </td>
+
                     </tr>
 
                     <tr>
-                        <td colspan="4" style="word-break: break-all;">
-                            <%= pizza.observacao %>
+                        <td style="word-break: break-all;text-transform: uppercase; font-weight: normal;">
+                            <b>OBS:</b>
+                            <%= pizza.observacao%> -
+                                <%=pizza.fatias%> fatias
                         </td>
                     </tr>
                     <% }); %>
@@ -69,9 +69,9 @@
             -------------------------------------------------------------------
         </div>
     </div>
-    <div class="float-rigth" onclick="window.print();">
+    <!--<div class="float-rigth" onclick="window.print();">
         <img src="/templates/geral/img/print.png" alt="">
-    </div>
+    </div> -->
 </body>
 
 </html>

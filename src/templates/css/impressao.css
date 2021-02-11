@@ -26,14 +26,14 @@ body {
 }
 
 div.impressao {
-    width: 80mm;
+    width: 100%;
     /*min-height: 297mm;*/
     min-height: 96vh;
     height: auto;
     background-color: white;
     display: flex;
     flex-direction: column;
-    margin: 10px 0;
+    /*margin: 10px 0;*/
 }
 
 div.left {
@@ -55,6 +55,7 @@ table {
 }
 
 div.float-rigth {
+    display: none !important;
     position: fixed;
     width: 60px;
     height: 60px;
@@ -101,7 +102,7 @@ footer {
 }
 
 @page {
-    margin: 0.5cm;
+    margin: 0cm;
 }
 
 @media print {

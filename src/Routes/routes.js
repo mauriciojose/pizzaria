@@ -111,10 +111,12 @@ routes.get('/templates/css/produto.css', function(req, res) {
 routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
-
-routes.get('/impressao/impressaopizza/:id', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
-routes.post('/impressao/impressaopizza', TokenServices.checkToken, ImpressaoControler.impressaoPizza);
-routes.get('/relatorio/impressao', TokenServices.checkToken, ImpressaoControler.impressaoCaixaGeral);
+routes.get('/caixa/impressao', ImpressaoControler.impressaoCliente);
+routes.get('/caixa/impressao/:id', ImpressaoControler.impressaoCaixa);
+routes.get('/impressao/impressaopizza/:id', ImpressaoControler.impressaoPizza);
+routes.post('/impressao/impressaopizza', ImpressaoControler.impressaoPizza);
+routes.get('/relatorio/impressao', ImpressaoControler.impressaoCaixaGeral);
+routes.get('/relatorio/impressao/:router/:id', ImpressaoControler.imprimir);
 
 
 routes.get('/cadastros/pizza', TokenServices.checkToken, PizzaController.view);

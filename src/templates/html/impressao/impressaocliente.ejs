@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressao</title>
+    <link rel="stylesheet" href="/templates/geral/css/impressao.css">
+</head>
+<style>
+    th,
+    td {
+        font-size: 10pt;
+        /* font-weight: bold; */
+    }
+    
+    th.rigth,
+    td.rigth {
+        text-align: right;
+    }
+</style>
+
+<body>
+    <div class="impressao">
+        <div class="left">
+            <b>Pizzaria Pit Stop</b>
+            <b>Av. Luiz Viana Filho, 290, Caldas do Jorro</b>
+            <b>Nota Cliente</b>
+
+            <br>
+            <b>Cliente:<%if(isDelivery){%>
+                    <%=client.name%>
+                <%}else{%>
+                        <%=cliente.name%>
+                    <%}%> </b>
+        </div>
+        <div class="diver"></div>
+        <table>
+            <thead>
+                <th>Consumo</th>
+                <th>Quantidade</th>
+                <th class="rigth">Total</th>
+            </thead>
+            <%var total = 0; var i=0;%>
+                <% produtos.forEach(function(produto){%>
+                    <%if(typeof produto.produto != 'undefined'){%>
+                        <%total+=(parseFloat(produto.quantidade)*parseFloat(produto.valorUnitario));%>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <%=produto.produto.name%>
+                                    </td>
+                                    <td>
+                                        <%=produto.quantidade%>
+                                    </td>
+                                    <td class="text-center rigth">
+                                        R$:
+                                        <%=parseFloat(produto.quantidade*produto.valorUnitario).toFixed(2)%>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            <%}else{%>
+                                <%total+= !isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Pizza com
+                                                <%=produto.quantidade%> fatias
+                                            </td>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td class="text-center rigth">
+                                                R$:
+                                                <%=parseFloat(produto.valorUnitario).toFixed(2)%>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                    <% }})%>
+        </table>
+
+
+        <table>
+
+            <thead>
+                <th>tipo de Pagamento</th>
+                <th>Valor</th>
+            </thead>
+            <% pagamentos.forEach(function(pagamento){%>
+                <tbody>
+
+                    <td>
+                        <%=pagamento.tipo%>
+                    </td>
+                    <td>
+                        R$:
+                        <%=parseFloat(pagamento.valor).toFixed(2)%>
+                    </td>
+
+                </tbody>
+                <%})%>
+        </table>
+        <div> Consumo: R$ <strong><%=parseFloat(total).toFixed(2)%></strong>, Pagamento: R$ <strong><%=parseFloat(pgto).toFixed(2)%></strong>, <strong>Valor restante: R$:
+            <%=total - pgto%>
+                </strong>
+        </div>
+
+
+        <footer>
+
+
+            <%
+                var data = new Date(),
+                dia  = data.getDate().toString(),
+                diaF = (dia.length == 1) ? '0'+dia : dia,
+                mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                mesF = (mes.length == 1) ? '0'+mes : mes,
+                anoF = data.getFullYear();
+                minute = ("0000000000"+data.getMinutes()).slice(-2);
+                var newDate =  diaF+"/"+mesF+"/"+anoF +" "+data.getHours()+":"+minute;
+            %>
+                Emissão:
+                <%= newDate %>
+        </footer>
+        <div style="text-align: center;">
+            -------------------------------------------------------------------
+        </div>
+    </div>
+    <!--<div class="float-rigth" onclick="window.print();">
+        <img src="/templates/geral/img/print.png" alt="">
+    </div> -->
+</body>
+
+</html>

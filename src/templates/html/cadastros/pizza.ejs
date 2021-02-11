@@ -10,14 +10,14 @@
     <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
 
-    
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
 </head>
 
@@ -29,6 +29,19 @@
                 <div class="informations">
                     <header>Nova Pizza</header>
                     <main>
+                        <div class="form-outline">
+                            <label style="color: white;" for="">Pesquisa</label>
+                            <select id="input">
+                                <% dados.forEach(function(dado){%>
+                                    <option value="<%=dado._id %>"><b>Sabor:  </b><%=dado.name%></option>
+                                    <% });%>
+                            </select>
+                            <button class="register" id="busca">Busca</button>
+                            <br> <br>
+                            <hr>
+                            <br>
+                        </div>
+                        <input type="hidden" id="id" name="id">
                         <div class="row">
                             <fieldset class='float-label-field'>
                                 <label for="name">Nome</label>
@@ -112,7 +125,7 @@
         </form>
         <script defer>
             $(document).ready(function() {
-                
+
                 $(".money").maskMoney({
                     prefix: '',
                     // allowNegative: true,
@@ -211,6 +224,37 @@
                     $(".notify").hide();
                 }, 5000);
             }
+
+            $('#busca').click(function(event) {
+                event.preventDefault();
+                var busca = $('#input').val();
+                $.ajax({
+                    method: 'GET',
+                    url: '/produto/' + busca,
+                    // data: {
+                    //     id: busca
+                    // },
+                    success: function(retorno) {
+                        $('#codigo').val(retorno['codigo']);
+                        $('#name').val(retorno['name']);
+                        $('#id').val(retorno['_id']);
+                        $('#fatorMinino').val(retorno['fatorMinino']);
+                        $('#categorias').val(retorno['categorias'][0]);
+                        $('#descricao').val(retorno['descricao']);
+                        $('#refInterna').val(retorno['refInterna']);
+                        $('#precoVendaQuatro').val(retorno['precoVendaQuatro']['$numberDecimal']);
+                        $('#precoVendaSeis').val(retorno['precoVendaSeis']['$numberDecimal']);
+                        $('#precoVendaOito').val(retorno['precoVendaOito']['$numberDecimal']);
+                        $('#precoVendaDez').val(retorno['precoVendaDez']['$numberDecimal']);
+                        $('#precoVenda').val(retorno['precoVenda']['$numberDecimal']);
+
+                        $('#myonoffswitch').val(retorno['ativo']);
+                        console.log(retorno['categorias'][0]);
+
+                    }
+
+                });
+            });
         </script>
         <% if(situacao.situacao==1){%>
             <script>

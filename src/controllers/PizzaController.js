@@ -23,38 +23,73 @@ module.exports = {
         res.render(path.resolve('src/templates/html/cadastros/pizza'), {
             situacao: { situacao: sucess, mensagem: "cadastrado com sucesso!" },
             codigo: Functions.completeZeroLeft(codigo),
-            categorias: await Categoria.find({}).sort({ 'name': 'ascending' })
+            categorias: await Categoria.find({}).sort({ 'name': 'ascending' }),
+            dados: await Produto.find({ pizza: true }),
         });
     },
     async create(req, res) {
-        try {
-            // console.log(req.files);
-            let images = [];
-            if (typeof req.files != 'undefined') {
-                for (let index = 0; index < req.files.length; index++) {
-                    const element = req.files[index];
-                    images.push(element.path);
+        var id = req.body.id;
+        if (id == '') {
+            try {
+
+                // console.log(req.files);
+                let images = [];
+                if (typeof req.files != 'undefined') {
+                    for (let index = 0; index < req.files.length; index++) {
+                        const element = req.files[index];
+                        images.push(element.path);
+                    }
                 }
+                req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
+                req.body.precoVendaQuatro = Functions.getDecimalFromFormatBrazil(req.body.precoVendaQuatro);
+                req.body.precoVendaSeis = Functions.getDecimalFromFormatBrazil(req.body.precoVendaSeis);
+                req.body.precoVendaOito = Functions.getDecimalFromFormatBrazil(req.body.precoVendaOito);
+                req.body.precoVendaDez = Functions.getDecimalFromFormatBrazil(req.body.precoVendaDez);
+
+                req.body.images = images;
+                req.body.pizza = true;
+                let produto = await Produto.create(req.body);
+                console.log(produto);
+
+                let codigo = await Codigo.find({});
+                codigo = codigo[0];
+                codigo.produto = codigo.produto + 1;
+                await Codigo.update(codigo);
+                res.redirect('/cadastros/pizza?success=1');
+            } catch (error) {
+                return res.status(400).json({ error: error });
             }
-            req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
-            req.body.precoVendaQuatro = Functions.getDecimalFromFormatBrazil(req.body.precoVendaQuatro);
-            req.body.precoVendaSeis = Functions.getDecimalFromFormatBrazil(req.body.precoVendaSeis);
-            req.body.precoVendaOito = Functions.getDecimalFromFormatBrazil(req.body.precoVendaOito);
-            req.body.precoVendaDez = Functions.getDecimalFromFormatBrazil(req.body.precoVendaDez);
 
-            req.body.images = images;
-            req.body.pizza = true;
-            let produto = await Produto.create(req.body);
-            console.log(produto);
+        } else {
+            try {
+                req.body.precoVenda = Functions.getDecimalFromFormatBrazil(req.body.precoVenda);
+                req.body.precoVendaQuatro = Functions.getDecimalFromFormatBrazil(req.body.precoVendaQuatro);
+                req.body.precoVendaSeis = Functions.getDecimalFromFormatBrazil(req.body.precoVendaSeis);
+                req.body.precoVendaOito = Functions.getDecimalFromFormatBrazil(req.body.precoVendaOito);
+                req.body.precoVendaDez = Functions.getDecimalFromFormatBrazil(req.body.precoVendaDez);
+                await Produto.updateOne({ _id: id }, {
+                    name: req.body.name,
+                    descricao: req.body.descricao,
+                    ativo: req.body.ativo,
+                    categorias: req.body.categorias,
+                    codigo: req.body.codigo,
+                    refInterna: req.body.refInterna,
+                    precoVenda: req.body.precoVenda,
+                    precoVendaQuatro: req.body.precoVendaQuatro,
+                    precoVendaSeis: req.body.precoVendaSeis,
+                    precoVendaOito: req.body.precoVendaOito,
+                    precoVendaDez: req.body.precoVendaDez
 
-            let codigo = await Codigo.find({});
-            codigo = codigo[0];
-            codigo.produto = codigo.produto + 1;
-            await Codigo.update(codigo);
-            res.redirect('/cadastros/pizza?success=1');
-        } catch (error) {
-            return res.status(400).json({ error: error });
+                });
+
+                res.redirect('/cadastros/pizza?success=1');
+
+
+            } catch (error) {
+                return res.status(400).json({ error: error });
+            }
         }
+
     },
     async AddView(req, res) {
         let produtos = await Produto.find({ pizza: true });

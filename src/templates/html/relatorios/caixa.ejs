@@ -261,7 +261,19 @@
 
         var fim = $('#fim').val();
 
-        window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
+        $.ajax({
+            type: 'GET',
+            url: '/relatorio/impressao/impressaocaixa/' + 0 + '?inicio=' + inicio + '&fim=' + fim,
+            contentType: 'application/json' // access in body
+        }).done(function(da) {
+
+        }).fail(function(msg) {
+            console.log('FAIL');
+        }).always(function(msg) {
+            console.log('ALWAYS');
+        });
+
+        // window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
 
 
     }

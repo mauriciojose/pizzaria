@@ -1,15 +1,30 @@
 const ptp = require('pdf-to-printer');
 
-var html_to_pdf = require('html-pdf-node');
+const puppeteer = require("puppeteer");
 
-let options = { format: 'A4' };
-let file = [{ url: "https://example.com", name: 'example.pdf' }];
+(async() => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto("http://localhost:3000/relatorio/impressao?inicio=2021-02-06&fim=2021-02-09", {
+        waitUntil: "networkidle2"
+    });
+    await page.setViewport({ width: 1680, height: 1050 });
+    await page.pdf({
+        path: "C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf",
+        width: 260,
+        margin: {
+            top: "0.1px",
+            bottom: "0.1px",
+            left: "0.1px",
+            right: "0.1px"
+        }
+    });
 
-html_to_pdf.generatePdfs(file, options).then(output => {
-  console.log("PDF Buffer:-", output); // PDF Buffer:- [{url: "https://example.com", name: "example.pdf", buffer: <PDF buffer>}]
-});
+    await browser.close();
 
-ptp
-  .print("./teste.pdf")
-  .then(console.log)
-  .catch(console.error);
+    ptp
+        .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
+        .then(console.log)
+        .catch(console.error);
+
+})();

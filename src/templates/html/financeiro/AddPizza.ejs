@@ -399,8 +399,21 @@
                     data: JSON.stringify(data), // access in body
                 }).done(function(datas) {
                     console.log(datas);
-                    openWindowWithPost('/impressao/impressaopizza', datas);
-                    window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                    $.ajax({
+                        type: 'GET',
+                        url: '/relatorio/impressao/impressaopizza/' + datas._id,
+                        contentType: 'application/json' // access in body
+                    }).done(function(da) {
+                        console.log(da);
+
+                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                    }).fail(function(msg) {
+                        console.log('FAIL');
+                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                    }).always(function(msg) {
+                        console.log('ALWAYS');
+                    });
+                    //window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                 }).fail(function(msg) {
                     console.log('FAIL');
                     failure();
