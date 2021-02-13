@@ -158,6 +158,7 @@
     };
 
     function listar(dados) {
+        console.log(dados);
         var html = "";
         var total = 0;
         var credito = 0;
@@ -204,19 +205,23 @@
         html += '</thead><tbody>';
         dados.forEach(function(dado) {
 
-            html += '<tr class = "clickable-row" >';
-            html += '<td data - title = "descricao" >';
-            html += dado.cliente.name;
-            html += '</td> <td data - title = "Data Pedido" >';
-            var data = dado['createdAt'].split('-');
-            var dia = data[2].split('T');
-            data = `${dia[0]}/${data[1]}/${data[0]}`;
-            html += data;
-            html += '</td> <td data - title = "quantidade" >';
-            html += dado.tipo;
-            html += '</td> <td data - title = "valor" >';
-            html += 'R$: ' + parseFloat(dado['valor']['$numberDecimal']).toFixed(2);
-            html += "</td> <td> <button onclick=" + "visualiza('" + dado.caixa + "');" + " > Visualizar </button></td>";
+            if (dado.caixa.status < 2) {
+                
+                html += '<tr class = "clickable-row" >';
+                html += '<td data - title = "descricao" >';
+                html += dado.cliente.name;
+                html += '</td> <td data - title = "Data Pedido" >';
+                var data = dado['createdAt'].split('-');
+                var dia = data[2].split('T');
+                data = `${dia[0]}/${data[1]}/${data[0]}`;
+                html += data;
+                html += '</td> <td data - title = "quantidade" >';
+                html += dado.tipo;
+                html += '</td> <td data - title = "valor" >';
+                html += 'R$: ' + parseFloat(dado['valor']['$numberDecimal']).toFixed(2);
+                html += "</td> <td> <button onclick=" + "visualiza('" + dado.caixa._id + "');" + " > Visualizar </button></td> </tr>";
+
+            }
 
         });
         html += "<tr><td> <button onclick=" + "imprimir('');" + " > Imprimir </button></td></tr>";

@@ -1,8 +1,9 @@
 var path = require('path');
-const { console } = require('console');
+// const { console } = require('console');
 const Pagamento = require('../models/pagamentos');
 const caixa = require('../models/caixa');
 const { getById } = require('./MedidaController');
+const Caixa = require('../models/caixa');
 
 module.exports = {
     async view(req, res) {
@@ -33,7 +34,7 @@ module.exports = {
     async getAllView(req, res) {
         const hora = "T00:00:00.058+00:00";
         const hora2 = "T23:59:59.058+00:00";
-        // let busca = req.body.busca;
+
         if (req.body.busca == '') {
             var inicio = req.body.inicio + hora;
             var fim = req.body.fim + hora2;
@@ -44,8 +45,14 @@ module.exports = {
                     '$lt': fim
                 }
             }, (err, pagamentos) => {
+                console.log(pagamentos);
                 return res.json(pagamentos);
-            }).populate('cliente');
+            }).populate('cliente').populate({
+                path: 'caixa',
+                // match: {
+                //     status: { $lt: 2 }
+                // }
+            });
             // console.log(pagamentos);
         } else {
             await Pagamento.find({}, (err, pagamentos) => {
