@@ -303,7 +303,7 @@ li ul {
 
 table {
     width: 100%;
-    min-width: 400px;
+    /* min-width: 400px; */
     margin-bottom: 2em;
 }
 
