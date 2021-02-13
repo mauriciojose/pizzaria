@@ -137,20 +137,23 @@ module.exports = {
                 res.render(path.resolve('src/templates/html/estoque/produtos'), {
                     produtos: produtos,
                     tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
-                    idCaixa: req.params.idCaixa
+                    idCaixa: req.params.idCaixa,
+                    idCategoria: req.params.idCategoria
                 });
             } else {
                 if (filter.pizza) {
                     res.render(path.resolve('src/templates/html/estoque/produtos'), {
                         produtos: produtos,
                         tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
-                        idCaixa: req.params.idCaixa
+                        idCaixa: req.params.idCaixa,
+                        idCategoria: req.params.idCategoria
                     });
                 } else {
                     res.render(path.resolve('src/templates/html/estoque/produtos'), {
                         produtos: produtos,
                         tipo: (typeof req.params.idCaixa == 'undefined') ? 0 : 1,
-                        idCaixa: req.params.idCaixa
+                        idCaixa: req.params.idCaixa,
+                        idCategoria: req.params.idCategoria
                     });
                 }
             }
