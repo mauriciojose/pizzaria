@@ -25,7 +25,7 @@
             <b>Cliente:</b>
         </div>
         <div class="left">
-            <b>Tamanho: <%=tamanho%></b>
+            Tamanho: <b style="font-size:17px"><%=tamanho%></b>
         </div>
         <div class="diver"></div>
         <table>
@@ -35,7 +35,7 @@
                     <tr>
 
                         <td>
-                            <b>SABOR: </b>
+                            <b><b style="font-size: 17px;">*</b> SABOR: </b>
                             <%= pizza.produto.name %>
                         </td>
 
@@ -44,8 +44,8 @@
                     <tr>
                         <td style="word-break: break-all;text-transform: uppercase; font-weight: normal;">
                             <b>OBS:</b>
-                            <%= pizza.observacao%> -
-                                <%=pizza.fatias%> fatias
+                            <%= pizza.observacao%>
+
                         </td>
                     </tr>
                     <% }); %>

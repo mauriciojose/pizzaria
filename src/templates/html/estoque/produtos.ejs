@@ -23,191 +23,172 @@
             <div class="container-form">
                 <div id="#responsive" class="itens">
                     <div class="main">
-                        <div class="form-outline">
-                            <label style="color: white;" for="">Pesquisa</label>
-                            <input type="text" id="input" disabled onkeypress="buscar()">
-                            <br> <br>
-
-                            <ul class="cards" id="lista">
-                                <% produtos.forEach(function(produto){ %>
-
-                                    <li class="cards_item">
-                                        <div class="card">
-                                            <% if(produto.categorias[0].name=='Bebidas'){%>
-                                                <div class="card_image"><img style="width: 75%;" src="/img/bebida"></div>
-                                                <% }else {%>
-                                                    <div class="card_image"><img style="width: 75%;" src="/img/combo1"></div>
-                                                    <%}%>
-                                                        <div class="card_content">
-                                                            <h1 class="card_title">
-                                                                <%=produto.name%>
-                                                            </h1>
-                                                            <p class="card_text">
-                                                                Código:
-                                                                <%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span>
-                                                            </p>
-                                                            <div>
-                                                                <%if(tipo==0){%>
-                                                                    <button id="" class="btn card_btn" data-translate="start">Editar</button>
-                                                                    <button id="" class="btn card_btn" data-translate="start">Desativar</button>
-                                                                    <%}else{%>
-                                                                        <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
-                                                                        <%}%>
-                                                            </div>
-                                                            <!-- <button class="btn card_btn">Read More</button> -->
+                        <ul class="cards">
+                            <% produtos.forEach(function(produto){ %>
+                                <li class="cards_item">
+                                    <div class="card">
+                                        <% if(produto.categorias[0].name=='Bebidas'){%>
+                                            <div class="card_image"><img style="width: 75%;" src="/img/bebida"></div>
+                                            <% }else {%>
+                                                <div class="card_image"><img style="width: 75%;" src="/img/combo1"></div>
+                                                <%}%>
+                                                    <div class="card_content">
+                                                        <h1 class="card_title">
+                                                            <%=produto.name%>
+                                                        </h1>
+                                                        <p class="card_text">
+                                                            Código:
+                                                            <%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span>
+                                                        </p>
+                                                        <div>
+                                                            <%if(tipo==0){%>
+                                                                <button id="" class="btn card_btn" data-translate="start">Editar</button>
+                                                                <button id="" class="btn card_btn" data-translate="start">Desativar</button>
+                                                                <%}else{%>
+                                                                    <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
+                                                                    <%}%>
                                                         </div>
-                                        </div>
-                                    </li>
-                                    <%});%>
-                            </ul>
-                        </div>
+                                                        <!-- <button class="btn card_btn">Read More</button> -->
+                                                    </div>
+                                    </div>
+                                </li>
+                                <%});%>
+                        </ul>
                     </div>
                 </div>
-
-                <%if(tipo==1){%>
-                    <dialog class="mdl-dialog" id="modal-example">
-                        <input type="hidden" id="idProduto">
-                        <input type="hidden" id="qtdeDisponivel">
-                        <input type="hidden" name="idCaixa" id="idCaixa" value="<%=idCaixa%>">
-                        <div class="mdl-dialog__content">
-                            <div class="row">
-                                <fieldset class='float-label-field'>
-                                    <label for="name">Disponivel: </label>
-                                    <label for="" id="disponivel">1</label>
-                                </fieldset>
-                            </div>
-                            <div class="row">
-                                <fieldset class='float-label-field'>
-                                    <label for="quantidade">Quantidade</label>
-                                    <input style="width: 100% !important;" id="quantidade" value="1" class='text' required name="quantidade" type='text'>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-                            <div class="container-button left">
-                                <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
-                            </div>
-                            <div class="container-button right">
-                                <button type="button" onclick="addProduto();" class="mdl-button">Adicionar</button>
-                            </div>
-                        </div>
             </div>
-            </dialog>
+
+            <%if(tipo==1){%>
+                <dialog class="mdl-dialog" id="modal-example">
+                    <input type="hidden" id="idProduto">
+                    <input type="hidden" id="qtdeDisponivel">
+                    <input type="hidden" name="idCaixa" id="idCaixa" value="<%=idCaixa%>">
+                    <div class="mdl-dialog__content">
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="name">Disponivel: </label>
+                                <label for="" id="disponivel">1</label>
+                            </fieldset>
+                        </div>
+                        <div class="row">
+                            <fieldset class='float-label-field'>
+                                <label for="quantidade">Quantidade</label>
+                                <input style="width: 100% !important;" id="quantidade" value="1" class='text' required name="quantidade" type='text'>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+                        <div class="container-button left">
+                            <button onclick="closeClickHandler();" type="button" class="mdl-button">Close</button>
+                        </div>
+                        <div class="container-button right">
+                            <button type="button" onclick="addProduto();" class="mdl-button">Adicionar</button>
+                        </div>
+                    </div>
+        </div>
+        </dialog>
+        <script>
+            var dialog = document.querySelector('#modal-example');
+            if (!dialog.showModal) {
+                dialogPolyfill.registerDialog(dialog);
+            }
+
+            function closeClickHandler() {
+                dialog.close();
+            };
+
+            function showClickHandler(idProduto, quantidade) {
+                dialog.querySelector('#idProduto').value = idProduto;
+                dialog.querySelector('#qtdeDisponivel').value = quantidade;
+                dialog.querySelector('#disponivel').innerHTML = quantidade;
+                dialog.showModal();
+            };
+            // $.ajax({
+            //     type: 'PUT',
+            //     url: 'financeiro/addproduto/' + idCaixa.value,
+            //     contentType: 'application/json',
+            //     data: JSON.stringify(data), // access in body
+            // }).done(function(data) {
+            //     console.log("Sucess");
+            //     sucess();
+            //     closeClickHandler();
+            // }).fail(function(msg) {
+            //     console.log('FAIL');
+            //     failure();
+            // }).always(function(msg) {
+            //     console.log('ALWAYS');
+            // });
+            // }
+            function sucess() {
+                $(".notify").toggleClass("active");
+                $(".notify").toggleClass("success");
+                $("#notifyType").html("Adicionado com Sucesso!");
+                $(".notify").show();
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("success");
+                    $(".notify").hide();
+                }, 5000);
+            }
+
+            function failure() {
+                $(".notify").addClass("active");
+                $(".notify").addClass("failure");
+                $("#notifyType").html("Error ao adicionar!");
+                $(".notify").show();
+                setTimeout(function() {
+                    $(".notify").removeClass("active");
+                    $(".notify").removeClass("failure");
+                    $(".notify").hide();
+                }, 5000);
+            }
+
+            function addProduto() {
+                let idCaixa = document.querySelector('#idCaixa');
+                let quantidade = document.querySelector('#quantidade');
+                let idProduto = document.querySelector('#idProduto');
+                let data = {
+                    quantidade: quantidade.value,
+                    idProduto: idProduto.value
+                };
+                $.ajax({
+                    type: 'PUT',
+                    url: '/financeiro/addproduto/' + idCaixa.value,
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    // access in body 
+                }).done(function(data) {
+                    console.log("Sucess");
+                    sucess();
+                    console.log(`btn${idProduto.value}`);
+                    let btn = document.getElementById(`btn${idProduto.value}`);
+                    console.log(btn);
+                    let disponivel = document.getElementById('qtdeDisponivel').value;
+                    let newDisponivel = Number.parseInt(disponivel) - Number.parseInt(quantidade.value);
+                    btn.setAttribute('onclick', `showClickHandler('${idProduto.value}',${newDisponivel})`);
+                    closeClickHandler();
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                    failure();
+                });
+            }
+        </script>
+        <%}%>
 
             <script>
-                window.onload = function() {
-                var categoria = <%=idCategoria%>;
-                var caixa = <%=idCaixa%>;
-                window.alert('opaa');
-
+                var formatter = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2,
                 });
-
-
-                var dialog = document.querySelector('#modal-example');
-                if (!dialog.showModal) {
-                    dialogPolyfill.registerDialog(dialog);
-                }
-
-                function closeClickHandler() {
-                    dialog.close();
-                };
-
-                function showClickHandler(idProduto, quantidade) {
-                    dialog.querySelector('#idProduto').value = idProduto;
-                    dialog.querySelector('#qtdeDisponivel').value = quantidade;
-                    dialog.querySelector('#disponivel').innerHTML = quantidade;
-                    dialog.showModal();
-                };
-                // $.ajax({
-                //     type: 'PUT',
-                //     url: 'financeiro/addproduto/' + idCaixa.value,
-                //     contentType: 'application/json',
-                //     data: JSON.stringify(data), // access in body
-                // }).done(function(data) {
-                //     console.log("Sucess");
-                //     sucess();
-                //     closeClickHandler();
-                // }).fail(function(msg) {
-                //     console.log('FAIL');
-                //     failure();
-                // }).always(function(msg) {
-                //     console.log('ALWAYS');
-                // });
-                // }
-
-
-                function sucess() {
-                    $(".notify").toggleClass("active");
-                    $(".notify").toggleClass("success");
-                    $("#notifyType").html("Adicionado com Sucesso!");
-                    $(".notify").show();
-
-                    setTimeout(function() {
-                        $(".notify").removeClass("active");
-                        $(".notify").removeClass("success");
-                        $(".notify").hide();
-                    }, 5000);
-                }
-
-                function failure() {
-                    $(".notify").addClass("active");
-                    $(".notify").addClass("failure");
-                    $("#notifyType").html("Error ao adicionar!");
-                    $(".notify").show();
-
-                    setTimeout(function() {
-                        $(".notify").removeClass("active");
-                        $(".notify").removeClass("failure");
-                        $(".notify").hide();
-                    }, 5000);
-                }
-
-                function addProduto() {
-                    let idCaixa = document.querySelector('#idCaixa');
-                    let quantidade = document.querySelector('#quantidade');
-                    let idProduto = document.querySelector('#idProduto');
-                    let data = {
-                        quantidade: quantidade.value,
-                        idProduto: idProduto.value
-                    };
-                    $.ajax({
-                        type: 'PUT',
-                        url: '/financeiro/addproduto/' + idCaixa.value,
-                        contentType: 'application/json',
-                        data: JSON.stringify(data),
-                        // access in body 
-                    }).done(function(data) {
-                        console.log("Sucess");
-                        sucess();
-                        console.log(`btn${idProduto.value}`);
-                        let btn = document.getElementById(`btn${idProduto.value}`);
-                        console.log(btn);
-                        let disponivel = document.getElementById('qtdeDisponivel').value;
-                        let newDisponivel = Number.parseInt(disponivel) - Number.parseInt(quantidade.value);
-                        btn.setAttribute('onclick', `showClickHandler('${idProduto.value}',${newDisponivel})`);
-                        closeClickHandler();
-                    }).fail(function(msg) {
-                        console.log('FAIL');
-                        failure();
-                    });
+                let moneys = document.querySelectorAll('.money');
+                for (let index = 0; index < moneys.length; index++) {
+                    const element = moneys[index];
+                    console.log(element, element.innerText);
+                    element.innerHTML = formatter.format(element.innerHTML);
                 }
             </script>
-            <%}%>
-
-                <script>
-                    var formatter = new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                        minimumFractionDigits: 2,
-                    });
-                    let moneys = document.querySelectorAll('.money');
-                    for (let index = 0; index < moneys.length; index++) {
-                        const element = moneys[index];
-                        console.log(element, element.innerText);
-                        element.innerHTML = formatter.format(element.innerHTML);
-                    }
-                </script>
-                <%- include('../componentes/rodape.ejs'); -%>
+            <%- include('../componentes/rodape.ejs'); -%>
 </body>
 
 </html>
