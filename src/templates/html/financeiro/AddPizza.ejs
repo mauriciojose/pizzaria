@@ -91,10 +91,11 @@
             max-height: 40vh;
             align-items: baseline !important;
             overflow-y: scroll;
+            overflow-x: scroll;
         }
         
         input.fatias {
-            width: 100% !important;
+            /* width: 100% !important; */
         }
         
         button.fixed {
@@ -145,11 +146,7 @@
                                 <div class="row table">
                                     <table class="itens">
                                         <thead>
-                                            <th>Código</th>
-                                            <th>Nome</th>
-                                            <th>Fatias</th>
-                                            <th>Valor</th>
-                                            <th>Observação</th>
+                                            <th colspan="5">Pizzas</th>
                                         </thead>
                                         <tbody></tbody>
                                     </table>
@@ -254,8 +251,14 @@
                 if (typeof getExistsById(item._id) == 'undefined') {
 
                     let table = document.querySelector('table.itens tbody');
+                    let title = document.createElement('tr');
                     let tr = document.createElement('tr');
+                    let tdTitle = document.createElement('td');
+
                     tr.setAttribute('id', `id_${item._id}`);
+                    tdTitle.setAttribute('colspan',5);
+                    title.appendChild(tdTitle);
+                    table.appendChild(title);
                     table.appendChild(tr);
                     for (var prop in item) {
                         if (item.hasOwnProperty(prop)) {
@@ -269,17 +272,17 @@
                                     input.setAttribute('size', '3');
                                     input.value = 0;
                                     td.appendChild(input);
-                                    td.style.width = '20%';
+                                    // td.style.width = '20%';
                                     tr.appendChild(td);
                                 } else {
                                     if (prop == 'precoVenda') {
                                         let input = document.createElement('input');
                                         input.setAttribute('class', 'campo-texto precos money');
                                         input.setAttribute('type', 'text');
-                                        input.setAttribute('size', '3');
+                                        input.setAttribute('size', '6');
                                         input.value = Number.parseFloat(item[prop]).toFixed(2);
                                         td.appendChild(input);
-                                        td.style.width = '20%';
+                                        // td.style.width = '20%';
                                         tr.appendChild(td);
                                     } else {
                                         if (prop == 'observacao') {
@@ -288,12 +291,20 @@
                                             input.setAttribute('type', 'text');
                                             input.style.width = "100%";
                                             td.appendChild(input);
-                                            td.style.width = '30%';
+                                            // td.style.width = '30%';
+                                            td.setAttribute('colspan',3);
                                             tr.appendChild(td);
                                         } else {
-                                            let text = document.createTextNode(item[prop]);
-                                            td.appendChild(text);
-                                            tr.appendChild(td);
+                                            if (prop == 'codigo') {
+                                                // let text = document.createTextNode(item[prop]);
+                                                // td.appendChild(text);
+                                                // title.appendChild(td);
+                                                tdTitle.innerText += item[prop]+"  -  ";
+                                            }
+                                            if (prop == 'name') {
+                                                tdTitle.innerText += item[prop];
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -442,6 +453,19 @@
             }
         </script>
         <%- include('../componentes/rodape.ejs'); -%>
+
+        <style>
+            table{
+                /* width: auto !important; */
+                min-width: auto !important;
+            }
+            tr{
+                border-bottom: 1px solid #5d5d5d;
+            }
+            input[type="text"] {
+                width: 100% !important;
+            }
+        </style>
 </body>
 
 </html>
