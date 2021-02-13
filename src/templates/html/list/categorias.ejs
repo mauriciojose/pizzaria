@@ -69,7 +69,7 @@
                                                         </div>
                                                     </center>
                                                 </div>
-                                                <%}else if(categoria.name=='Hamburgues') {%>
+                                                <%}else if(categoria.name=='Hamburgue') {%>
                                                     <div class="card">
                                                         <center>
                                                             <img class="img-fluid" src="/img/lanches.png" width="150" alt="Card image cap">
@@ -79,7 +79,19 @@
                                                             </div>
                                                         </center>
                                                     </div>
-                                                    <%}}%>
+                                                    <%}else{%>
+                                                        <div class="card">
+                                                            <center>
+                                                                <img class="img-fluid" src="/img/bebida.png" width="150" alt="Card image cap">
+                                                                <div class="card-body">
+
+                                                                    <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                                </div>
+                                                            </center>
+                                                        </div>
+
+
+                                                        <%}}%>
                                 </div>
                                 <%if(tipo==0){%>
 
