@@ -12,10 +12,10 @@ module.exports = {
     async impressaoPizza(req, res) {
         try {
             let t = await ProdutoCaixa.find({});
-            console.log(t);
+            // console.log(t);
             let produto = await ProdutoCaixa.findById(req.params.id);
-            console.log(produto);
-            console.log(req.body);
+            // console.log(produto);
+            // console.log(req.body);
             let itens = [];
             var tamanho = '';
             switch (produto.quantidade) {
@@ -35,7 +35,7 @@ module.exports = {
                 default:
                     break;
             }
-            console.log('tamanho:' + tamanho);
+            // console.log('tamanho:' + tamanho);
             for (let index = 0; index < produto.pizzas.length; index++) {
                 const element = produto.pizzas[index];
                 const pizza = await PizzaCaixa.findById(element).populate('produto');
