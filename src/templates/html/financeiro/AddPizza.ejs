@@ -256,7 +256,7 @@
                     let tdTitle = document.createElement('td');
 
                     tr.setAttribute('id', `id_${item._id}`);
-                    tdTitle.setAttribute('colspan',5);
+                    tdTitle.setAttribute('colspan', 5);
                     title.appendChild(tdTitle);
                     table.appendChild(title);
                     table.appendChild(tr);
@@ -292,19 +292,19 @@
                                             input.style.width = "100%";
                                             td.appendChild(input);
                                             // td.style.width = '30%';
-                                            td.setAttribute('colspan',3);
+                                            td.setAttribute('colspan', 3);
                                             tr.appendChild(td);
                                         } else {
                                             if (prop == 'codigo') {
                                                 // let text = document.createTextNode(item[prop]);
                                                 // td.appendChild(text);
                                                 // title.appendChild(td);
-                                                tdTitle.innerText += item[prop]+"  -  ";
+                                                tdTitle.innerText += item[prop] + "  -  ";
                                             }
                                             if (prop == 'name') {
                                                 tdTitle.innerText += item[prop];
                                             }
-                                            
+
                                         }
                                     }
                                 }
@@ -380,7 +380,7 @@
                 // console.log(adicionados);return;
                 let quantFatias = document.querySelector('input[name=quantidade]').value;
                 let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
-                let preco = (adicionados.length == 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
+                let preco = (adicionados.length >= 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
                 let produtos = adicionados.map(a => a._id);
                 let pizzas = [];
                 for (let index = 0; index < produtos.length; index++) {
@@ -454,18 +454,20 @@
         </script>
         <%- include('../componentes/rodape.ejs'); -%>
 
-        <style>
-            table{
-                /* width: auto !important; */
-                min-width: auto !important;
-            }
-            tr{
-                border-bottom: 1px solid #5d5d5d;
-            }
-            input[type="text"] {
-                width: 100% !important;
-            }
-        </style>
+            <style>
+                table {
+                    /* width: auto !important; */
+                    min-width: auto !important;
+                }
+                
+                tr {
+                    border-bottom: 1px solid #5d5d5d;
+                }
+                
+                input[type="text"] {
+                    width: 100% !important;
+                }
+            </style>
 </body>
 
 </html>

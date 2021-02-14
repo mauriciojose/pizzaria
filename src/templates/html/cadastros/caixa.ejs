@@ -146,7 +146,8 @@
                                                         <%=produto.valorUnitario%>
                                                     </td>
                                                     <td class="money">
-                                                        <%=!isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
+                                                        <%=console.log(produto)%>
+                                                            <%=!isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
                                                     </td>
                                                     <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                                 </tr>

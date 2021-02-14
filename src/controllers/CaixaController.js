@@ -146,13 +146,16 @@ module.exports = {
                 let produtoCaixa = await ProdutoCaixa.create({
                     quantidade: req.body.quantidade,
                     pizzas: pizzas,
-                    valorUnitario: req.body.valorUnitario
+                    valorUnitario: req.body.valorUnitario,
+
                 });
+                console.log("tetstetetete" + pizzas);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
                 console.log(caixa);
                 return res.json(produtoCaixa);
             });
+
         }).populate('ProdutoCaixa');
     },
 
