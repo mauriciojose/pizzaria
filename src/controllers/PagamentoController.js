@@ -34,6 +34,7 @@ module.exports = {
     async getAllView(req, res) {
         const hora = "T00:00:00.058+00:00";
         const hora2 = "T23:59:59.058+00:00";
+        let gorjeta = 0;
 
         if (req.body.busca == '') {
             var inicio = req.body.inicio + hora;
@@ -46,7 +47,10 @@ module.exports = {
                 }
             }, (err, pagamentos) => {
                 console.log(pagamentos);
+
                 return res.json(pagamentos);
+
+
             }).populate('cliente').populate({
                 path: 'caixa',
                 // match: {

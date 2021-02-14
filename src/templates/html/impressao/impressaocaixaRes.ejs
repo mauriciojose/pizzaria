@@ -38,48 +38,28 @@
                 <% var total = 0;
                 pagamentos.forEach(function(pagamento){
                     total += parseFloat(pagamento.valor);
-                        
-                    %>
+                         });%>
+
                     <tr>
-                        <td colspan="4" style="word-break: break-all;">
-                            <b>Cliente:</b>
-                            <%=pagamento.cliente.name%>
+
+                        <td colspan="2">
+                            <b> Quantidade:</b></td>
+                        <td colspan="2" class="rigth">
+                            <%=pagamentos.length%>
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <%=pagamento.createdAt.getDate()+'/'+(pagamento.createdAt.getMonth()+1)+'/'+pagamento.createdAt.getFullYear()%>
+                        <td colspan="2"><b>Total:</b></td>
+                        <td colspan="2" class="rigth">
+                            <%=parseFloat(total).toFixed(2)%>
                         </td>
-                        <td>
-                            <%=pagamento.tipo%>
-                        </td>
-                        <td class="text-center rigth">
-                            <%=parseFloat(pagamento.valor).toFixed(2)%>
-                        </td>
-
                     </tr>
-                    <% });%>
-
-                        <tr>
-
-                            <td colspan="2">
-                                <b> Quantidade:</b></td>
-                            <td colspan="2" class="rigth">
-                                <%=pagamentos.length%>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><b>Total:</b></td>
-                            <td colspan="2" class="rigth">
-                                <%=parseFloat(total).toFixed(2)%>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><b>Total + Gorjeta:</b></td>
-                            <td colspan="2" class="rigth">
-                                <%=parseFloat(parseFloat(total)+parseFloat(gorjeta)).toFixed(2)%>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="2"><b>Total + Gorjeta:</b></td>
+                        <td colspan="2" class="rigth">
+                            <%=parseFloat(parseFloat(total)+parseFloat(gorjeta)).toFixed(2)%>
+                        </td>
+                    </tr>
 
             </tbody>
 

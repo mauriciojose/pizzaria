@@ -135,6 +135,7 @@ module.exports = {
         var debito = 0;
         var transferencia = 0;
         var dinheiro = 0;
+        var gorjeta = 0;
         await Pagamento.find({
             createdAt: {
                 '$gte': inicio,
@@ -160,6 +161,10 @@ module.exports = {
                     default:
                         break;
                 }
+                var gorjetaExiste = typeof pagamentos[index].gorjeta === 'undefined' ? 0 : pagamentos[index].gorjeta;
+                if (gorjetaExiste > 0) {
+                    gorjeta += parseFloat(gorjetaExiste);
+                }
             }
             res.render(path.resolve('src/templates/html/impressao/impressaocaixa'), {
                 pagamentos: pagamentos,
@@ -168,7 +173,8 @@ module.exports = {
                 credito: credito,
                 debito: debito,
                 transferencia: transferencia,
-                dinheiro: dinheiro
+                dinheiro: dinheiro,
+                gorjeta: gorjeta,
 
             })
 
@@ -192,6 +198,108 @@ module.exports = {
             } else {
                 url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id;
             }
+            await page.goto(url, {
+                waitUntil: "networkidle2"
+            });
+            await page.setViewport({ width: 1680, height: 1050 });
+            await page.pdf({
+                    path: "C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf",
+                    width: 260,
+                    margin: {
+                        top: "0.1px",
+                        bottom: "0.1px",
+                        left: "0.1px",
+                        right: "0.1px"
+                    }
+                }),
+
+                await browser.close();
+
+            ptp
+                .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
+                .then(console.log)
+                .catch(console.error);
+            res.json({});
+        } catch (error) {
+            res.json({});
+        }
+
+    },
+
+
+
+    async impressaoGeralResumida(req, res) {
+        const hora = "T00:00:00.058+00:00";
+        const hora2 = "T23:59:59.058+00:00";
+        // let busca = req.body.busca;
+        var inicio = req.query.inicio + hora;
+        var fim = req.query.fim + hora2;
+        var credito = 0;
+        var debito = 0;
+        var transferencia = 0;
+        var dinheiro = 0;
+        var gorjeta = 0;
+        await Pagamento.find({
+            createdAt: {
+                '$gte': inicio,
+                '$lt': fim
+            }
+        }, (err, pagamentos) => {
+            for (let index = 0; index < pagamentos.length; index++) {
+                // console.log(parseFloat(pagamentos[index].valor));
+                switch (pagamentos[index].tipo) {
+                    case 'Cartão de credito':
+                        credito += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'Cartão de Débito':
+                        debito += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'dinheiro':
+                        dinheiro += parseFloat(pagamentos[index].valor)
+                        break
+                    case 'Transferência':
+                        transferencia += parseFloat(pagamentos[index].valor)
+                        break
+
+                    default:
+                        break;
+                }
+                var gorjetaExiste = typeof pagamentos[index].gorjeta === 'undefined' ? 0 : pagamentos[index].gorjeta;
+                if (gorjetaExiste > 0) {
+                    gorjeta += parseFloat(gorjetaExiste);
+                }
+            }
+            res.render(path.resolve('src/templates/html/impressao/impressaocaixaRes'), {
+                pagamentos: pagamentos,
+                inicio: req.query.inicio,
+                fim: req.query.fim,
+                credito: credito,
+                debito: debito,
+                transferencia: transferencia,
+                dinheiro: dinheiro,
+                gorjeta: gorjeta,
+
+            })
+
+
+
+        }).populate('cliente');
+
+
+
+
+
+    },
+
+    async imprimirResumida(req, res) {
+        try {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            console.log(req.query);
+            let url = "";
+
+            url = `http://localhost:3000/relatorio/impressaoResumo?inicio=${req.query.inicio}&fim=${req.query.fim}`;
+
             await page.goto(url, {
                 waitUntil: "networkidle2"
             });

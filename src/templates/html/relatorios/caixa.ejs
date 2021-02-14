@@ -84,6 +84,10 @@
                         <label for="">Transferência</label>
                         <input type="text" disabled class="form-control" id="transferencia">
                     </div>
+                    <div class="col-sm-2">
+                        <label for="">Gorjeta</label>
+                        <input type="text" disabled class="form-control" id="gorjeta">
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,13 +162,14 @@
     };
 
     function listar(dados) {
-        console.log(dados);
+        // console.log(dados);
         var html = "";
         var total = 0;
         var credito = 0;
         var debito = 0;
         var transferencia = 0;
         var dinheiro = 0;
+        var gorjeta = 0;
 
         for (let index = 0; index < dados.length; index++) {
             total += parseFloat(dados[index]['valor']['$numberDecimal']);
@@ -185,12 +190,18 @@
                 default:
                     break;
             }
-
+            if (dados[index].gorjeta != null) {
+                // console.log(dados[index]['gorjeta']['$numberDecimal']);
+                gorjeta += parseFloat(dados[index]['gorjeta']['$numberDecimal']);
+            }
         }
+        total += gorjeta;
+
         $('#dinheiro').val('R$: ' + dinheiro.toFixed(2));
         $('#credito').val('R$: ' + credito.toFixed(2));
         $('#debito').val('R$: ' + debito.toFixed(2));
         $('#transferencia').val('R$: ' + transferencia.toFixed(2));
+        $('#gorjeta').val('R$: ' + gorjeta.toFixed(2));
         $('#total').val('R$: ' + total.toFixed(2));
         $('#qtde').val(dados.length);
 
@@ -206,7 +217,7 @@
         dados.forEach(function(dado) {
 
             if (dado.caixa.status < 2) {
-                
+
                 html += '<tr class = "clickable-row" >';
                 html += '<td data - title = "descricao" >';
                 html += dado.cliente.name;
@@ -224,7 +235,8 @@
             }
 
         });
-        html += "<tr><td> <button onclick=" + "imprimir('');" + " > Imprimir </button></td></tr>";
+        html += "<tr><td> <button onclick=" + "imprimirRes('');" + " > Imprimir Resumido </button></td>";
+        html += "<td> <button onclick=" + "imprimir('');" + " > Imprimir Detalhado </button></td></tr>";
         html += '</tbody> </table>';
         return html;
 
@@ -262,7 +274,21 @@
                 //         data = `${data[2]}/${data[1]}/${data[0]}`; 
                 //     %>
                 $('#table').html(listar(dados));
-                // console.log(total);
+                // var valor = [];
+                // for (let index = 0; index < dados.length; index++) {
+                //     valor.push(dados[index].gorjeta);
+                // }
+                // // const found = dados[index].find(element => element > 1);
+                // // console.log(valor);
+                // for (let i = 0; i < valor.length; i++) {
+                //     if (valor[i] != null) {
+                //         console.log(valor[i]);
+                //     }
+
+
+
+
+
             }
         });
     });
@@ -284,7 +310,8 @@
                 success: function(resposta) {
                     var dados = resposta;
                     $('#table').html(listar(dados));
-                    console.log(dados);
+                    // console.log(dados);
+                    console.log(dados.gorjeta);
 
                     // window.location.href = "/compra/cadastro?success=1";
 
@@ -324,7 +351,29 @@
             console.log('ALWAYS');
         });
 
-        // window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
+        window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
+
+
+    }
+
+    function imprimirRes() {
+        var inicio = $('#inicio').val();
+
+        var fim = $('#fim').val();
+
+        $.ajax({
+            type: 'post',
+            url: '/impressao/impressaoresumo?inicio=' + inicio + '&fim=' + fim,
+            contentType: 'application/json' // access in body
+        }).done(function(da) {
+
+        }).fail(function(msg) {
+            console.log('FAIL');
+        }).always(function(msg) {
+            console.log('ALWAYS');
+        });
+
+        window.open('/impressao/impressaoresumo?inicio=' + inicio + '&fim=' + fim, '_blank');
 
 
     }
