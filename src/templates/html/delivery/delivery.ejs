@@ -150,6 +150,7 @@
 
                 <div class="row">
                     <input type="hidden" id="id_caixa">
+                    <input type="text" name="" id="data">
                     <label for="name">Pagamento</label>
                     <select name="tipo" class="form-control" id="tipo" style="width: 100% !important; font-size: 14px;">
                        <option value="dinheiro">Dinheiro</option>  
@@ -182,6 +183,17 @@
     //     console.log('teste');
     // });
 
+    function dataAtualFormatada() {
+
+        var data = new Date(),
+            dia = data.getDate().toString(),
+            diaF = (dia.length == 1) ? '0' + dia : dia,
+            mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length == 1) ? '0' + mes : mes,
+            anoF = data.getFullYear();
+        return anoF + "-" + mesF + "-" + diaF;
+    }
+
     function showClickHandler() {
         document.querySelector('#idMesa').value = idMesa;
         $('#myModal').modal('show');
@@ -204,6 +216,7 @@
     }
 
     function Pagamento(idCaixa) {
+        document.querySelector('#data').value = dataAtualFormatada();
         document.querySelector('#id_caixa').value = idCaixa;
         $('#Modal').modal('show');
 
@@ -213,10 +226,12 @@
         var tipo = $('#tipo').val();
         var valor = $('#valor').val();
         var caixa = $('#id_caixa').val();
+        var createdAt = $('#data').val();
         var dados = {
             tipo: tipo,
             valor: valor,
-            caixa: caixa
+            caixa: caixa,
+            createdAt: createdAt
         }
         $.ajax({
             method: 'PUT',

@@ -297,6 +297,7 @@
                     </select>
                     <br>
                     <input type="hidden" id="id_pagamento" name="id">
+                    <input type="hidden" name="" id="data">
                     <label for="name">Pagamento</label>
                     <select name="tipo" class="form-control" id="tipo" style="width: 100% !important; font-size: 16px;">
                        <option value="dinheiro">Dinheiro</option>  
@@ -335,6 +336,17 @@
 
 
 <script>
+    function dataAtualFormatada() {
+
+        var data = new Date(),
+            dia = data.getDate().toString(),
+            diaF = (dia.length == 1) ? '0' + dia : dia,
+            mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length == 1) ? '0' + mes : mes,
+            anoF = data.getFullYear();
+        return anoF + "-" + mesF + "-" + diaF;
+    }
+
     var dialog = document.querySelector('#modal-example');
     if (!dialog.showModal) {
         dialogPolyfill.registerDialog(dialog);
@@ -345,6 +357,7 @@
     }
 
     function pagamentos(idCaixa) {
+        document.querySelector('#data').value = dataAtualFormatada();
         let total = $('#total').val();
         document.querySelector('#valor').value = total;
         document.querySelector('#valorTotal').value = total;
@@ -590,6 +603,7 @@
         var id = $('#id_pagamento').val();
         var valor = $('#valor').val();
         var troco = $('#troco').val();
+        var createdAt = $('#data').val();
         var check = document.getElementById('gorjeta');
         if (troco == 0) {
             dados = {
@@ -597,6 +611,7 @@
                 cliente: $('#cliente').val(),
                 tipo: $('#tipo').val(),
                 valor: $('#valor').val(),
+                createdAt: createdAt,
                 gorjeta: troco,
                 funcionario: ' ',
                 id: id
@@ -616,6 +631,7 @@
                 cliente: $('#cliente').val(),
                 tipo: $('#tipo').val(),
                 valor: valor - troco,
+                createdAt: createdAt,
                 gorjeta: 0,
                 funcionario: '',
                 id: id
@@ -636,6 +652,7 @@
                 tipo: $('#tipo').val(),
                 valor: valor - troco,
                 gorjeta: troco,
+                createdAt: createdAt,
                 funcionario: $('#funcionario').val(),
                 id: id
             }

@@ -116,7 +116,7 @@ routes.get('/caixa/impressao/:id', ImpressaoControler.impressaoCaixa);
 routes.get('/impressao/impressaopizza/:id', ImpressaoControler.impressaoPizza);
 routes.post('/impressao/impressaopizza', ImpressaoControler.impressaoPizza);
 routes.get('/relatorio/impressao', ImpressaoControler.impressaoCaixaGeral);
-routes.post('/impressao/impressaoresumo', ImpressaoControler.imprimirResumida);
+routes.post('/impressao/impressaoResumo', ImpressaoControler.imprimirResumida);
 routes.get('/impressao/impressaoresumo', ImpressaoControler.impressaoGeralResumida);
 routes.get('/relatorio/impressao/:router/:id', ImpressaoControler.imprimir);
 
