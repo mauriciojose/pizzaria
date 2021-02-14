@@ -28,6 +28,13 @@ const PagamentoSchema = new mongoose.Schema({
     tipo: {
         type: String
     },
+    gorjeta: {
+        type: Decimal128
+    },
+    funcionario: {
+        type: String
+
+    }
 
 
 });

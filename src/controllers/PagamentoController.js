@@ -19,7 +19,7 @@ module.exports = {
             let pag = await Pagamento.create(req.body);
             return res.json(pag);
         } else {
-            pag = await Pagamento.updateOne({ _id: id }, { tipo: req.body.tipo, cliente: req.body.cliente, valor: req.body.valor });
+            pag = await Pagamento.updateOne({ _id: id }, { tipo: req.body.tipo, cliente: req.body.cliente, valor: req.body.valor, gorjeta: req.body.gorjeta, funcionario: req.body.funcionario });
             return res.json(pag);
 
         }

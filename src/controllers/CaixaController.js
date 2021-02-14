@@ -15,12 +15,17 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     async view(req, res) {
         let totalP = 0;
+        let gorjetaP = 0;
         let pags = {};
         let clientes = await Cliente.find({});
         await Pagamentos.find({ caixa: req.params.id }, (err, pagamentos) => {
             for (let index = 0; index < pagamentos.length; index++) {
                 var total = parseFloat(pagamentos[index].valor);
+                var gorjeta = typeof pagamentos[index].gorjeta === 'undefined' ? 0 : parseFloat(pagamentos[index].gorjeta);
                 totalP += total;
+                console.log(gorjeta);
+                gorjetaP += gorjeta;
+
             }
             pags = pagamentos;
 
@@ -36,7 +41,8 @@ module.exports = {
                 status: caixa.status,
                 pgto: totalP,
                 clientes: clientes,
-                pagamentos: pags
+                pagamentos: pags,
+                gorjeta: gorjetaP
 
             });
 
