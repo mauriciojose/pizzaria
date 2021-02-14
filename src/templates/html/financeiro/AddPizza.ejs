@@ -341,7 +341,9 @@
                 };
                 value = value.replaceAll('.', '');
                 value = value.replace(',', '.');
-                return value;
+                value = Number.parseFloat(value).toFixed(2);
+                value = (typeof value == 'undefined' || isNaN(value)) ? 0 : value; 
+                return Number.parseFloat(value);
             }
 
             function atualizaFatias() {
@@ -375,12 +377,25 @@
                 document.body.removeChild(form);
             }
 
+            function getMaxValue(pizzas){
+                let preco = (pizzas.length > 0) ? pizzas[0].precoVenda : 0;
+                for (let index = 0; index < pizzas.length; index++) {
+                    const element = pizzas[index];
+                    if (element.precoVenda > preco) {
+                        preco = element.precoVenda;
+                    }
+                }
+                return preco;
+            }
+
             function addPizza() {
                 atualizaFatias();
                 // console.log(adicionados);return;
+                console.log(adicionados);
                 let quantFatias = document.querySelector('input[name=quantidade]').value;
-                let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
-                let preco = (adicionados.length >= 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
+                // let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
+                // let preco = (adicionados.length == 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
+                let preco = getMaxValue(adicionados);
                 let produtos = adicionados.map(a => a._id);
                 let pizzas = [];
                 for (let index = 0; index < produtos.length; index++) {
@@ -417,10 +432,10 @@
                     }).done(function(da) {
                         console.log(da);
 
-                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                        // window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).fail(function(msg) {
                         console.log('FAIL');
-                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                        // window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).always(function(msg) {
                         console.log('ALWAYS');
                     });

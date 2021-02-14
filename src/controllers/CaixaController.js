@@ -135,7 +135,7 @@ module.exports = {
     async addPizza(req, res) {
         await Caixa.findById(req.params.id, async(err, caixa) => {
             if (err) { return res.status(500).json({ error: "ID INVALID" }); }
-            console.log(caixa, req.body);
+            // console.log(req.body);
             await Produto.findById(req.body.idProduto, async(err, produto) => {
                 let pizzas = [];
                 for (let index = 0; index < req.body.pizzas.length; index++) {
@@ -149,10 +149,10 @@ module.exports = {
                     valorUnitario: req.body.valorUnitario,
 
                 });
-                console.log("tetstetetete" + pizzas);
+                // console.log(produtoCaixa);
                 caixa.produtos.push(produtoCaixa._id);
                 await Caixa.update({ _id: caixa._id }, caixa);
-                console.log(caixa);
+                // console.log(caixa);
                 return res.json(produtoCaixa);
             });
 
