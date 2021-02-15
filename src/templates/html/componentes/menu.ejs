@@ -27,15 +27,21 @@
         margin-top: 10%;
         margin-left: 3%;
     }
+    
+    @media (max-width: 48rem) {
+        .cell {
+            display: none;
+        }
+    }
 </style>
 
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="/" class="dropdown-btn inicio">Inicio 
     </a>
-    <button class="dropdown-btn">Cadastros 
+    <button class="dropdown-btn cell">Cadastros 
       </button>
-    <div class="dropdown-container">
+    <div class="dropdown-container ">
         <a href="/cadastros/categoria">Categoria</a>
         <a href="/cadastros/cliente">Cliente</a>
         <a href="/auth/register">Funcionario</a>
@@ -49,7 +55,7 @@
     <div class="dropdown-container">
         <a href="/list/mesas">Lista de Mesas</a>
     </div>
-    <button class="dropdown-btn">Estoque 
+    <button class="dropdown-btn cell">Estoque 
     </button>
     <div class="dropdown-container">
         <a href="/estoque/addestoque">Adicionar</a>
@@ -60,7 +66,7 @@
 
         <a href="/delivery/delivery">Lista de Pedidos</a>
     </div>
-    <button class="dropdown-btn">Relatório 
+    <button class="dropdown-btn cell">Relatório 
     </button>
     <div class="dropdown-container">
 
@@ -69,7 +75,7 @@
         <a href="#">Geral</a>
         <a href="#">Estoque</a>
     </div>
-    <button class="dropdown-btn">Relação de Compra
+    <button class="dropdown-btn cell">Relação de Compra
     </button>
     <div class="dropdown-container">
 

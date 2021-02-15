@@ -20,6 +20,9 @@
             .container {
                 display: block;
             }
+            .cell {
+                display: none;
+            }
         }
         
         label {
@@ -144,7 +147,7 @@
                                             <td class="money">
                                                 <%=(produto.quantidade*produto.valorUnitario)%>
                                             </td>
-                                            <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
+                                            <td><a class="cell" onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                         </tr>
                                         <%}else{%>
                                             <%total+= !isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
@@ -160,7 +163,7 @@
                                                         <%=console.log(produto)%>
                                                             <%=!isNaN(parseFloat(produto.valorUnitario)) ? parseFloat(produto.valorUnitario) : 0 %>
                                                     </td>
-                                                    <td><a onclick="remover('<%=produto._id%>');">&#9940</a></td>
+                                                    <td><a class="cell" onclick="remover('<%=produto._id%>');">&#9940</a></td>
                                                 </tr>
                                                 <%}%>
                                                     <% }); %>
@@ -191,7 +194,7 @@
                 <%if(status==0){%>
                     <div style="display: block;margin-top: 2%;margin-left: 2%;">
                         <label>&nbsp;
-                        <button class="input green" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
+                        <button id="pag" class="input green cell" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
                     </div>
                     <% }%>
                         <div style="display: block;margin-top: 2%;margin-left: 2%;">
@@ -204,10 +207,10 @@
                         <%if(status==0){%>
                             <!-- -->
                     <% if(idMesa==''){%>
-                        <button class="input green" onclick="FinalizarPedido('<%=idCaixa%>');">Finalizar</button></label>
+                        <button class="input green cell" onclick="FinalizarPedido('<%=idCaixa%>');">Finalizar</button></label>
 
                             <% }else{%>
-                                <button class="input green" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
+                                <button class="input green cell" onclick="fecharMesa('<%=idMesa%>');">Finalizar</button></label>
 
                                 <% }
                      }%>
@@ -535,7 +538,7 @@
     function FinalizarPedido(idCaixa) {
         var total = $('#total').val();
         var status = $('#status').val();
-        if (total == "R$ 0,00" && status == 0) {
+        if (total == "0.00" && status == 0) {
 
             $.ajax({
                     method: 'PUT',
@@ -558,7 +561,7 @@
     function fecharMesa(idMesa) {
         var total = $('#total').val();
         var status = $('#status').val();
-        if (total == "R$ 0,00" && status == 0) {
+        if (total == "0.00" && status == 0) {
             $.ajax({
                 type: 'PUT',
                 url: '/close/mesa/' + idMesa,

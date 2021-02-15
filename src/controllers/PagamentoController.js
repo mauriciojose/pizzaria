@@ -32,7 +32,7 @@ module.exports = {
     },
 
     async getAllView(req, res) {
-        const hora = "T00:00:00.058+00:00";
+        const hora = "T00:00:00.000+00:00";
         const hora2 = "T23:59:59.058+00:00";
         let gorjeta = 0;
 

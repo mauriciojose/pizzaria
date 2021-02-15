@@ -62,11 +62,11 @@
                                     <% if(caixa.status==0){%>
                                         <td><button onclick="add('<%=caixa._id%>')">Adicionar</button></td>
                                         <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                        <td><button onclick="Pagamento('<%=caixa._id%>')">Pagamento</button></td>
+                                        <!-- <td><button onclick="Pagamento('<%=caixa._id%>')">Pagamento</button></td> -->
                                         <% }else{%>
                                             <td></td>
                                             <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                            <td><button disabled onclick="reabrir('<%=caixa._id%>')">Pagamento</button></td>
+                                            <!-- <td><button disabled onclick="reabrir('<%=caixa._id%>')">Pagamento</button></td> -->
                                             <%}%>
                                 </tr>
                                 <% }%>
