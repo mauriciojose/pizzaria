@@ -427,7 +427,7 @@
                     console.log(datas);
                     $.ajax({
                         type: 'GET',
-                        url: '/relatorio/impressao/impressaopizza/' + datas._id,
+                        url: '/relatorio/impressao/impressaopizza/' + datas._id +`?caixa=<%=idCaixa%>`,
                         contentType: 'application/json' // access in body
                     }).done(function(da) {
                         console.log(da);
@@ -453,17 +453,17 @@
                     alert("Adicione pelo menos um sabor");
                     return false;
                 }
-                let quantFatias = document.querySelector('input[name=quantidade]').value;
-                let sumFatias = 0;
-                for (let index = 0; index < adicionados.length; index++) {
-                    const element = adicionados[index];
-                    //console.log(document.querySelector(`#id_${element._id} .fatias`), document.querySelector(`#id_${element._id} .fatias`).value);
-                    sumFatias += Number(document.querySelector(`#id_${element._id} .fatias`).value);
-                }
-                if (quantFatias != sumFatias) {
-                    alert("Soma das fatias é diferente da quantidade de fatias!");
-                    return false;
-                }
+                // let quantFatias = document.querySelector('input[name=quantidade]').value;
+                // let sumFatias = 0;
+                // for (let index = 0; index < adicionados.length; index++) {
+                //     const element = adicionados[index];
+                //     //console.log(document.querySelector(`#id_${element._id} .fatias`), document.querySelector(`#id_${element._id} .fatias`).value);
+                //     sumFatias += Number(document.querySelector(`#id_${element._id} .fatias`).value);
+                // }
+                // if (quantFatias != sumFatias) {
+                //     alert("Soma das fatias é diferente da quantidade de fatias!");
+                //     return false;
+                // }
                 addPizza();
             }
         </script>

@@ -14,7 +14,9 @@ module.exports = {
             let t = await ProdutoCaixa.find({});
             // console.log(t);
             let produto = await ProdutoCaixa.findById(req.params.id);
-            // console.log(produto);
+            let caixaId = req.query.caixa;
+            let caixa = await Caixa.findById(caixaId).populate('mesa').populate('client');
+            // console.log(caixa);
             // console.log(req.body);
             let itens = [];
             var tamanho = '';
@@ -44,7 +46,8 @@ module.exports = {
             }
             res.render(path.resolve('src/templates/html/impressao/impressaopizza'), {
                 pizzas: itens,
-                tamanho: tamanho
+                tamanho: tamanho,
+                name: caixa.isDelivery ? caixa.client.name : caixa.mesa.name
             });
         } catch (error) {
             return res.status(400).json({ error: error });
@@ -190,7 +193,8 @@ module.exports = {
             if (req.params.id == 0) {
                 url = `http://localhost:3000/relatorio/impressao?inicio=${req.query.inicio}&fim=${req.query.fim}`;
             } else {
-                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id;
+                let caixaId = req.query.caixa;
+                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id +`?caixa=${caixaId}`;
             }
             await page.goto(url, {
                 waitUntil: "networkidle2"
