@@ -88,24 +88,57 @@
         <table>
 
             <thead>
-                <th>tipo de Pagamento</th>
-                <th>Valor</th>
-            </thead>
-            <% pagamentos.forEach(function(pagamento){%>
-                <tbody>
-
-                    <td>
-                        <%=pagamento.tipo%>
-                    </td>
-                    <td>
+                <tr>
+                    <th>Consumo Total:</th>
+                    <th>
                         R$:
-                        <%=parseFloat(pagamento.valor).toFixed(2)%>
-                    </td>
+                        <%=parseFloat(total).toFixed(2)%>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Taxa de Serviço:</th>
+                    <th>R$:
+                        <%=(parseFloat(total)*0.1).toFixed(2)%> --OPCIONAL--
+                    </th>
+                </tr>
+                <tr>
+                    <th>Total:</th>
+                    <th>R$:
+                        <%=(parseFloat(total)+(parseFloat(total)*0.1)).toFixed(2)%>
+                    </th>
+                </tr>
+
+                <td>tipo de Pagamento</td>
+                <td>Valor</td>
+            </thead>
+            <% let gorjeta=0;
+            pagamentos.forEach(function(pagamento){%>
+                <tbody>
+                    <% if(pagamento.gorjeta!=null){
+                        gorjeta+=parseFloat(pagamento.gorjeta);
+                        %>
+                        <tr>
+                            <td>
+                                Taxa de Serviço
+                            </td>
+                            <td>
+                                R$:
+                                <%=parseFloat(pagamento.gorjeta).toFixed(2)%>
+                            </td>
+                        </tr>
+                        <%}%>
+                            <td>
+                                <%=pagamento.tipo%>
+                            </td>
+                            <td>
+                                R$:
+                                <%=parseFloat(pagamento.valor).toFixed(2)%>
+                            </td>
 
                 </tbody>
                 <%})%>
         </table>
-        <div> Consumo: R$ <strong><%=parseFloat(total).toFixed(2)%></strong>, Pagamento: R$ <strong><%=parseFloat(pgto).toFixed(2)%></strong>, <strong>Valor restante: R$:
+        <div>Pagamento: R$ <strong><%=(parseFloat(pgto)+gorjeta).toFixed(2)%></strong>, <strong>Valor restante: R$:
             <%=total - pgto%>
                 </strong>
         </div>

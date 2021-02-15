@@ -200,7 +200,7 @@ module.exports = {
                 url = `http://localhost:3000/relatorio/impressao?inicio=${req.query.inicio}&fim=${req.query.fim}`;
             } else {
                 let caixaId = req.query.caixa;
-                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id +`?caixa=${caixaId}`;
+                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id + `?caixa=${caixaId}`;
             }
             await page.goto(url, {
                 waitUntil: "networkidle2"

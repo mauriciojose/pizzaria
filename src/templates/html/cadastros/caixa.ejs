@@ -176,12 +176,12 @@
 
             <div class="row">
                 <div style="display: flex;margin-left: 4%;margin-top: 2%;">
-                    <label style="margin-right: 5px;">SubTotal: <input type="text" value="<%=total%>" readonly disabled name="" class="input" id="subtotal"></label>
+                    <label style="margin-right: 5px;">SubTotal: R$:<input type="text" value="<%=parseFloat(total).toFixed(2)%>" readonly disabled name="" class="input" id="subtotal"></label>
 
                 </div>
                 <div style="display: flex;margin-left: 4%;margin-top: 2%;">
 
-                    <label style="margin-right: 5px;">Pagamento <input type="text" value="<%=parseFloat(pgto)+ parseFloat(gorjeta)%>" readonly disabled name="" class="input" id="pagamento"></label>
+                    <label style="margin-right: 5px;">Pagamento R$:<input type="text" value="<%=(parseFloat(pgto)+ parseFloat(gorjeta)).toFixed(2)%>" readonly disabled name="" class="input" id="pagamento"></label>
 
                 </div>
                 <div style="display: flex;margin-left: 4%;margin-top: 2%;">
@@ -311,13 +311,13 @@
                     </select>
                     <br>
 
-                    <input type="hidden" name="valor" class="campos" id="valorTotal">
+                    <input type="text" name="valor" class="campos" id="valorTotal">
                     <!--- campo para receber o valor total-->
                     <label for="name">Valor</label>
                     <input type="text" name="valor" class="campos" onkeydown="troco();" id="valor">
                     <label for="name">Troco</label>
                     <input type="text" name="valor" class="campos" id="troco">
-                    <label for="">Gorjeta?</label>
+                    <label for="">Taxa?</label>
                     <input type="checkbox" name="" id="gorjeta" class="campos" onclick="desabilitar();" value="false">
                     <input type="text" name="" id="funcionario" value="" class="campos" style="display: none;" placeholder="funcionario">
                 </div>
@@ -362,9 +362,10 @@
 
     function pagamentos(idCaixa) {
         document.querySelector('#data').value = dataAtualFormatada();
+        let subtotal = $('#subtotal').val();
         let total = $('#total').val();
         document.querySelector('#valor').value = total;
-        document.querySelector('#valorTotal').value = total;
+        document.querySelector('#valorTotal').value = subtotal;
         document.querySelector('#id_caixa').value = idCaixa;
         document.querySelector('#troco').value = 0;
         pagamento.showModal();
@@ -387,11 +388,14 @@
         var status = document.getElementById('gorjeta');
 
         if (status.checked) {
+            var total = $('#valorTotal').val();
             document.getElementById('funcionario').disabled = false;
+            document.getElementById('funcionario').value = (parseFloat(total) * 0.1).toFixed(2);
             $('#funcionario').addClass('mostrar');
         } else {
             document.getElementById('funcionario').disabled = true;
-            $('#funcionario').removeClass('mostrar');
+            document.getElementById('funcionario').value = '';
+            // $('#funcionario').removeClass('mostrar');
         }
     }
 
@@ -399,7 +403,7 @@
         dialog.close();
         pagamento.close();
     };
-    $("#pagamento").val(formatter.format($("#pagamento").val()));
+    // $("#pagamento").val(formatter.format($("#pagamento").val()));
 
     function showClickHandler(idProdutoCaixa) {
         // dialog.querySelector('#idMesa').value = idMesa;
@@ -431,7 +435,7 @@
         dialog.showModal();
     };
     // var total = 0.00;
-    $("#subtotal").val(formatter.format($("#subtotal").val()));
+    // $("#subtotal").val(formatter.format($("#subtotal").val()));
 
 
     let moneys = document.querySelectorAll('td.money');
@@ -587,7 +591,6 @@
             success: function(resposta) {
                 let gorjeta = typeof resposta.gorjeta === 'undefined' ? 0 : parseFloat(resposta.gorjeta.$numberDecimal);
                 $('#tipo').val(resposta.tipo);
-                $('#valorTotal').val(resposta.valor.$numberDecimal);
                 $('#id_pagamento').val(resposta._id);
                 $('#cliente').val(resposta.cliente);
                 $('#valor').val(parseFloat(resposta.valor.$numberDecimal) + parseFloat(gorjeta));
@@ -607,6 +610,7 @@
         var id = $('#id_pagamento').val();
         var valor = $('#valor').val();
         var troco = $('#troco').val();
+        var gorjeta = $('#funcionario').val();
         var createdAt = $('#data').val();
         var check = document.getElementById('gorjeta');
         if (troco == 0) {
@@ -616,7 +620,7 @@
                 tipo: $('#tipo').val(),
                 valor: $('#valor').val(),
                 createdAt: createdAt,
-                gorjeta: troco,
+                gorjeta: gorjeta,
                 funcionario: ' ',
                 id: id
             }
@@ -655,7 +659,7 @@
                 cliente: $('#cliente').val(),
                 tipo: $('#tipo').val(),
                 valor: valor - troco,
-                gorjeta: troco,
+                gorjeta: gorjeta,
                 createdAt: createdAt,
                 funcionario: $('#funcionario').val(),
                 id: id
@@ -690,7 +694,7 @@
             console.log('ALWAYS');
         });
 
-        // window.open('/caixa/impressao?id=' + idCaixa, '_blank');
+        window.open('/caixa/impressao?id=' + idCaixa, '_blank');
 
 
     }
