@@ -69,7 +69,7 @@ img {
 }
 
 .card {
-    background-color: white !important;
+    background-color: transparent !important;
     border-radius: 0.25rem !important;
     box-shadow: 0 20px 40px -14px rgba(0, 4, 89, 3) !important;
     display: flex !important;
@@ -79,7 +79,7 @@ img {
     cursor: pointer;
 }
 
-.cards_item:hover { 
+.cards_item:hover {
     transition: 0.3s padding ease-in, 0.3s margin ease-in, 0.3s border ease-in;
     /* opacity: 0; */
     padding: 0 !important;

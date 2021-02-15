@@ -75,7 +75,8 @@ module.exports = {
                     refInterna: req.body.refInterna,
                     medida: req.body.medida,
                     precoFornecedor: req.body.precoFornecedor,
-                    precoVenda: req.body.precoVenda
+                    precoVenda: req.body.precoVenda,
+                    nomeImagem: req.body.nomeImagem,
                 });
 
                 res.redirect('/cadastros/produto?success=0');

@@ -106,6 +106,14 @@
                                 <label for="fatorMinimo">Fator Mínimo</label>
                                 <input id="fatorMinimo" class='texto' value="0" required name="fatorMinimo" type='text'>
                             </fieldset>
+                            <!-- <fieldset class='float-label-field'>
+                                <label for="quantidade">Quantidade</label>
+                                <input id="quantidade" class='texto' value="0" required name="quantidade" type='text'>
+                            </fieldset> -->
+                            <fieldset class='float-label-field'>
+                                <label for="nomeImagem">Nome da imagem</label>
+                                <input id="nomeImagem" class='texto' value="" required name="nomeImagem" type='text'>
+                            </fieldset>
                         </div>
                         <div class="row">
                             <fieldset class='float-label-field'>
@@ -242,9 +250,10 @@
                         $('#name').val(retorno['name']);
                         $('#id').val(retorno['_id']);
                         $('#fatorMinino').val(retorno['fatorMinino']);
-                        $('#categorias').val(retorno['categorias'][0]);
+                        // $('#categorias').val(retorno['categorias'][0]);
                         $('#descricao').val(retorno['descricao']);
                         $('#refInterna').val(retorno['refInterna']);
+                        $('#nomeImagem').val(retorno['nomeImagem']);
                         $('#precoFornecedor').val(retorno['precoFornecedor']['$numberDecimal']);
                         $('#precoVenda').val(retorno['precoVenda']['$numberDecimal']);
                         $('#medida').val(retorno['medida']);

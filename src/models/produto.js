@@ -28,6 +28,9 @@ const ProdutoSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    nomeImagem: {
+        type: String
+    },
     descricao: {
         type: String
     },
@@ -78,6 +81,6 @@ const ProdutoSchema = new mongoose.Schema({
     }]
 });
 
-const Produto = mongoose.model('Produto',ProdutoSchema);
+const Produto = mongoose.model('Produto', ProdutoSchema);
 
 module.exports = Produto;
