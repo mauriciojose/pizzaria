@@ -192,11 +192,12 @@
             </div>
             <div class="row">
                 <%if(status==0){%>
-                    <div style="display: block;margin-top: 2%;margin-left: 2%;">
-                        <label>&nbsp;
-                        <button id="pag" class="input green cell" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
-                    </div>
                     <% }%>
+                        <div style="display: block;margin-top: 2%;margin-left: 2%;">
+                            <label>&nbsp;
+                        <button id="pag" class="input green cell" onclick="pagamentos('<%=idCaixa%>');">Pagamentos</button></label>
+                        </div>
+
                         <div style="display: block;margin-top: 2%;margin-left: 2%;">
                             <label>&nbsp;
                         <button class="input green" onclick="imprimir('<%=idCaixa%>')">Imprimir</button></label>
