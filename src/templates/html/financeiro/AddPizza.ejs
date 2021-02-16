@@ -100,9 +100,12 @@
         
         button.fixed {
             position: absolute;
-            right: 6.5%;
-            bottom: -3%;
+            right: 9%;
+            bottom: 3%;
             background-color: green;
+        }
+        body div.container1 div.container-form {
+            flex-direction: column;
         }
     </style>
 </head>
@@ -127,8 +130,8 @@
                                     <div class="search-input">
                                         <input autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar Pizza">
                                         <div class="autocom-box">
-                                            <li>Teste 1</li>
-                                            <li>Teste 2</li>
+                                            <!-- <li>Teste 1</li>
+                                            <li>Teste 2</li> -->
                                         </div>
                                         <span class="fa fa-search icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17.968" height="29.001" viewBox="0 0 32.968 29.001">
@@ -148,17 +151,39 @@
                                         <thead>
                                             <th colspan="5">Pizzas</th>
                                         </thead>
-                                        <tbody></tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <input name="borda" onclick="addValue();" type="radio" data-tipo="0" data-value="0" checked> Sem Borda
+                                                    <input name="borda" onclick="addValue();" type="radio" data-tipo="1" data-value="4"> Catupiry
+                                                    <br>
+                                                    <input name="borda" onclick="addValue();" type="radio" data-tipo="2" data-value="6"> Cheddar
+                                                    <input name="borda" onclick="addValue();" type="radio" data-tipo="3" data-value="5"> Cheddar e Catupiry
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
                         </main>
                     </div>
                 </div>
+                <input type="text" name="totalGeral" class="campo-texto" value="0,00" disabled readonly size="6" style="width: 15% !important;">
             </div>
-            <button class="fixed" onclick="validate();">Adicionar</button>
+            <button class="fixed" id="addPizza" onclick="validate();">Adicionar</button>
         </div>
+
+        <style>
+            label {
+                line-height: 16px !important;
+            }
+            body div.container1 {
+                height: 94vh !important;
+            }
+        </style>
+
         <script>
+            var btnAddPizza = document.getElementById('addPizza');
             var suggestions = [];
             var valores = [];
             var adicionados = [];
@@ -260,6 +285,7 @@
                     title.appendChild(tdTitle);
                     table.appendChild(title);
                     table.appendChild(tr);
+                    // tr.innerHTML += getInputRadioGroup();
                     for (var prop in item) {
                         if (item.hasOwnProperty(prop)) {
                             if (prop != '_id') {
@@ -279,11 +305,15 @@
                                         let input = document.createElement('input');
                                         input.setAttribute('class', 'campo-texto precos money');
                                         input.setAttribute('type', 'text');
+                                        input.setAttribute('id', 'valor_'+item['_id']);
                                         input.setAttribute('size', '6');
                                         input.value = Number.parseFloat(item[prop]).toFixed(2);
                                         td.appendChild(input);
                                         // td.style.width = '20%';
                                         tr.appendChild(td);
+                                        input.onblur = () => {
+                                            addValue();
+                                        }
                                     } else {
                                         if (prop == 'observacao') {
                                             let input = document.createElement('input');
@@ -325,6 +355,33 @@
                 $('.money').each(function() { // function to apply mask on load!
                     $(this).maskMoney('mask', $(this).val());
                 });
+                
+                addValue();
+            }
+
+            function addValue(){
+                atualizaFatias();
+                let preco = getMaxValue(adicionados);
+                // let quantFatias = document.querySelector('input[name=quantidade]').value;
+
+                let element = document.querySelector('input[name=borda]:checked');
+
+                // let precoVenda = getValueForFatias(quantFatias, id);
+
+                let itemValor = document.querySelector('input[name=totalGeral]');
+
+                let valorBorda = element.getAttribute('data-value');
+
+                itemValor.value = formatValue( Number.parseFloat(preco) + Number.parseFloat(valorBorda) );
+            }
+
+            function formatValue(value) {
+                let formatter = new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 2,
+                });
+                return formatter.format(value).replace('R$','').trim();
             }
 
             function getItemById(id) {
@@ -393,9 +450,13 @@
                 // console.log(adicionados);return;
                 console.log(adicionados);
                 let quantFatias = document.querySelector('input[name=quantidade]').value;
+
+                let itemValor = document.querySelector('input[name=totalGeral]');
+                let borda     = document.querySelector('input[name=borda]:checked');
+
                 // let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
                 // let preco = (adicionados.length == 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
-                let preco = getMaxValue(adicionados);
+                let preco = getDecimalFromFormatBrazil(itemValor.value);
                 let produtos = adicionados.map(a => a._id);
                 let pizzas = [];
                 for (let index = 0; index < produtos.length; index++) {
@@ -414,9 +475,13 @@
                 let data = {
                     quantidade: quantFatias,
                     valorUnitario: preco,
+                    borda: borda.getAttribute('data-tipo'),
+                    valorBorda: borda.getAttribute('data-value'),
                     pizzas: pizzas
                 };
                 console.log(data);
+                
+                btnAddPizza.disabled = true;
 
                 $.ajax({
                     type: 'PUT',
@@ -425,16 +490,18 @@
                     data: JSON.stringify(data), // access in body
                 }).done(function(datas) {
                     console.log(datas);
+                    btnAddPizza.disabled = false;
                     $.ajax({
                         type: 'GET',
                         url: '/relatorio/impressao/impressaopizza/' + datas._id +`?caixa=<%=idCaixa%>`,
                         contentType: 'application/json' // access in body
                     }).done(function(da) {
                         console.log(da);
-
+                        btnAddPizza.disabled = false;
                         window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).fail(function(msg) {
                         console.log('FAIL');
+                        btnAddPizza.disabled = false;
                         window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).always(function(msg) {
                         console.log('ALWAYS');
@@ -442,6 +509,7 @@
                     //window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                 }).fail(function(msg) {
                     console.log('FAIL');
+                    btnAddPizza.disabled = false;
                     failure();
                 }).always(function(msg) {
                     console.log('ALWAYS');

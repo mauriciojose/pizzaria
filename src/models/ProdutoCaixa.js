@@ -21,6 +21,14 @@ const ProdutoCaixaSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    borda: {
+        type: Number,
+        default: 0
+    },
+    valorBorda: {
+        type: Decimal128,
+        default: 0
+    },
     produto: {
         type: Schema.Types.ObjectId,
         ref: "Produto"
