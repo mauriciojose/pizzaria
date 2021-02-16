@@ -607,20 +607,24 @@
     }
 
     function addPagamento() {
+
         var id = $('#id_pagamento').val();
         var valor = $('#valor').val();
         var troco = $('#troco').val();
         var gorjeta = $('#funcionario').val();
         var createdAt = $('#data').val();
         var check = document.getElementById('gorjeta');
-        if (troco == 0) {
+        if (gorjeta == '') {
+            gorjeta = 0;
+        }
+        if (troco == 0 && check.checked == false) {
             dados = {
                 caixa: $('#id_caixa').val(),
                 cliente: $('#cliente').val(),
                 tipo: $('#tipo').val(),
                 valor: $('#valor').val(),
                 createdAt: createdAt,
-                gorjeta: gorjeta,
+                gorjeta: 0,
                 funcionario: ' ',
                 id: id
             }
@@ -654,6 +658,26 @@
 
             });
         } else if (troco > 0 && check.checked == true) {
+            dados = {
+                caixa: $('#id_caixa').val(),
+                cliente: $('#cliente').val(),
+                tipo: $('#tipo').val(),
+                valor: valor - troco,
+                gorjeta: gorjeta,
+                createdAt: createdAt,
+                funcionario: $('#funcionario').val(),
+                id: id
+            }
+            $.ajax({
+                method: 'PUT',
+                url: '/adicionar/pagamento',
+                data: dados,
+                success: function(resposta) {
+                    window.location.reload(true);
+                }
+
+            });
+        } else if (troco == 0 && check.checked == true) {
             dados = {
                 caixa: $('#id_caixa').val(),
                 cliente: $('#cliente').val(),
