@@ -11,42 +11,56 @@ module.exports = {
 
     async impressaoPizza(req, res) {
         try {
-            let t = await ProdutoCaixa.find({});
-            // console.log(t);
-            let produto = await ProdutoCaixa.findById(req.params.id);
+            // let t = await ProdutoCaixa.find({});
+            // console.log(req.query);
+            
             let caixaId = req.query.caixa;
+            let produtos = req.query.caixas;
             let caixa = await Caixa.findById(caixaId).populate('mesa').populate('client');
             // console.log(caixa);
-            // console.log(req.body);
+            console.log(req.query.caixas);
             let itens = [];
             var tamanho = '';
-            switch (produto.quantidade) {
-                case 4:
-                    tamanho = 'P';
-                    break;
-                case 6:
-                    tamanho = 'M';
-                    break;
-                case 8:
-                    tamanho = 'G';
-                    break;
-                case 10:
-                    tamanho = 'F';
-                    break;
-
-                default:
-                    break;
-            }
+            
             // console.log('tamanho:' + tamanho);
-            for (let index = 0; index < produto.pizzas.length; index++) {
-                const element = produto.pizzas[index];
-                const pizza = await PizzaCaixa.findById(element).populate('produto');
-                itens.push(pizza);
 
+            //let produto = await ProdutoCaixa.findById(req.params.id);
+            for (let index = 0; index < produtos.length; index++) {
+                const element = produtos[index];
+                let produto = await ProdutoCaixa.findById(element).populate({
+                    path: 'pizzas',
+                    model: 'PizzaCaixa',
+                    populate: {
+                        path: 'produto',
+                        model: 'Produto'
+                    }
+                });
+                switch (produto.quantidade) {
+                    case 4:
+                        tamanho = 'P';
+                        break;
+                    case 6:
+                        tamanho = 'M';
+                        break;
+                    case 8:
+                        tamanho = 'G';
+                        break;
+                    case 10:
+                        tamanho = 'F';
+                        break;
+    
+                    default:
+                        break;
+                }
+                produto.tamanho = tamanho;
+                itens.push(produto);
             }
+
+            console.log(itens);
+            
             res.render(path.resolve('src/templates/html/impressao/impressaopizza'), {
                 pizzas: itens,
-                tamanho: tamanho,
+                tamanho: 0,
                 name: caixa.isDelivery ? caixa.client.name : caixa.mesa.name
             });
         } catch (error) {
@@ -129,7 +143,7 @@ module.exports = {
         });
     },
     async impressaoCaixaGeral(req, res) {
-        const hora = "T00:00:00.000+00:00";
+        const hora = "T00:00:00.058+00:00";
         const hora2 = "T23:59:59.058+00:00";
         // let busca = req.body.busca;
         var inicio = req.query.inicio + hora;
@@ -176,8 +190,8 @@ module.exports = {
                 credito: credito,
                 debito: debito,
                 transferencia: transferencia,
-                dinheiro: dinheiro,
                 gorjeta: gorjeta,
+                dinheiro: dinheiro
 
             })
 
@@ -194,13 +208,26 @@ module.exports = {
         try {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
-            console.log(req.query);
+            console.log("aquiiiiiiiii");
+            console.log(req.params.id);
             let url = "";
             if (req.params.id == 0) {
                 url = `http://localhost:3000/relatorio/impressao?inicio=${req.query.inicio}&fim=${req.query.fim}`;
             } else {
-                let caixaId = req.query.caixa;
-                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id + `?caixa=${caixaId}`;
+
+                let caixaId = req.query.caixaId;
+                let query = '&';
+                for (let index = 0; index < req.query.caixa.length; index++) {
+                    const element = req.query.caixa[index];
+                    if ( (req.query.caixa.length-1) == index ) {
+                        query += `caixas[]=${element}`;
+                    } else {
+                        query += `caixas[]=${element}&`;
+                    }
+
+                }
+                url = "http://localhost:3000/impressao/" + req.params.router + "/" + req.params.id +`?caixa=${caixaId}${query}`;
+                console.log(url);
             }
             await page.goto(url, {
                 waitUntil: "networkidle2"
@@ -229,8 +256,6 @@ module.exports = {
         }
 
     },
-
-
 
     async impressaoGeralResumida(req, res) {
         const hora = "T00:00:00.000+00:00";
@@ -264,7 +289,7 @@ module.exports = {
                     case 'Transferência':
                         transferencia += parseFloat(pagamentos[index].valor)
                         break
-
+    
                     default:
                         break;
                 }
@@ -282,28 +307,28 @@ module.exports = {
                 transferencia: transferencia,
                 dinheiro: dinheiro,
                 gorjeta: gorjeta,
-
+    
             })
-
-
-
+    
+    
+    
         }).populate('cliente');
-
-
-
-
-
+    
+    
+    
+    
+    
     },
-
+    
     async imprimirResumida(req, res) {
         try {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
             console.log(req.query);
             let url = "";
-
+    
             url = `http://localhost:3000/relatorio/impressaoResumo?inicio=${req.query.inicio}&fim=${req.query.fim}`;
-
+    
             await page.goto(url, {
                 waitUntil: "networkidle2"
             });
@@ -318,9 +343,9 @@ module.exports = {
                         right: "0.1px"
                     }
                 }),
-
+    
                 await browser.close();
-
+    
             ptp
                 .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
                 .then(console.log)
@@ -329,7 +354,7 @@ module.exports = {
         } catch (error) {
             res.json({});
         }
-
+    
     }
 
 
