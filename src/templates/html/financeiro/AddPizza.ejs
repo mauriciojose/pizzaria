@@ -474,11 +474,11 @@
                     }).done(function(da) {
                         // console.log(da);
                         btnAddPizza.disabled = false;
-                        // window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).fail(function(msg) {
                         console.log('FAIL');
                         btnAddPizza.disabled = false;
-                        // window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                     }).always(function(msg) {
                         console.log('ALWAYS');
                     });
