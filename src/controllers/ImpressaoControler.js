@@ -6,6 +6,7 @@ const ProdutoCaixa = require('../models/ProdutoCaixa');
 const Pagamento = require('../models/pagamentos');
 const ptp = require('pdf-to-printer');
 
+
 const puppeteer = require("puppeteer");
 module.exports = {
 
@@ -81,7 +82,7 @@ module.exports = {
             });
             await page.setViewport({ width: 1680, height: 1050 });
             await page.pdf({
-                    path: "C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf",
+                    path: path.resolve('src/teste.pdf'),
                     width: 260,
                     margin: {
                         top: "0.1px",
@@ -94,7 +95,7 @@ module.exports = {
                 await browser.close();
 
             ptp
-                .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
+                .print(path.resolve('src/teste.pdf'))
                 .then(console.log)
                 .catch(console.error);
             res.json({});
@@ -209,7 +210,6 @@ module.exports = {
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
             console.log("aquiiiiiiiii");
-            console.log(req.params.id);
             let url = "";
             if (req.params.id == 0) {
                 url = `http://localhost:3000/relatorio/impressao?inicio=${req.query.inicio}&fim=${req.query.fim}`;
@@ -234,7 +234,7 @@ module.exports = {
             });
             await page.setViewport({ width: 1680, height: 1050 });
             await page.pdf({
-                    path: "C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf",
+                    path: path.resolve('src/teste.pdf'),
                     width: 260,
                     margin: {
                         top: "0.1px",
@@ -247,11 +247,12 @@ module.exports = {
                 await browser.close();
 
             ptp
-                .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
+                .print(path.resolve('src/teste.pdf'))
                 .then(console.log)
                 .catch(console.error);
             res.json({});
         } catch (error) {
+            console.log(error);
             res.json({});
         }
 
@@ -334,7 +335,7 @@ module.exports = {
             });
             await page.setViewport({ width: 1680, height: 1050 });
             await page.pdf({
-                    path: "C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf",
+                    path: path.resolve('src/teste.pdf'),
                     width: 260,
                     margin: {
                         top: "0.1px",
@@ -347,7 +348,7 @@ module.exports = {
                 await browser.close();
     
             ptp
-                .print("C:\\xampp\\sirr\\htdocs\\pizzaria\\src\\teste.pdf")
+                .print(path.resolve('src/teste.pdf'))
                 .then(console.log)
                 .catch(console.error);
             res.json({});

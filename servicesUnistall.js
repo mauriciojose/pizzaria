@@ -4,7 +4,7 @@ var Service = require('node-windows').Service;
 var svc = new Service({
     name: 'Pizza Facil',
     description: 'Sistema de pizzaria',
-    script: 'C:\\xampp\\sirr\\htdocs\\pizzaria\\src'
+    script: path.resolve('src') //'C:\\xampp\\sirr\\htdocs\\pizzaria\\src'
 });
 
 // Listen for the "install" event, which indicates the
