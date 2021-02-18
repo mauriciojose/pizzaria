@@ -99,10 +99,12 @@
         }
         
         button.fixed {
+            background-color: green;
+        }
+        div.fixed-float{
             position: absolute;
             right: 9%;
             bottom: 3%;
-            background-color: green;
         }
         body div.container1 div.container-form {
             flex-direction: column;
@@ -179,8 +181,10 @@
                 </div>
                 <input type="text" name="totalGeral" class="campo-texto" value="0,00" disabled readonly size="6" style="width: 15% !important;">
             </div>
+            <div class="fixed-float">
             <button class="fixed" id="finalizar" style="right: 22%; background-color: orange;" onclick="finalizar();">Finalizar</button>
             <button class="fixed" id="addPizza" onclick="validate();">Adicionar</button>
+            </div>
         </div>
 
         <style>
