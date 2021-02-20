@@ -111,6 +111,10 @@ routes.get('/templates/css/produto.css', function(req, res) {
 routes.get('/teste', function(req, res) {
     res.render(path.resolve('src/templates/html/cadastros/testeajax'));
 });
+
+routes.get('/relatorio/estoque', ProdutoController.relatorio);
+routes.post('/relatorio/estoque', ProdutoController.relatorioPOST);
+
 routes.get('/caixa/impressao', ImpressaoControler.impressaoCliente);
 routes.get('/caixa/impressao/:id', ImpressaoControler.impressaoCaixa);
 routes.get('/impressao/impressaopizza/:id', ImpressaoControler.impressaoPizza);

@@ -34,6 +34,42 @@ module.exports = {
         });
 
     },
+    async relatorio(req, res) {
+        res.render(path.resolve('src/templates/html/relatorios/estoque'), {
+            dataInicial: "",
+            dataFinal: "",
+            tipo: 0
+        });
+
+    },
+    async relatorioPOST(req, res) {
+        const hora = "T00:00:00.000+03:00";
+        const hora2 = "T23:59:59.058+03:00";
+
+        const inicio = req.body.dataInicial + hora;
+        const fim = req.body.dataFinal + hora2;
+
+        let movimentacoes = await PosicaoEstoque.find({
+            createdAt: {
+                '$gte': inicio,
+                '$lt': fim
+            }
+        }).populate('produto').populate('responsavel');
+
+        movimentacoes.sort(function(a, b) {
+            return a.produto.name.localeCompare(b.produto.name)
+        });
+        
+        console.log(movimentacoes);
+
+        res.render(path.resolve('src/templates/html/relatorios/estoque'), {
+            dataInicial: req.body.dataInicial,
+            dataFinal: req.body.dataFinal,
+            tipo: 1,
+            movimentacoes: movimentacoes
+        });
+
+    },
     async create(req, res) {
         var id = req.body.id;
         if (id == '') {
