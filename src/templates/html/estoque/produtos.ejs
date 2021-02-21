@@ -86,7 +86,7 @@
                     html += '<div><%if(tipo==0){%><button id="" class="btn card_btn" data-translate="start">Editar</button><button id="" class="btn card_btn" data-translate="start">Desativar</button>';
                     html += '<%}else{%>';
 
-                    html += '<button class="btn card_btn" id="btn<%=produto._id%>" onclick=' + "showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" + 'data-translate="start">Adicionar</button>';
+                    html += "<button class=" + "btn card_btn" + " id=" + "btn<%=produto._id%>" + " onclick=" + "showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" + " data-translate=" + "start" + ">Adicionar</button>";
                     html += '<%}%>';
                     html += '</div></div></div></li>';
                 }
