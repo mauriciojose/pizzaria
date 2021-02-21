@@ -35,10 +35,12 @@ module.exports = {
 
     },
     async relatorio(req, res) {
+        let produtos = await Produto.find({pizza: false});
         res.render(path.resolve('src/templates/html/relatorios/estoque'), {
             dataInicial: "",
             dataFinal: "",
-            tipo: 0
+            tipo: 0,
+            produtos: produtos
         });
 
     },
@@ -49,24 +51,45 @@ module.exports = {
         const inicio = req.body.dataInicial + hora;
         const fim = req.body.dataFinal + hora2;
 
-        let movimentacoes = await PosicaoEstoque.find({
-            createdAt: {
-                '$gte': inicio,
-                '$lt': fim
-            }
-        }).populate('produto').populate('responsavel');
+        console.log(req.body.produtos);
+        if (req.body.produtos.includes('0')) {
+            req.body.produtos = [];
+        }
+        console.log(req.body.produtos);
+        
+        let movimentacoes = [];
+        if (req.body.produtos.length > 0) {
+            movimentacoes = await PosicaoEstoque.find({
+                createdAt: {
+                    '$gte': inicio,
+                    '$lt': fim
+                },
+                produto: req.body.produtos
+            }).populate('produto').populate('responsavel');   
+        } else {
+            movimentacoes = await PosicaoEstoque.find({
+                createdAt: {
+                    '$gte': inicio,
+                    '$lt': fim
+                }
+            }).populate('produto').populate('responsavel');
+        }
+        
 
         movimentacoes.sort(function(a, b) {
             return a.produto.name.localeCompare(b.produto.name)
         });
-        
+
         console.log(movimentacoes);
+
+        let produtos = await Produto.find({pizza: false});
 
         res.render(path.resolve('src/templates/html/relatorios/estoque'), {
             dataInicial: req.body.dataInicial,
             dataFinal: req.body.dataFinal,
             tipo: 1,
-            movimentacoes: movimentacoes
+            movimentacoes: movimentacoes,
+            produtos: produtos
         });
 
     },
@@ -143,7 +166,7 @@ module.exports = {
                 req.body[index].saldoAnterior = produto.quantidade;
                 req.body[index].status = 1;
                 req.body[index].responsavel = userId;
-                req.body.tipo = 1;
+                // req.body.tipo = 1;
 
                 produto.quantidade += Number.parseInt(element.quantidadeEntrada);
                 // console.log(produto);
