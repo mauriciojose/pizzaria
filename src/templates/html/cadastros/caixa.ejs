@@ -136,10 +136,14 @@
                                                 <%=produto.produto.name%>
                                             </td>
                                             <td>
-                                                <a id="diminuir<%=i%>">&#10134</a>
-                                                <input type="hidden" id="produto<%=i%>" value="<%=produto._id%>">
-                                                <input type="text" disabled id="qtde<%=i%>" style="width: 4em; font-size:14px;text-align: center; color: #000458;background-color: white;" value="<%=produto.quantidade%>">
-                                                <a id="aumentar<%=i%>">&#10133</a>
+                                                <%if(status==0){%>
+
+                                                    <a id="diminuir<%=i%>">&#10134</a>
+                                                    <% }%>
+                                                        <input type="hidden" id="produto<%=i%>" value="<%=produto._id%>">
+                                                        <input type="text" disabled id="qtde<%=i%>" style="width: 4em; font-size:14px;text-align: center; color: #000458;background-color: white;" value="<%=produto.quantidade%>">
+                                                        <%if(status==0){%> <a id="aumentar<%=i%>">&#10133</a>
+                                                            <% }%>
                                             </td>
                                             <td class="money">
                                                 <%=produto.valorUnitario%>
@@ -221,11 +225,13 @@
 
 
             <!-- </form> -->
-            <a href="/list/categorias/<%=idCaixa%>">
-                <div class="float-button">
-                    <span>+</span>
-                </div>
-            </a>
+            <%if(status==0){%>
+                <a href="/list/categorias/<%=idCaixa%>">
+                    <div class="float-button">
+                        <span>+</span>
+                    </div>
+                </a>
+                <% }%>
         </div>
         <!-- <div class="info">
 

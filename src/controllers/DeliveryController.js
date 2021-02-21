@@ -37,7 +37,7 @@ module.exports = {
     async getAllView(req, res) {
         // await Mesa.remove();
         let clientes = await Cliente.find({});
-        await Caixa.find({}, (err, caixas) => {
+        await Caixa.find({ isDelivery: true }, (err, caixas) => {
             res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
             res.render(path.resolve('src/templates/html/delivery/delivery'), {
                 "cache": false,
@@ -45,6 +45,7 @@ module.exports = {
                 clientes: clientes
             });
 
+            // console.log(caixas);
         }).populate('pedido').sort([
             ['dateOpen', 'descending']
         ]).populate('client');

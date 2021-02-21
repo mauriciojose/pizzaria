@@ -23,36 +23,17 @@
             <div class="container-form">
                 <div id="#responsive" class="itens">
                     <div class="main">
-                        <ul class="cards">
-                            <% produtos.forEach(function(produto){ %>
-                                <li class="cards_item">
-                                    <div class="card">
-                                        <% if(produto.categorias[0].name=='Bebidas'){%>
-                                            <div class="card_image"><img style="width: 75%;" src="/img/<%=produto.nomeImagem%>.png"></div>
-                                            <% }else {%>
-                                                <div class="card_image"><img style="width: 75%;" src="/img/<%=produto.nomeImagem%>.png"></div>
-                                                <%}%>
-                                                    <div class="card_content">
-                                                        <h1 class="card_title">
-                                                            <%=produto.name%>
-                                                        </h1>
-                                                        <p class="card_text">
-                                                            Código:
-                                                            <%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span>
-                                                        </p>
-                                                        <div>
-                                                            <%if(tipo==0){%>
-                                                                <button id="" class="btn card_btn" data-translate="start">Editar</button>
-                                                                <button id="" class="btn card_btn" data-translate="start">Desativar</button>
-                                                                <%}else{%>
-                                                                    <button class="btn card_btn" id="btn<%=produto._id%>" onclick="showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" data-translate="start">Adicionar</button>
-                                                                    <%}%>
-                                                        </div>
-                                                        <!-- <button class="btn card_btn">Read More</button> -->
-                                                    </div>
-                                    </div>
-                                </li>
-                                <%});%>
+                        <div class="form-outline">
+                            <label style="color: white;" for="">Pesquisa</label>
+                            <input type="text" name="" id="busca" onkeypress="lista();">
+
+                            <br> <br>
+                            <hr>
+                            <br>
+                        </div>
+
+                        <ul class="cards" id="lista">
+
                         </ul>
                     </div>
                 </div>
@@ -88,6 +69,34 @@
         </div>
         </dialog>
         <script>
+            function lista() {
+                html = "";
+                var busca = $('#busca').val();
+                <% produtos.forEach(function(produto){ %>;
+                if ('<%=produto.name%>'.indexOf(busca) > -1) {
+                    html += ' <li class="cards_item"> <div class="card">';
+                    <% if(produto.categorias[0].name=='Bebidas'){%>;
+                    html += ' <div class="card_image"><img style="width: 75%;" src="/img/<%=produto.nomeImagem%>.png"></div>';
+                    <% }else {%>;
+                    html += '<div class="card_image"><img style="width: 75%;" src="/img/<%=produto.nomeImagem%>.png"></div>';
+                    <%}%>;
+                    html += ' <div class="card_content"><h1 class="card_title">';
+                    html += '<%=produto.name%>';
+                    html += '</h1><p class="card_text">Código:<%=produto.codigo%> <br> Preço: <span class="money"><%=produto.precoVenda%></span></p>';
+                    html += '<div><%if(tipo==0){%><button id="" class="btn card_btn" data-translate="start">Editar</button><button id="" class="btn card_btn" data-translate="start">Desativar</button>';
+                    html += '<%}else{%>';
+
+                    html += '<button class="btn card_btn" id="btn<%=produto._id%>" onclick=' + "showClickHandler('<%=produto._id%>',<%=produto.quantidade%>)" + 'data-translate="start">Adicionar</button>';
+                    html += '<%}%>';
+                    html += '</div></div></div></li>';
+                }
+                <%});%>
+
+                $('#lista').html(html);
+            }
+            $(document).ready(function() {
+                lista();
+            });
             var dialog = document.querySelector('#modal-example');
             if (!dialog.showModal) {
                 dialogPolyfill.registerDialog(dialog);

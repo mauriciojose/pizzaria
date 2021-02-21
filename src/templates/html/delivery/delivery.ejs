@@ -10,7 +10,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <style>
-
+        .button {
+            background: #2f3136 !important;
+        }
     </style>
 </head>
 
@@ -19,61 +21,30 @@
         <input type="hidden" name="idMesa" id="idMesa" value="dMesa">
         <input type="hidden" name="idCaixa" id="idCaixa" value="">
         <h2>Lista de Pedidos</h2>
+
+
+        <div class="notify"><span id="notifyType" class=""></span></div>
+        <div class="row">
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <label for="">Situação</label>
+                    <select name="" id="situacao" style="font-size:14pt;" onchange="lista();">
+                        <option value="0">Aberto</option>
+                        <option value="1">Fechado</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
         <div class="caixa">
             <!-- <div class="logo">
             <img id="cliente" src="/img/mesa.png" alt="">
         </div> -->
 
-            <div style="overflow-y: scroll;" class="">
+            <div style="overflow-y: scroll;" class="" id="lista">
 
-                <table>
-                    <thead>
-                        <th>Cliente</th>
-                        <th>Entrega</th>
-                        <th>Telefone</th>
-                        <th>Endereço</th>
-                        <th>Status</th>
-                        <th colspan="2">Ações</th>
-                    </thead>
-                    <tbody>
-                        <% caixas.forEach(function(caixa){%>
-                            <% if(caixa.isDelivery){%>
-                                <tr class='clickable-row'>
 
-                                    <td data-title="Cliente">
-                                        <%=caixa.client.name%>
-                                    </td>
-                                    <td data-title="Data Pedido">
-                                        <%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>
-                                    </td>
-                                    <td data-title="Telefone">
-                                        <%=caixa.client.telefone1%>
-                                    </td>
-                                    <td data-title="Endereço">
-                                        <%=caixa.client.endereco%>
-                                    </td>
-                                    <td data-title="Status">
-                                        <% if(caixa.status==0){%>
-                                            Aberto
-                                            <% }else{%>
-                                                fechado
-                                                <%}%>
-                                    </td>
-                                    <% if(caixa.status==0){%>
-                                        <td><button onclick="add('<%=caixa._id%>')">Adicionar</button></td>
-                                        <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                        <!-- <td><button onclick="Pagamento('<%=caixa._id%>')">Pagamento</button></td> -->
-                                        <% }else{%>
-                                            <td></td>
-                                            <td><button onclick="caixa('<%=caixa._id%>')">Visualizar</button></td>
-                                            <!-- <td><button disabled onclick="reabrir('<%=caixa._id%>')">Pagamento</button></td> -->
-                                            <%}%>
-                                </tr>
-                                <% }%>
-                                    <%
-                    }); %>
-                    </tbody>
-                </table>
             </div>
         </div>
         <div class="container">
@@ -193,6 +164,102 @@
             anoF = data.getFullYear();
         return anoF + "-" + mesF + "-" + diaF;
     }
+
+    function lista() {
+        var html = "";
+        var situacao = $('#situacao').val();
+
+        html += '<table>';
+        html += '<thead>';
+        html += '<th>Cliente</th>';
+        html += '<th>Entrega</th>';
+        html += '<th>Telefone</th>';
+        html += '<th>Endereço</th>';
+        html += '<th>Status</th>';
+        html += '<th colspan="2">Ações</th>';
+
+        html += '<tbody>';
+        <% caixas.forEach(function(caixa){%>;
+        if (situacao == 0) {
+            <% if(caixa.status==0){%>;
+
+            html += '<tr class="clickable-row">';
+            html += '<td data-title="Cliente"><%=caixa.client.name%></td>';
+            html += '<td data-title="Data Pedido">';
+            html += "<%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>";
+            html += '</td>';
+            html += '<td data-title="Telefone">';
+            html += '<%=caixa.client.telefone1%>';
+            html += '</td>';
+            html += '<td data-title="Endereço">';
+            html += '<%=caixa.client.endereco%>';
+            html += '</td>';
+            html += '<td data-title="Status">';
+            <% if(caixa.status==0){%>
+            html += "Aberto";
+            <% }else{%>;
+            html += "fechadao";
+            <%}%>
+            html += '</td>';
+
+            <% if(caixa.status==0){%>
+            html += "<td><button onclick=" + "add('<%=caixa._id%>')" + ">Adicionar</button></td>";
+            html += "<td><button onclick=" + "caixa('<%=caixa._id%>')" + ">Visualizar</button></td>";
+            <% }else{%>
+            html += '<td></td>';
+            html += "<td><button onclick=" + "caixa('<%=caixa._id%>')" + ">Visualizar</button></td>";
+            <%}%>
+            html += "  </tr>";
+            <%}%>;
+        } else {
+            <% if(caixa.status==1){%>;
+
+            html += '<tr class="clickable-row">';
+            html += '<td data-title="Cliente"><%=caixa.client.name%></td>';
+            html += '<td data-title="Data Pedido">';
+            html += "<%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>";
+            html += '</td>';
+            html += '<td data-title="Telefone">';
+            html += '<%=caixa.client.telefone1%>';
+            html += '</td>';
+            html += '<td data-title="Endereço">';
+            html += '<%=caixa.client.endereco%>';
+            html += '</td>';
+            html += '<td data-title="Status">';
+            <% if(caixa.status==0){%>
+            html += "Aberto";
+            <% }else{%>;
+            html += "fechadao";
+            <%}%>
+            html += '</td>';
+
+            <% if(caixa.status==0){%>
+            html += "<td><button onclick=" + "add('<%=caixa._id%>')" + ">Adicionar</button></td>";
+            html += "<td><button onclick=" + "caixa('<%=caixa._id%>')" + ">Visualizar</button></td>";
+            <% }else{%>
+            html += '<td></td>';
+            html += "<td><button onclick=" + "caixa('<%=caixa._id%>')" + ">Visualizar</button></td>";
+            <%}%>
+            html += "  </tr>";
+            <%}%>;
+
+        }
+
+        <%})%>
+
+
+        html += " </tbody></table>";
+
+        $('#lista').html(html);
+
+    }
+
+    $(document).ready(function() {
+        lista();
+        $('#inicio').val(dataAtualFormatada());
+        // lista();
+
+    });
 
     function showClickHandler() {
         document.querySelector('#idMesa').value = idMesa;

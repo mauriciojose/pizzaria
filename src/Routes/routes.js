@@ -177,6 +177,7 @@ routes.put('/adicionar/pagamento', TokenServices.checkToken, PagamentoController
 
 // ---------------------------------------------------
 routes.get('/delivery/delivery', TokenServices.checkToken, DeliveryController.getAllView);
+routes.post('/delivery/delivery', TokenServices.checkToken, DeliveryController.getAllView);
 routes.put('/delivery/novo/:id', TokenServices.checkToken, DeliveryController.novoPedido);
 routes.put('/delivery/finalizar/:id', TokenServices.checkToken, DeliveryController.closePedido);
 
