@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressao</title>
+    <link rel="shortcut icon" href="/img/lanches.png" type="image/x-icon">
     <link rel="stylesheet" href="/templates/geral/css/impressao.css">
 
     <style>
@@ -34,32 +35,32 @@
 
                     <tbody>
 
-                            <% produto.pizzas.forEach(function(pizza){ %>
-                                <tr>
+                        <% produto.pizzas.forEach(function(pizza){ %>
+                            <tr>
 
-                                    <td>
-                                        <b><b style="font-size: 17px;">*</b> SABOR: </b>
-                                        <%= pizza.produto.name %>
-                                    </td>
-            
-                                </tr>
-            
-                                <tr>
-                                    <td style="word-break: break-all;text-transform: uppercase; font-weight: normal;">
-                                        <b>OBS:</b>
-                                        <%= pizza.observacao%>
-            
-                                    </td>
-                                </tr>
+                                <td>
+                                    <b><b style="font-size: 17px;">*</b> SABOR: </b>
+                                    <%= pizza.produto.name %>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td style="word-break: break-all;text-transform: uppercase; font-weight: normal;">
+                                    <b>OBS:</b>
+                                    <%= pizza.observacao%>
+
+                                </td>
+                            </tr>
                             <%});%>
 
-                        
+
                     </tbody>
                 </table>
             </div>
-        <% }); %>
-        <footer>
-            <%
+            <% }); %>
+                <footer>
+                    <%
                 var data = new Date(),
                 dia  = data.getDate().toString(),
                 diaF = (dia.length == 1) ? '0'+dia : dia,
@@ -69,12 +70,12 @@
                 minute = ("0000000000"+data.getMinutes()).slice(-2);
                 var newDate =  diaF+"/"+mesF+"/"+anoF +" "+data.getHours()+":"+minute;
             %>
-                Emissão:
-                <%= newDate %>
-        </footer>
-        <div style="text-align: center;">
-            -------------------------------------------------------------------
-        </div>
+                        Emissão:
+                        <%= newDate %>
+                </footer>
+                <div style="text-align: center;">
+                    -------------------------------------------------------------------
+                </div>
     </div>
     <!--<div class="float-rigth" onclick="window.print();">
         <img src="/templates/geral/img/print.png" alt="">

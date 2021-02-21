@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Produtos</title>
-        <base href="/">
-        <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
-        <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
-        <link rel="stylesheet" type="text/css" href="/templates/css/card.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <link rel="shortcut icon" href="/img/lanches.png" type="image/x-icon">
+    <base href="/">
+    <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/card.css">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
-        <style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.1/jquery.maskMoney.min.js"></script>
+    <style>
+        footer {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            /* padding-right: 2%; */
+        }
+        
+        .register {
+            /* height: 50%; */
+            padding: 0 5%;
+            font-size: 16px;
+            background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+            background-color: #77b55a;
+            border-radius: 3px;
+            border: 1px solid #52a329;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            /* font-size: 26px; */
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #5b8a3c;
+        }
+        
+        body div.container1 div.container-form {
+            display: block !important;
+        }
+        
+        div.itens {
+            height: 90%;
+        }
+    </style>
+</head>
 
-            footer {
-                width: 100%;
-                height: 10%;
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                /* padding-right: 2%; */
-            }
-
-            .register {
-                /* height: 50%; */
-                padding: 0 5%;
-                font-size: 16px;
-                background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
-                background-color: #77b55a;
-                border-radius: 3px;
-                border: 1px solid #52a329;
-                display: inline-block;
-                cursor: pointer;
-                color: #ffffff;
-                font-family: Arial;
-                /* font-size: 26px; */
-                text-decoration: none;
-                text-shadow: 0px 1px 0px #5b8a3c;
-            }
-            body div.container1 div.container-form{
-                display: block !important;
-            }
-            div.itens{
-                height: 90%;
-            }
-        </style>
-    </head>
-
-    <body>
-        <%- include('../componentes/menu.ejs'); -%>
+<body>
+    <%- include('../componentes/menu.ejs'); -%>
         <div class="notify"><span id="notifyType" class=""></span></div>
         <div class="container1">
             <div class="container-form">
@@ -72,7 +74,7 @@
                         </tbody>
                     </table>
 
-                    
+
                 </div>
                 <footer>
                     <button type="submit" onclick="adicionar();" class="register">Confirmar</button>
@@ -82,6 +84,7 @@
 
         <script>
             var adicionados = [];
+
             function addItem(element) {
                 let value = element.value.trim();
                 if (value != '' && !adicionados.includes(value)) {
@@ -101,8 +104,8 @@
                 }
             }
 
-            function addTr(data){
-                let tr =  `
+            function addTr(data) {
+                let tr = `
                     <tr>
                         <td>
                             ${data.codigo}
@@ -123,18 +126,18 @@
                 numberMask();
             }
 
-            function numberMask(){
+            function numberMask() {
                 let numbers = document.querySelectorAll('.number');
                 for (let index = 0; index < numbers.length; index++) {
                     const item = numbers[index];
-                    item.onkeypress = function (event) {
+                    item.onkeypress = function(event) {
                         let charCode = (event.which) ? event.which : event.keyCode
                         return !(charCode > 31 && (charCode < 48 || charCode > 57));
                     }
                 }
             }
 
-            function preparaAdicionar(){
+            function preparaAdicionar() {
                 let prepara = [];
                 for (let index = 0; index < adicionados.length; index++) {
                     const id = adicionados[index];
@@ -147,7 +150,7 @@
                 return prepara;
             }
 
-            function adicionar(){
+            function adicionar() {
                 let adicionar = preparaAdicionar();
                 $.ajax({
                     type: 'POST',
@@ -159,7 +162,7 @@
                     sucess();
                     let tbody = document.querySelector('table tbody');
                     tbody.innerHTML = '';
-                    adicionados=[];
+                    adicionados = [];
 
                 }).fail(function(msg) {
                     console.log('FAIL');
@@ -199,5 +202,6 @@
         </script>
 
         <%- include('../componentes/rodape.ejs'); -%>
-    </body>
+</body>
+
 </html>

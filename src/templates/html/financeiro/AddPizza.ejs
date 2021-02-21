@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Pizza</title>
+    <link rel="shortcut icon" href="/img/lanches.png" type="image/x-icon">
     <base href="/">
     <link rel="stylesheet" type="text/css" href="/templates/css/liststyle.css">
     <link rel="stylesheet" type="text/css" href="/templates/css/global.css">
@@ -101,18 +102,20 @@
         button.fixed {
             background-color: green;
         }
-        div.fixed-float{
+        
+        div.fixed-float {
             position: absolute;
             right: 9%;
             bottom: 3%;
         }
+        
         body div.container1 div.container-form {
             flex-direction: column;
         }
     </style>
 
     <style>
-        .success{
+        .success {
             background-color: green !important;
         }
     </style>
@@ -121,7 +124,7 @@
 <body>
     <%- include('../componentes/menu.ejs'); -%>
 
-    <div class="notify"><span id="notifyType" class=""></span></div>
+        <div class="notify"><span id="notifyType" class=""></span></div>
 
         <div class="container1">
             <div class="container-form">
@@ -182,8 +185,8 @@
                 <input type="text" name="totalGeral" class="campo-texto" value="0,00" disabled readonly size="6" style="width: 15% !important;">
             </div>
             <div class="fixed-float">
-            <button class="fixed" id="finalizar" style="right: 22%; background-color: orange;" onclick="finalizar();">Finalizar</button>
-            <button class="fixed" id="addPizza" onclick="validate();">Adicionar</button>
+                <button class="fixed" id="finalizar" style="right: 22%; background-color: orange;" onclick="finalizar();">Finalizar</button>
+                <button class="fixed" id="addPizza" onclick="validate();">Adicionar</button>
             </div>
         </div>
 
@@ -191,6 +194,7 @@
             label {
                 line-height: 16px !important;
             }
+            
             body div.container1 {
                 height: 94vh !important;
             }
@@ -320,7 +324,7 @@
                                         let input = document.createElement('input');
                                         input.setAttribute('class', 'campo-texto precos money');
                                         input.setAttribute('type', 'text');
-                                        input.setAttribute('id', 'valor_'+item['_id']);
+                                        input.setAttribute('id', 'valor_' + item['_id']);
                                         input.setAttribute('size', '6');
                                         input.value = Number.parseFloat(item[prop]).toFixed(2);
                                         td.appendChild(input);
@@ -370,11 +374,11 @@
                 $('.money').each(function() { // function to apply mask on load!
                     $(this).maskMoney('mask', $(this).val());
                 });
-                
+
                 addValue();
             }
 
-            function addValue(){
+            function addValue() {
                 atualizaFatias();
                 let preco = getMaxValue(adicionados);
                 // let quantFatias = document.querySelector('input[name=quantidade]').value;
@@ -387,7 +391,7 @@
 
                 let valorBorda = element.getAttribute('data-value');
 
-                itemValor.value = formatValue( Number.parseFloat(preco) + Number.parseFloat(valorBorda) );
+                itemValor.value = formatValue(Number.parseFloat(preco) + Number.parseFloat(valorBorda));
             }
 
             function formatValue(value) {
@@ -396,7 +400,7 @@
                     currency: 'BRL',
                     minimumFractionDigits: 2,
                 });
-                return formatter.format(value).replace('R$','').trim();
+                return formatter.format(value).replace('R$', '').trim();
             }
 
             function getItemById(id) {
@@ -414,7 +418,7 @@
                 value = value.replaceAll('.', '');
                 value = value.replace(',', '.');
                 value = Number.parseFloat(value).toFixed(2);
-                value = (typeof value == 'undefined' || isNaN(value)) ? 0 : value; 
+                value = (typeof value == 'undefined' || isNaN(value)) ? 0 : value;
                 return Number.parseFloat(value);
             }
 
@@ -449,7 +453,7 @@
                 document.body.removeChild(form);
             }
 
-            function getMaxValue(pizzas){
+            function getMaxValue(pizzas) {
                 let preco = (pizzas.length > 0) ? pizzas[0].precoVenda : 0;
                 for (let index = 0; index < pizzas.length; index++) {
                     const element = pizzas[index];
@@ -460,11 +464,11 @@
                 return preco;
             }
 
-            function finalizar(){
+            function finalizar() {
                 let query = '?caixaId=<%=idCaixa%>&';
                 for (let index = 0; index < produtosCaixa.length; index++) {
                     const element = produtosCaixa[index];
-                    if ( (produtosCaixa.length-1) == index ) {
+                    if ((produtosCaixa.length - 1) == index) {
                         query += `caixa[]=${element}`;
                     } else {
                         query += `caixa[]=${element}&`;
@@ -472,21 +476,21 @@
 
                 }
                 $.ajax({
-                        type: 'GET',
-                        url: '/relatorio/impressao/impressaopizza/' + 1 + query,
-                        contentType: 'application/json' 
-                    }).done(function(da) {
-                        // console.log(da);
-                        btnAddPizza.disabled = false;
-                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
-                    }).fail(function(msg) {
-                        console.log('FAIL');
-                        btnAddPizza.disabled = false;
-                        window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
-                    }).always(function(msg) {
-                        console.log('ALWAYS');
-                    });
-                
+                    type: 'GET',
+                    url: '/relatorio/impressao/impressaopizza/' + 1 + query,
+                    contentType: 'application/json'
+                }).done(function(da) {
+                    // console.log(da);
+                    btnAddPizza.disabled = false;
+                    window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                }).fail(function(msg) {
+                    console.log('FAIL');
+                    btnAddPizza.disabled = false;
+                    window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
+                }).always(function(msg) {
+                    console.log('ALWAYS');
+                });
+
             }
 
             function addPizza() {
@@ -496,7 +500,7 @@
                 let quantFatias = document.querySelector('input[name=quantidade]').value;
 
                 let itemValor = document.querySelector('input[name=totalGeral]');
-                let borda     = document.querySelector('input[name=borda]:checked');
+                let borda = document.querySelector('input[name=borda]:checked');
 
                 // let maxCallback = (acc, cur) => Math.max(acc.precoVenda, cur.precoVenda);
                 // let preco = (adicionados.length == 1) ? adicionados[0].precoVenda : adicionados.reduce(maxCallback);
@@ -524,7 +528,7 @@
                     pizzas: pizzas
                 };
                 console.log(data);
-                
+
                 btnAddPizza.disabled = true;
 
                 $.ajax({
@@ -537,7 +541,7 @@
                     btnAddPizza.disabled = false;
 
                     sucess();
-                    
+
                     produtosCaixa.push(datas._id);
 
                     let table = document.querySelector('table.itens tbody');
@@ -555,7 +559,7 @@
                     let bordas = document.querySelectorAll('input[name=borda]');
                     bordas[0].checked = true;
                     //table.innerHTML = '';
-                    
+
                     //window.location = '/financeiro/caixa/' + '<%=idCaixa%>';
                 }).fail(function(msg) {
                     console.log('FAIL');

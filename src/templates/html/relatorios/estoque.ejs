@@ -1,125 +1,140 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Caixa</title>
-        <link rel="stylesheet" type="text/css" href="/templates/css/delivery.css">
-        <link rel="stylesheet" href="/templates/css/estilo.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caixa</title>
+    <link rel="shortcut icon" href="/img/lanches.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/templates/css/delivery.css">
+    <link rel="stylesheet" href="/templates/css/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-        <style>
-            tbody {
-                background: transparent;
-            }
+    <style>
+        tbody {
+            background: transparent;
+        }
+        
+        ul {
+            /* list-style: none; */
+            background: #fff !important;
+            border-radius: 0px !important;
+        }
+        
+        ul.select2-results__options li {
+            float: none !important;
+            display: list-item !important;
+            margin: 0 !important;
+        }
+    </style>
+</head>
+<script>
+</script>
 
-            ul {
-                /* list-style: none; */
-                background: #fff !important;
-                border-radius: 0px !important;
-            }
-            ul.select2-results__options li {
-                float: none !important;
-                display: list-item !important;
-                margin: 0 !important;
-            }
+<body>
+    <%- include('../componentes/menu.ejs'); -%>
 
-        </style>
-    </head>
-    <script>
-    </script>
-
-    <body>
-        <%- include('../componentes/menu.ejs'); -%>
-
-            <h2>Relatório de Estoque</h2>
-            <div class="notify"><span id="notifyType" class=""></span></div>
-            <form action="/relatorio/estoque" method="POST">
-                <div class="row">
-                    <div class="form-row">
-                        <div class="col-sm-9">
-                            <label for="">Produtos:</label>
-                            <select required name="produtos[]" class="select2" style="width: 100% !important;" multiple id="">
+        <h2>Relatório de Estoque</h2>
+        <div class="notify"><span id="notifyType" class=""></span></div>
+        <form action="/relatorio/estoque" method="POST">
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-9">
+                        <label for="">Produtos:</label>
+                        <select required name="produtos[]" class="select2" style="width: 100% !important;" multiple id="">
                                 <option value="0" selected>Todos</option>
                                 <% produtos.forEach(function(produto){ %>
                                     <option value="<%= produto._id%>"><%= produto.name%></option>
                                 <% }); %>
                             </select>
-                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-row">
-                        <div class="col-sm-3">
-                            <label for="">De</label>
-                            <input required type="date" class="form-control" name="dataInicial" id="inicio" value="<%=dataInicial%>">
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="">Até</label>
-                            <input required type="date" name="dataFinal" class="form-control" id="fim" value="<%=dataFinal%>">
-                        </div>
-                        <div class="col-sm-2">
-                            <label for="">&nbsp;</label>
-                            <button class="form-control btn-primary" type="submit">Buscar</button>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-3">
+                        <label for="">De</label>
+                        <input required type="date" class="form-control" name="dataInicial" id="inicio" value="<%=dataInicial%>">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Até</label>
+                        <input required type="date" name="dataFinal" class="form-control" id="fim" value="<%=dataFinal%>">
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="">&nbsp;</label>
+                        <button class="form-control btn-primary" type="submit">Buscar</button>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
 
-            <% if(tipo == 1){ %>
+        <% if(tipo == 1){ %>
 
-                <table>
-                    <thead>
-                        <th>Data</th>
-                        <th>Saldo Anterior</th>
-                        <th>Entrada / Saída</th>
-                        <th>Tipo</th>
-                        <th>Saldo</th>
-                    </thead>
-                    <tbody>
-                        <% var produto = ''; %>
+            <table>
+                <thead>
+                    <th>Data</th>
+                    <th>Saldo Anterior</th>
+                    <th>Entrada / Saída</th>
+                    <th>Tipo</th>
+                    <th>Saldo</th>
+                </thead>
+                <tbody>
+                    <% var produto = ''; %>
                         <% var tipos = new Map(); %>
-                        <% tipos.set(0, 'Adicionado Produto ao Estoque'); %>
-                        <% tipos.set(1, 'Adicionado Produto ao Estoque'); %>
-                        <% tipos.set(2, 'Adicionado / Removido Produto do Caixa'); %>
-                        <% tipos.set(-3, 'Adicionado Produto ao Caixa'); %>
-                        <% tipos.set(3, 'Removido Produto do Caixa'); %>
-                        <% movimentacoes.forEach(function(movimentacao){ %>
-                           <% if(movimentacao.produto._id != produto){ %>
-                            <% produto = movimentacao.produto._id %>
-                                <tr>
-                                    <th colspan="4"> Produto: <%= movimentacao.produto.name %> - Saldo Atual: <%= movimentacao.produto.quantidade %> </th>
-                                </tr>
-                            <% } %>    
-                        
-                            
-                            <tr>
-                                <td> <%=movimentacao.createdAt.toLocaleString()%> </td>
-                                <td> <%=movimentacao.saldoAnterior%> </td>
-                                <td> <%=movimentacao.quantidadeEntrada%> </td>
-                                <td> <%= tipos.get( movimentacao.tipo )%> </td>
-                                <td> <%= ( movimentacao.saldoAnterior + movimentacao.quantidadeEntrada ) %> </td>
-                            </tr>
+                            <% tipos.set(0, 'Adicionado Produto ao Estoque'); %>
+                                <% tipos.set(1, 'Adicionado Produto ao Estoque'); %>
+                                    <% tipos.set(2, 'Adicionado / Removido Produto do Caixa'); %>
+                                        <% tipos.set(-3, 'Adicionado Produto ao Caixa'); %>
+                                            <% tipos.set(3, 'Removido Produto do Caixa'); %>
+                                                <% movimentacoes.forEach(function(movimentacao){ %>
+                                                    <% if(movimentacao.produto._id != produto){ %>
+                                                        <% produto = movimentacao.produto._id %>
+                                                            <tr>
+                                                                <th colspan="4"> Produto:
+                                                                    <%= movimentacao.produto.name %> - Saldo Atual:
+                                                                        <%= movimentacao.produto.quantidade %>
+                                                                </th>
+                                                            </tr>
+                                                            <% } %>
 
-                        <% }); %>
-                    </tbody>
-                </table>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        <%=movimentacao.createdAt.toLocaleString()%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=movimentacao.saldoAnterior%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=movimentacao.quantidadeEntrada%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= tipos.get( movimentacao.tipo )%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= ( movimentacao.saldoAnterior + movimentacao.quantidadeEntrada ) %>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <% }); %>
+                </tbody>
+            </table>
 
             <% } %>
 
-        <%- include('../componentes/rodape.ejs'); -%>
+                <%- include('../componentes/rodape.ejs'); -%>
 
-        <script>
-             $(document).ready(function() {
-                $('.select2').select2({
-                    placeholder: "Selecione os Produtos",
-                });
-            });
-        </script>
+                    <script>
+                        $(document).ready(function() {
+                            $('.select2').select2({
+                                placeholder: "Selecione os Produtos",
+                            });
+                        });
+                    </script>
 
-    </body>
+</body>
+
 </html>
