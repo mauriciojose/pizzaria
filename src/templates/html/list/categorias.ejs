@@ -50,7 +50,7 @@
                                         <img class="img-fluid" src="/img/lanches.png" width="150" alt="Card image cap">
                                         <div class="card-body">
 
-                                            <a href="/list/produtos/<%=idCaixa%>"><button id="" class="" data-translate="start">Todos os Produtos</button></a>
+                                            <!-- <a href="/list/produtos/<%=idCaixa%>"><button id="" class="" data-translate="start">Todos os Produtos</button></a> -->
 
                                         </div>
                                     </center>
@@ -62,44 +62,52 @@
                                     <% if(categoria.pizza){%>
                                         <div class="card">
                                             <center>
-                                                <img class="img-fluid" src="/img/pizza.png" width="150" alt="Card image cap">
-                                                <div class="card-body">
+                                                <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
+                                                    <img class="img-fluid" src="/img/pizza.png" width="150" alt="Card image cap">
+                                                    <div class="card-body">
 
-                                                    <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                        <button class="btn view-btn"><%=categoria.name%></button>
 
-                                                </div>
+                                                    </div>
+                                                </a>
                                             </center>
                                         </div>
                                         <% }else{%>
                                             <% if(categoria.name=="Bebidas"){%>
                                                 <div class="card">
                                                     <center>
+                                                        <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
                                                         <img class="img-fluid" src="/img/<%=categoria.name%>.png" width="150" alt="Card image cap">
                                                         <div class="card-body">
 
-                                                            <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                            <button class="btn view-btn"><%=categoria.name%></button>
                                                         </div>
+                                                    </a>
                                                     </center>
                                                 </div>
                                                 <%}else if(categoria.name=='Hamburgue') {%>
                                                     <div class="card">
                                                         <center>
+                                                            <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
                                                             <img class="img-fluid" src="/img/<%=categoria.name%>.png" width="150" alt="Card image cap">
                                                             <div class="card-body">
 
-                                                                <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                           <button class="btn view-btn"><%=categoria.name%></button>
                                                             </div>
+                                                        </a>
                                                         </center>
                                                     </div>
                                                     <%}else{%>
                                                         <div class="card">
                                                             <center>
+                                                                <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>">
                                                                 <img class="img-fluid" src="/img/<%=categoria.name%>.png" width="150" alt="Card image cap">
                                                                 <div class="card-body">
 
-                                                                    <a id="<%=categoria._id%>" class="clickable-row" data-href="<%=(categoria.pizza) ? '/financeiro/addpizza/'+idCaixa : '/list/produtos/'+categoria._id+'/'+idCaixa %>"> <button class="btn view-btn"><%=categoria.name%></button></a>
+                                                             <button class="btn view-btn"><%=categoria.name%></button>
                                                                 </div>
                                                             </center>
+                                                        </a>
                                                         </div>
 
 
