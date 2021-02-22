@@ -53,11 +53,23 @@
                                 </label>
                                 </div>
                             </fieldset>
+                        </div>
+                        <div class="row">
                             <fieldset class='float-label-field' style="width:5% !important">
                                 <label for="pizza">É Pizza?</label>
                                 <div class="onoffswitch">
                                     <input type="checkbox" name="pizza" class="onoffswitch-checkbox" id="myonoffswitch1" value="false" tabindex="0">
                                     <label class="onoffswitch-label" for="myonoffswitch1">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                                </div>
+                            </fieldset>
+                            <fieldset class='float-label-field' style="width:5% !important">
+                                <label for="pizza">imprime?</label>
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="imprimir" class="onoffswitch-checkbox" id="myonoffswitch2" value="false" tabindex="0">
+                                    <label class="onoffswitch-label" for="myonoffswitch2">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
@@ -175,6 +187,13 @@
                         document.getElementById('id').value = dados[0]['_id'];
                         document.getElementById('codigo').value = dados[0]['codigo'];
                         document.getElementById('name').value = dados[0]['name'];
+
+                        document.getElementById('myonoffswitch').checked = dados[0]['ativo'];
+                        document.getElementById('myonoffswitch1').checked = dados[0]['pizza'];
+                        if (dados[0]['imprimir'] != 'null') {
+                            document.getElementById('myonoffswitch2').checked = dados[0]['imprimir'];
+                            document.getElementById('myonoffswitch2').value = dados[0]['imprimir'];
+                        }
                         document.getElementById('myonoffswitch').value = dados[0]['ativo'];
                         document.getElementById('myonoffswitch1').value = dados[0]['pizza'];
 

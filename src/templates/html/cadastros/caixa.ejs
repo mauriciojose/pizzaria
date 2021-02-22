@@ -14,6 +14,11 @@
             width: 100% !important;
         }
         
+        .pagamento {
+            height: 15em;
+            overflow: scroll;
+        }
+        
         @media (max-width: 48rem) {
             div .row {
                 display: block !important;
@@ -268,8 +273,9 @@
         <dialog class="mdl-dialog" id="modalpagamento">
             <input type="hidden" id="id_caixa">
             <div class="mdl-dialog__content">
-                <div>
-                    <table id="pgto" class="customers">
+                <div class="pagamento">
+
+                    <table id=" pgto " class="customers ">
                         <thead>
                             <th>Valor</th>
                             <th>Tipo</th>
@@ -288,24 +294,29 @@
                                         <%=pagamento.tipo%>
                                     </td>
                                     <td>
-                                        <button onclick="busca('<%=pagamento._id%>');">&#9999;</button>
+                                        <button onclick="busca( '<%=pagamento._id%>'); ">&#9999;</button>
                                     </td>
                                 </tr>
                                 <%});%>
                         </tbody>
                     </table>
+
                 </div>
                 <div>
-                    <label for="name">Cliente</label>
-                    <select name="cliente" class="form-control" id="cliente" style="margin-top:0;width: 100% !important; font-size: 16px;">
+                    <label for="name ">Cliente</label>
+                    <select name="cliente " class="form-control " id="cliente " style="margin-top:0;width: 100% !important; font-size: 16px; ">
                       <% clientes.forEach(function(cliente){
                             if(cliente.codigo=='0000000001'){%>
-                                <option value="<%=cliente._id%>"><%=cliente.name%></option>                                
-                                <% }else{%>
-                                    <option value="<%=cliente._id%>"><%=cliente.name%></option>
-                        
-                        <% }});%>
-                    </select>
+                                <option value="<%=cliente._id%>">
+                    <%=cliente.name%>
+                        </option>
+                        <% }else{%>
+                            <option value="<%=cliente._id%>">
+                                <%=cliente.name%>
+                            </option>
+
+                            <% }});%>
+                                </select>
                     <br>
                     <input type="hidden" id="id_pagamento" name="id">
                     <input type="hidden" name="" id="data">
@@ -318,7 +329,7 @@
                     </select>
                     <br>
 
-                    <input type="text" name="valor" class="campos" id="valorTotal">
+                    <input type="hidden" disabled name="valor" class="campos" id="valorTotal">
                     <!--- campo para receber o valor total-->
                     <label for="name">Valor</label>
                     <input type="text" name="valor" class="campos" onkeydown="troco();" id="valor">
@@ -382,8 +393,10 @@
     function troco() {
         if ($('#valor').val() != '') {
             var valor = $('#valorTotal').val();
-            valor = valor - parseFloat($('#valor').val());
-            valor = valor * (-1);
+            valor = parseFloat($('#valor').val()) - valor;
+            if (valor < 0) {
+                valor = 0;
+            }
             document.querySelector('#troco').value = valor;
         } else {
             document.querySelector('#troco').value = '';
@@ -402,7 +415,7 @@
         } else {
             document.getElementById('funcionario').disabled = true;
             document.getElementById('funcionario').value = '';
-            // $('#funcionario').removeClass('mostrar');
+            $('#funcionario').removeClass('mostrar');
         }
     }
 
@@ -600,7 +613,7 @@
                 $('#tipo').val(resposta.tipo);
                 $('#id_pagamento').val(resposta._id);
                 $('#cliente').val(resposta.cliente);
-                $('#valor').val(parseFloat(resposta.valor.$numberDecimal) + parseFloat(gorjeta));
+                $('#valor').val(parseFloat(resposta.valor.$numberDecimal));
                 if (gorjeta > 0) {
                     document.getElementById('gorjeta').checked = true;
                     $('#funcionario').addClass('mostrar');

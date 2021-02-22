@@ -17,6 +17,7 @@ module.exports = {
     },
     async create(req, res) {
         var dado = req.body.id;
+        var imprimir = false;
         if (dado == '') {
             try {
                 let categoria = await Categoria.create(req.body);
@@ -33,7 +34,8 @@ module.exports = {
 
         } else {
             try {
-                await Categoria.updateOne({ _id: dado }, { name: req.body.name, ativo: req.body.ativo });
+                imprimir = typeof req.body.imprimir == 'undefined' ? false : true;
+                await Categoria.updateOne({ _id: dado }, { name: req.body.name, ativo: req.body.ativo, imprimir: imprimir });
                 // res.redirect('/list/categorias?success=1');
                 res.redirect('/cadastros/categoria?success=1');
 

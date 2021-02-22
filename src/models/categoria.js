@@ -25,9 +25,13 @@ const CategoriaSchema = new mongoose.Schema({
     pizza: {
         type: Boolean,
         default: false
+    },
+    imprimir: {
+        type: Boolean,
+        default: false
     }
 });
 
-const Categoria = mongoose.model('Categoria',CategoriaSchema);
+const Categoria = mongoose.model('Categoria', CategoriaSchema);
 
 module.exports = Categoria;
