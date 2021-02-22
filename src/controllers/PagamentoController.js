@@ -46,7 +46,7 @@ module.exports = {
                     '$lt': fim
                 }
             }, (err, pagamentos) => {
-                console.log(pagamentos);
+                // console.log(pagamentos);
 
                 return res.json(pagamentos);
 

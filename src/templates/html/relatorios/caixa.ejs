@@ -15,6 +15,10 @@
         tbody {
             background: transparent;
         }
+        
+        .row button {
+            background: green;
+        }
     </style>
 </head>
 <script>
@@ -90,7 +94,12 @@
                         <input type="text" disabled class="form-control" id="gorjeta">
                     </div>
                 </div>
+
             </div>
+            <div class="row">
+                <button class="mb-3" onclick="imprimirRes('');"> Imprimir Resumido </button>
+
+                <button onclick="imprimir('');"> Imprimir Detalhado </button></div>
         </div>
         <div class="container">
             <!-- 
@@ -216,7 +225,6 @@
         html += '<th colspan="1">Ações</th>';
         html += '</thead><tbody>';
         dados.forEach(function(dado) {
-
             if (dado.caixa.status < 2) {
 
                 html += '<tr class = "clickable-row" >';
@@ -258,40 +266,40 @@
         $('#inicio').val(dataAtualFormatada());
         $('#fim').val(dataAtualFormatada());
 
-        // $.ajax({
-        //     method: 'POST',
-        //     url: "/relatorio/caixa",
-        //     data: {
-        //         busca: "",
-        //         inicio: dataAtualFormatada(),
-        //         fim: dataAtualFormatada()
-        //     },
-        //     success: function(resposta) {
-        //         var dados = resposta;
+        $.ajax({
+            method: 'POST',
+            url: "/relatorio/caixa",
+            data: {
+                busca: "",
+                inicio: dataAtualFormatada(),
+                fim: dataAtualFormatada()
+            },
+            success: function(resposta) {
+                var dados = resposta;
 
-        //         // console.log(dados[0]['valor']['$numberDecimal']);
+                // console.log(dados[0]['valor']['$numberDecimal']);
 
-        //         // var data = compra.data.split('-');
-        //         //         data = `${data[2]}/${data[1]}/${data[0]}`; 
-        //         //     %>
-        //         $('#table').html(listar(dados));
-        //         // var valor = [];
-        //         // for (let index = 0; index < dados.length; index++) {
-        //         //     valor.push(dados[index].gorjeta);
-        //         // }
-        //         // // const found = dados[index].find(element => element > 1);
-        //         // // console.log(valor);
-        //         // for (let i = 0; i < valor.length; i++) {
-        //         //     if (valor[i] != null) {
-        //         //         console.log(valor[i]);
-        //         //     }
-
-
+                // var data = compra.data.split('-');
+                //         data = `${data[2]}/${data[1]}/${data[0]}`; 
+                //     %>
+                $('#table').html(listar(dados));
+                // var valor = [];
+                // for (let index = 0; index < dados.length; index++) {
+                //     valor.push(dados[index].gorjeta);
+                // }
+                // // const found = dados[index].find(element => element > 1);
+                // console.log(dados);
+                // for (let i = 0; i < valor.length; i++) {
+                //     if (valor[i] != null) {
+                //         console.log(valor[i]);
+                //     }
 
 
 
-        //     }
-        // });
+
+
+            }
+        });
     });
 
     function buscar() {
