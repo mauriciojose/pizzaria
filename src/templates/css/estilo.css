@@ -622,6 +622,7 @@ h2.subtitulos {
 
 #prev {
     position: absolute;
+    display: none;
     margin-top: -111px;
     margin-left: 0px;
     border: solid 5px white;
@@ -632,6 +633,7 @@ h2.subtitulos {
 .next {
     position: absolute;
     margin-top: -107px;
+    display: none;
     float: right;
     margin-left: 94%;
     border: solid 5px white;
@@ -650,10 +652,11 @@ h2.subtitulos {
 }
 
 .card-container {
-    display: flex;
+    display: inline-block;
     overflow-x: scroll;
     font-family: 'Century Gothic', Courier, monospace !important;
     width: 100%;
+    text-align: center;
 }
 
 .card-container2 {
@@ -661,17 +664,22 @@ h2.subtitulos {
     overflow-x: scroll;
     font-family: 'Century Gothic', Courier, monospace !important;
     width: 100%;
+    text-align: center;
 }
 
 ::-webkit-scrollbar {
     display: none;
+}
+.col-md-3{
+    display: inline-table;
+    margin: 0 30px;
 }
 
 .card {
     width: 100px;
     font-family: 'Century Gothic', Courier, monospace !important;
     margin-bottom: 5px;
-    margin-left: 75px;
+    margin-left: 0px;
 }
 
 #inventory .card:hover {
