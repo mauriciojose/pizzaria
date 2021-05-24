@@ -27,9 +27,18 @@ module.exports = {
 
     },
     async getById(req, res) {
-        let pagamento = await Pagamento.findById({ _id: req.params.id });
-        return res.json(pagamento);
-    },
+        await Pagamento.findById(req.params.id, async(err,pagamento)=>{
+            if(err){ return res.status(500).json({ error: "ID INVALID" }); }
+            if(pagamento){
+                await Pagamento.findByIdAndDelete(pagamento,(err)=>{
+                    if(err){ return  res.status(500).json({error: "error in process "})}
+                    return res.json({msg: "Dados deletados"});
+                })
+            }else{
+                return res.status(500).json({ error: "Not Found!" });
+            }
+        },
+        )},
 
     async getAllView(req, res) {
         const hora = "T00:00:00.000+00:00";

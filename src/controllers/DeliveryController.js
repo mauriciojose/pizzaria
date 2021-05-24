@@ -45,7 +45,7 @@ module.exports = {
                 clientes: clientes
             });
 
-            // console.log(caixas);
+            console.log(caixas.cliente);
         }).populate('pedido').sort([
             ['dateOpen', 'descending']
         ]).populate('client');

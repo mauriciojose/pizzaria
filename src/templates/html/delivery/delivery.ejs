@@ -14,6 +14,9 @@
         .button {
             background: #2f3136 !important;
         }
+        .oculto{
+            display: none;
+        }
     </style>
 </head>
 
@@ -89,15 +92,29 @@
                 </div>
                 <br>
                 <div class="row">
-                    <input type="hidden" id="idMesa">
-                    <label for="name">Cliente</label>
-                    <select name="" id="name" style="width: 100% !important; font-size: 14px;">
-                        <% clientes.forEach(function(cliente){%>
-                            <option value="<%=cliente._id%>"><%=cliente.name%></option>
-                           
-                            <% });%>
+                    <div class="col-sm-6">
+                        <label for="">Cliente Cadastrado</label>
+                        <input type="checkbox" name="" id="check" onchange="muda();" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 oculto" id="div-select">
+                        <input type="hidden" id="idMesa">
+                        <label for="name">Cliente</label>
+                        <select name="" id="name" class="form-control" style="width: 100% !important; font-size: 14px;">
+                            <% clientes.forEach(function(cliente){%>
+                                <option value="<%=cliente._id%>"><%=cliente.name%></option>
                             
-                    </select>
+                                <% });%>
+                                
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 " id="div-texto" >
+                        <input type="hidden" id="idMesa">
+                        <label for="name">Cliente</label>
+                            <input type="text" class="form-control" name="" id="nometexto">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -155,6 +172,21 @@
     //     console.log('teste');
     // });
 
+    function muda()
+    {
+        let check=document.getElementById('check').checked;
+        if(check){
+            $('#div-select').removeClass('oculto');
+            $('#div-texto').addClass('oculto');
+            $('#nometexto').val("");
+
+        }else
+        {
+            $('#div-select').addClass('oculto');
+            $('#div-texto').removeClass('oculto');
+        }
+    }
+
     function dataAtualFormatada() {
 
         var data = new Date(),
@@ -176,16 +208,26 @@
         html += '<th>Entrega</th>';
         html += '<th>Telefone</th>';
         html += '<th>Endereço</th>';
-        html += '<th>Status</th>';
+        // html += '<th>Status</th>';
         html += '<th colspan="2">Ações</th>';
 
         html += '<tbody>';
         <% caixas.forEach(function(caixa){%>;
+            
         if (situacao == 0) {
+
             <% if(caixa.status==0){%>;
 
             html += '<tr class="clickable-row">';
-            html += '<td data-title="Cliente"><%=caixa.client.name%></td>';
+              <%  if(caixa.cliente) { %>;                   
+                         html += '<td data-title="Cliente"><%=caixa.cliente%></td>';
+                   <% }else{%>;                
+                      
+                        html += '<td data-title="Cliente"><%=caixa.client.name%></td>';
+                      
+                <% } %>;
+              
+            
             html += '<td data-title="Data Pedido">';
             html += "<%=caixa.dateOpen.getDate()+'/'+(caixa.dateOpen.getMonth()+1)+'/'+caixa.dateOpen.getFullYear()%>";
             html += '</td>';
@@ -195,13 +237,13 @@
             html += '<td data-title="Endereço">';
             html += '<%=caixa.client.endereco%>';
             html += '</td>';
-            html += '<td data-title="Status">';
-            <% if(caixa.status==0){%>
-            html += "Aberto";
-            <% }else{%>;
-            html += "fechadao";
-            <%}%>
-            html += '</td>';
+            // html += '<td data-title="Status">';
+            // < if(caixa.status==0){%>
+            // html += "Aberto";
+            // < }else{%>;
+            // html += "fechadao";
+            // <}%>
+            // html += '</td>';
 
             <% if(caixa.status==0){%>
             html += "<td><button onclick=" + "add('<%=caixa._id%>')" + ">Adicionar</button></td>";
@@ -230,7 +272,7 @@
             <% if(caixa.status==0){%>
             html += "Aberto";
             <% }else{%>;
-            html += "fechadao";
+            html += "fechado";
             <%}%>
             html += '</td>';
 
@@ -270,10 +312,12 @@
 
     function novoPedido() {
         let name = $('#name').val();
+        let nametexto = $('#nometexto').val();
         $.ajax({
             method: 'PUT',
             url: "novo/" + name,
             data: {
+                cliente:nametexto,
                 client: name,
                 isDelivery: true
             },

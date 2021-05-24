@@ -22,7 +22,7 @@ div.long {
 body div.container1 div.container-form {
     width: 90%;
     min-height: 90%;
-    background-color: #111b8a;
+    /* background-color: #111b8a; */
     border-radius: 5px;
     box-shadow: 0px 0px 35px black;
     display: flex;

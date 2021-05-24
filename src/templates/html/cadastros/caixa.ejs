@@ -609,18 +609,19 @@
             method: 'PUT',
             url: '/pagamento/' + idPagamento,
             success: function(resposta) {
-                let gorjeta = typeof resposta.gorjeta === 'undefined' ? 0 : parseFloat(resposta.gorjeta.$numberDecimal);
-                $('#tipo').val(resposta.tipo);
-                $('#id_pagamento').val(resposta._id);
-                $('#cliente').val(resposta.cliente);
-                $('#valor').val(parseFloat(resposta.valor.$numberDecimal));
-                if (gorjeta > 0) {
-                    document.getElementById('gorjeta').checked = true;
-                    $('#funcionario').addClass('mostrar');
-                }
-                $('#troco').val(gorjeta);
-                $('#funcionario').val(resposta.funcionario);
-
+                // let gorjeta = typeof resposta.gorjeta === 'undefined' ? 0 : parseFloat(resposta.gorjeta.$numberDecimal);
+                // $('#tipo').val(resposta.tipo);
+                // $('#id_pagamento').val(resposta._id);
+                // $('#cliente').val(resposta.cliente);
+                // $('#valor').val(parseFloat(resposta.valor.$numberDecimal));
+                // if (gorjeta > 0) {
+                //     document.getElementById('gorjeta').checked = true;
+                //     $('#funcionario').addClass('mostrar');
+                // }
+                // $('#troco').val(gorjeta);
+                // $('#funcionario').val(resposta.funcionario);
+                    window.alert(resposta.msg);
+                    window.location.reload(true);
 
             }
         });

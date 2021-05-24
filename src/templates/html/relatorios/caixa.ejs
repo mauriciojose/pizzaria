@@ -19,6 +19,9 @@
         .row button {
             background: green;
         }
+        .table-responsive {
+            height: 250px;
+        }
     </style>
 </head>
 <script>
@@ -97,9 +100,9 @@
 
             </div>
             <div class="row">
-                <button class="mb-3" onclick="imprimirRes('');"> Imprimir Resumido </button>
+                <!-- <button class="mb-3" onclick="imprimirRes('');"> Imprimir Resumido </button> -->
 
-                <button onclick="imprimir('');"> Imprimir Detalhado </button></div>
+                <!-- <button onclick="imprimir('');"> Imprimir Detalhado </button></div> -->
         </div>
         <div class="container">
             <!-- 
@@ -215,7 +218,7 @@
         $('#total').val('R$: ' + total.toFixed(2));
         $('#qtde').val(dados.length);
 
-
+        html+='<div class="table-responsive" height="250">';
         html += '<table>';
         html += '<thead>';
         html += '<th>Cliente</th>';
@@ -225,11 +228,11 @@
         html += '<th colspan="1">Ações</th>';
         html += '</thead><tbody>';
         dados.forEach(function(dado) {
-            if (dado.caixa.status < 2) {
+            if (dado.caixa.status==0) {
 
                 html += '<tr class = "clickable-row" >';
                 html += '<td data - title = "descricao" >';
-                html += dado.cliente.name;
+                if(dado.cliente==null){html +='Não identificado' }else{html +=dado.cliente.name};
                 html += '</td> <td data - title = "Data Pedido" >';
                 var data = dado['createdAt'].split('-');
                 var dia = data[2].split('T');
@@ -244,10 +247,17 @@
             }
 
         });
+        // html += "<tr><td> <button onclick=" + "imprimirRes('');" + " > Imprimir Resumido </button></td>";
+        // html += "<td> <button onclick=" + "imprimir('');" + " > Imprimir Detalhado </button></td></tr>";
+        html += '</tbody> </table></div>';
+        html += '<table>';
+        html += '<tbody>';
         html += "<tr><td> <button onclick=" + "imprimirRes('');" + " > Imprimir Resumido </button></td>";
         html += "<td> <button onclick=" + "imprimir('');" + " > Imprimir Detalhado </button></td></tr>";
         html += '</tbody> </table>';
         return html;
+        // console.log(html);
+        // $('#table').html(html)
 
     }
 
@@ -276,13 +286,14 @@
             },
             success: function(resposta) {
                 var dados = resposta;
+                console.log(dados)
 
                 // console.log(dados[0]['valor']['$numberDecimal']);
 
                 // var data = compra.data.split('-');
                 //         data = `${data[2]}/${data[1]}/${data[0]}`; 
                 //     %>
-                $('#table').html(listar(dados));
+                listar(dados);
                 // var valor = [];
                 // for (let index = 0; index < dados.length; index++) {
                 //     valor.push(dados[index].gorjeta);
@@ -319,7 +330,7 @@
                 success: function(resposta) {
                     var dados = resposta;
                     $('#table').html(listar(dados));
-                    // console.log(dados);
+                    console.log(dados);
                     console.log(dados.gorjeta);
 
                     // window.location.href = "/compra/cadastro?success=1";
@@ -360,7 +371,7 @@
             console.log('ALWAYS');
         });
 
-        // window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
+        window.open('/relatorio/impressao?inicio=' + inicio + '&fim=' + fim, '_blank');
 
 
     }
